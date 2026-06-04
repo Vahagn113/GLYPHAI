@@ -1,0 +1,6 @@
+{
+  "name": "Document Text Extractor",
+  "description": "Extract, analyze, and format text from handwritten notes, typed images, and documents.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
