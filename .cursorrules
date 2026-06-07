@@ -1,0 +1,64 @@
+# GLYPH AI Project Rules & Guidelines
+
+This document outlines the architecture, patterns, and rules for working on the GLYPH AI OCR and Document Intelligence project.
+
+## Technology Stack & Architecture
+- **Framework**: Next.js 15+ (App Router)
+- **Runtime**: React 19, TypeScript
+- **Styling**: Tailwind CSS v4 (configured via `@tailwindcss/postcss` and PostCSS)
+- **AI SDK**: `@google/genai` (v2.4.0)
+- **Animations**: Framer Motion (via `motion/react`)
+- **Icons**: `lucide-react`
+
+---
+
+## 1. Gemini API Integration Rules
+- **Client Initialization**: Always initialize `GoogleGenAI` from `@google/genai`. Do NOT use the legacy `@google/generative-ai` package.
+- **User-Agent Header**: Every client instance MUST include the `"User-Agent": "aistudio-build"` header in its HTTP options:
+  ```typescript
+  const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+    httpOptions: {
+      headers: {
+        "User-Agent": "aistudio-build",
+      },
+    },
+  });
+  ```
+- **Fallback & Retry Logic**: API requests should use fallback models and retries (e.g., trying `gemini-3.5-flash`, `gemini-flash-latest`, and `gemini-3.1-flash-lite` in sequence) to handle potential rate limits or model availability issues.
+- **Temperature Configuration**: Keep temperature low (e.g., `0.1` - `0.2`) for high-fidelity tasks like OCR, translation, or structured JSON extraction to ensure factual accuracy.
+
+---
+
+## 2. Structured Extraction & Extraction Modes
+- All custom structured extraction models reside in `lib/extractionModes/`.
+- Every custom mode must implement `ExtractionModeConfig` from `lib/extractionModes/types.ts`.
+- **Confidence Scoring**: Each field in a structured schema should output a confidence score along with the value using the `buildConfidenceFieldSchema(description, valType)` helper:
+  ```typescript
+  properties: {
+    someFieldName: buildConfidenceFieldSchema("Description of this field"),
+  }
+  ```
+- **Registry**: Register new modes in `lib/extractionModes/index.ts` under both `CUSTOM_EXTRACTION_MODES_MAP` and `CUSTOM_EXTRACTION_MODES_LIST`.
+
+---
+
+## 3. Localization & Multi-language Support
+- GLYPH AI supports English (`en`), Russian (`ru`), and Armenian (`am`).
+- All user-facing UI labels must be declared in the `TRANSLATIONS` dictionary inside [page.tsx](file:///c:/GLYPHAI/GLYPHAI/app/page.tsx).
+- When adding new features or labels, ensure keys are added to all three language sections.
+- **Critical Language Boundary Rule**: During document processing, the system instructs Gemini to identify the dominant language of the source document and output all structural summaries/markdown headers/JSON keys in that same language to maintain seamless local context.
+
+---
+
+## 4. UI/UX & Styling Guidelines
+- **Tailwind v4**: The project uses Tailwind CSS v4. Ensure all utility classes are compatible.
+- **Animations**: Use Framer Motion (`motion` components) for smooth transitions (e.g., loading states, switching tabs, upload state transitions).
+- **Security & Stateless Sandbox**: Ensure extraction data is processed purely in-memory and not persisted to databases to comply with stateless sandbox specifications.
+
+---
+
+## 5. Development Workflow
+- **Local Dev Server**: Run `npm run dev` to start the local Next.js server.
+- **Linting**: Run `npm run lint` before committing code.
+- **Clean Builds**: Use `npm run build` or `npm run clean` to resolve caching issues.

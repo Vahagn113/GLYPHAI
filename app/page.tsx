@@ -590,7 +590,7 @@ const ConfidenceMeter = ({ value }: { value: number }) => {
 
   return (
     <div className="flex items-center gap-2" title={`OCR confidence: ${percentage}%`}>
-      <div className="w-14 h-1.5 bg-stone-200 dark:bg-stone-850 rounded-full overflow-hidden">
+      <div className="w-14 h-1.5 bg-stone-200 dark:bg-stone-800 rounded-full overflow-hidden">
         <div className={`h-full ${barColor}`} style={{ width: `${percentage}%` }} />
       </div>
       <span className={`text-[9.5px] px-1.5 py-0.5 rounded-md font-mono font-bold ${textColor}`}>
@@ -880,7 +880,7 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
         <div 
           onClick={() => onFieldClick("vendorName")}
           className={`p-3.5 rounded-xl border transition-all flex flex-col gap-1.5 shadow-3xs cursor-pointer hover:border-[#C86432]/50 ${
-            activeField === "vendorName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-150 dark:border-stone-855 bg-stone-50/55 dark:bg-stone-900/40"
+            activeField === "vendorName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/55 dark:bg-stone-900/40"
           }`}
         >
           <div className="flex items-center justify-between font-sans">
@@ -890,14 +890,14 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
               <CopyFieldButton value={data.vendorName?.value || ""} />
             </div>
           </div>
-          <p className="text-xs font-black text-stone-850 dark:text-white font-sans">{data.vendorName?.value || "N/A"}</p>
+          <p className="text-xs font-black text-stone-800 dark:text-white font-sans">{data.vendorName?.value || "N/A"}</p>
           <p className="text-[10px] text-stone-500 font-sans">{data.vendorAddress?.value || "N/A"}</p>
         </div>
 
         <div 
           onClick={() => onFieldClick("billingName")}
           className={`p-3.5 rounded-xl border transition-all flex flex-col gap-1.5 shadow-3xs cursor-pointer hover:border-[#C86432]/50 ${
-            activeField === "billingName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-150 dark:border-stone-855 bg-stone-50/55 dark:bg-stone-900/40"
+            activeField === "billingName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/55 dark:bg-stone-900/40"
           }`}
         >
           <div className="flex items-center justify-between font-sans">
@@ -907,16 +907,16 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
               <CopyFieldButton value={data.billingName?.value || ""} />
             </div>
           </div>
-          <p className="text-xs font-semibold text-stone-850 dark:text-white font-sans">{data.billingName?.value || "N/A"}</p>
-          <p className="text-[10px] text-stone-505 font-sans">{data.billingAddress?.value || "N/A"}</p>
+          <p className="text-xs font-semibold text-stone-800 dark:text-white font-sans">{data.billingName?.value || "N/A"}</p>
+          <p className="text-[10px] text-stone-500 font-sans">{data.billingAddress?.value || "N/A"}</p>
         </div>
       </div>
 
-      <div className="p-3.5 rounded-2xl border border-stone-150 dark:border-stone-855 bg-stone-50/55 dark:bg-stone-900/40 grid grid-cols-2 md:grid-cols-5 gap-3 shadow-3xs font-sans">
+      <div className="p-3.5 rounded-2xl border border-stone-200 dark:border-stone-800 bg-stone-50/55 dark:bg-stone-900/40 grid grid-cols-2 md:grid-cols-5 gap-3 shadow-3xs font-sans">
         <div onClick={() => onFieldClick("invoiceNumber")} className={`p-2 rounded-xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${activeField === "invoiceNumber" ? "bg-[#C86432]/5 ring-1 ring-[#C86432]" : ""}`}>
           <span className="text-[9.5px] font-bold uppercase tracking-wider text-stone-400 block mb-0.5 font-sans">Invoice Number</span>
           <div className="flex items-center gap-1.5 font-sans">
-            <p className="text-xs font-bold text-stone-850 dark:text-white font-mono">{data.invoiceNumber?.value || "N/A"}</p>
+            <p className="text-xs font-bold text-stone-800 dark:text-white font-mono">{data.invoiceNumber?.value || "N/A"}</p>
             <CopyFieldButton value={data.invoiceNumber?.value || ""} />
           </div>
           {data.invoiceNumber?.confidence !== undefined && <div className="mt-1"><ConfidenceMeter value={data.invoiceNumber?.confidence} /></div>}
@@ -945,10 +945,10 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
           </div>
           {data.currency?.confidence !== undefined && <div className="mt-1"><ConfidenceMeter value={data.currency?.confidence} /></div>}
         </div>
-        <div onClick={() => onFieldClick("totalAmount")} className={`col-span-2 md:col-span-1 border-t md:border-t-0 md:border-l border-[#eeded5] dark:border-stone-850 md:pl-2.5 p-2 rounded-xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${activeField === "totalAmount" ? "bg-[#C86432]/5 ring-1 ring-[#C86432]" : ""}`}>
+        <div onClick={() => onFieldClick("totalAmount")} className={`col-span-2 md:col-span-1 border-t md:border-t-0 md:border-l border-[#eeded5] dark:border-stone-800 md:pl-2.5 p-2 rounded-xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${activeField === "totalAmount" ? "bg-[#C86432]/5 ring-1 ring-[#C86432]" : ""}`}>
           <span className="text-[9.5px] font-bold uppercase tracking-wider text-[#C86432] block mb-0.5 font-sans">Total Amount</span>
           <div className="flex items-center gap-1.5 animated-fade-in">
-            <p className="text-xs font-black text-rose-600 dark:text-rose-455 font-mono">{data.totalAmount?.value || "0.00"}</p>
+            <p className="text-xs font-black text-rose-600 dark:text-rose-500 font-mono">{data.totalAmount?.value || "0.00"}</p>
             <CopyFieldButton value={data.totalAmount?.value || ""} />
           </div>
           {data.totalAmount?.confidence !== undefined && <div className="mt-1"><ConfidenceMeter value={data.totalAmount?.confidence} /></div>}
@@ -958,16 +958,16 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
       <div 
         onClick={() => onFieldClick("lineItems")}
         className={`rounded-2xl border overflow-hidden bg-stone-50/20 shadow-3xs transition-all cursor-pointer hover:border-[#C86432]/45 ${
-          activeField === "lineItems" ? "ring-2 ring-[#C86432] border-[#C86432]" : "border-stone-150 dark:border-stone-800"
+          activeField === "lineItems" ? "ring-2 ring-[#C86432] border-[#C86432]" : "border-stone-200 dark:border-stone-800"
         }`}
       >
-        <div className="p-2.5 bg-stone-105 dark:bg-stone-800/80 text-[10px] font-extrabold text-[#C86432] uppercase tracking-wider grid grid-cols-12 gap-2 border-b border-stone-150 dark:border-stone-800">
+        <div className="p-2.5 bg-stone-100 dark:bg-stone-800/80 text-[10px] font-extrabold text-[#C86432] uppercase tracking-wider grid grid-cols-12 gap-2 border-b border-stone-200 dark:border-stone-800">
           <div className="col-span-6 animate-fade-in font-sans">Billed Item Description (Line Items)</div>
           <div className="col-span-2 text-center animate-fade-in font-sans">Qty</div>
           <div className="col-span-2 text-right animate-fade-in font-sans">Unit Price</div>
           <div className="col-span-2 text-right animate-fade-in font-sans">Total</div>
         </div>
-        <div className="divide-y divide-stone-150 dark:divide-stone-800/60 font-mono">
+        <div className="divide-y divide-stone-200 dark:divide-stone-800/60 font-mono">
           {lineItems.length === 0 ? (
             <p className="p-3 text-center text-[11px] text-stone-400 italic font-sans">No invoice line items parsed.</p>
           ) : (
@@ -980,10 +980,10 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
                   </div>
                   {item.description?.confidence !== undefined && <ConfidenceMeter value={item.description?.confidence} />}
                 </div>
-                <div className="col-span-2 text-center text-stone-550 font-mono">
+                <div className="col-span-2 text-center text-stone-500 font-mono">
                   {item.quantity?.value !== undefined ? item.quantity.value : "1"}
                 </div>
-                <div className="col-span-2 text-right text-stone-550 font-mono font-medium">
+                <div className="col-span-2 text-right text-stone-500 font-mono font-medium">
                   {item.unitPrice?.value !== undefined ? item.unitPrice.value : "N/A"}
                 </div>
                 <div className="col-span-2 text-right font-bold text-stone-800 dark:text-white font-mono">
@@ -996,12 +996,12 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
       </div>
 
       <div className="flex justify-end mt-1 font-sans font-sans">
-        <div className="w-full md:w-64 p-3.5 rounded-2xl border border-stone-150 dark:border-stone-850 bg-stone-50/55 dark:bg-stone-900/40 flex flex-col gap-2 shadow-2xs">
+        <div className="w-full md:w-64 p-3.5 rounded-2xl border border-stone-200 dark:border-stone-800 bg-stone-50/55 dark:bg-stone-900/40 flex flex-col gap-2 shadow-2xs">
           <div className="flex items-center justify-between text-[11px] font-sans">
             <span className="text-stone-400 font-sans">Subtotal:</span>
             <span className="font-mono font-semibold">{data.subtotal?.value || "0.00"}</span>
           </div>
-          <div className="flex items-center justify-between text-[11px] border-b border-[#eeded5] dark:border-stone-850 pb-1.5">
+          <div className="flex items-center justify-between text-[11px] border-b border-[#eeded5] dark:border-stone-800 pb-1.5">
             <span className="text-stone-400 font-sans">VAT / Tax:</span>
             <span className="font-mono font-semibold">{data.tax?.value || "0.00"}</span>
           </div>
@@ -1031,7 +1031,7 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
       <div 
         onClick={() => onFieldClick("contractTitle")}
         className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "contractTitle" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-150 dark:border-stone-850 bg-stone-50/55 dark:bg-stone-900/40"
+          activeField === "contractTitle" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/55 dark:bg-stone-900/40"
         } flex flex-col gap-1.5 shadow-3xs`}
       >
         <div className="flex justify-between items-center animate-fade-in">
@@ -1046,14 +1046,14 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
       <div 
         onClick={() => onFieldClick("summary")}
         className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "summary" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-150 dark:border-stone-850 bg-stone-50/40 dark:bg-[#1c1613]/30"
+          activeField === "summary" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/40 dark:bg-[#1c1613]/30"
         } flex flex-col gap-2 shadow-2xs font-sans`}
       >
-        <div className="flex justify-between items-center border-b pb-2 border-stone-150 dark:border-stone-850 font-sans">
+        <div className="flex justify-between items-center border-b pb-2 border-stone-200 dark:border-stone-800 font-sans">
           <h4 className="text-[10px] font-extrabold uppercase tracking-wide text-stone-800 dark:text-stone-200 font-sans">Summary</h4>
           <CopyFieldButton value={data.summary?.value || ""} />
         </div>
-        <p className="text-[11px] leading-relaxed italic text-stone-600 dark:text-stone-350 bg-stone-100/10 p-2.5 rounded-xl font-sans">
+        <p className="text-[11px] leading-relaxed italic text-stone-600 dark:text-stone-300 bg-stone-100/10 p-2.5 rounded-xl font-sans">
           {data.summary?.value || "No agreement summary parsed."}
         </p>
         {data.summary?.confidence !== undefined && <ConfidenceMeter value={data.summary?.confidence} />}
@@ -1063,17 +1063,17 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
       <div 
         onClick={() => onFieldClick("dates")}
         className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "dates" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-150 dark:border-stone-850 bg-stone-50/40 dark:bg-[#1c1613]/30"
+          activeField === "dates" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/40 dark:bg-[#1c1613]/30"
         } flex flex-col gap-2 shadow-2xs font-sans`}
       >
-        <h4 className="text-[10px] font-extrabold uppercase tracking-wide text-stone-800 dark:text-stone-200 border-b pb-2 border-stone-150 dark:border-stone-850">Important Dates & Notice Details</h4>
+        <h4 className="text-[10px] font-extrabold uppercase tracking-wide text-stone-800 dark:text-stone-200 border-b pb-2 border-stone-200 dark:border-stone-800">Important Dates & Notice Details</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
           <div className="p-3 bg-stone-100/30 dark:bg-stone-900/40 rounded-xl border border-dashed border-stone-200 dark:border-stone-800 flex flex-col justify-between">
             <div>
               <span className="text-[9px] uppercase font-bold text-stone-400 block pb-0.5">Effective Start Date</span>
               <span className="text-xs font-bold text-stone-800 dark:text-white">{data.effectiveDate?.value || "N/A"}</span>
             </div>
-            <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-stone-150 dark:border-stone-800">
+            <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-stone-200 dark:border-stone-800">
               <ConfidenceMeter value={data.effectiveDate?.confidence ?? 0.8} />
               <CopyFieldButton value={data.effectiveDate?.value || ""} />
             </div>
@@ -1083,7 +1083,7 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
               <span className="text-[9px] uppercase font-bold text-stone-400 block pb-0.5">Expiration Date</span>
               <span className="text-xs font-bold text-stone-800 dark:text-white">{data.expirationDate?.value || "N/A"}</span>
             </div>
-            <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-stone-150 dark:border-stone-800">
+            <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-stone-200 dark:border-stone-800">
               <ConfidenceMeter value={data.expirationDate?.confidence ?? 0.8} />
               <CopyFieldButton value={data.expirationDate?.value || ""} />
             </div>
@@ -1091,11 +1091,11 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
         </div>
         {importantDates.length > 0 && (
           <div className="flex flex-col gap-2 mt-2">
-            <span className="text-[9px] uppercase font-bold tracking-wider text-stone-455">Dates & Deadlines</span>
-            <div className="divide-y divide-stone-150 dark:divide-stone-850">
+            <span className="text-[9px] uppercase font-bold tracking-wider text-stone-500">Dates & Deadlines</span>
+            <div className="divide-y divide-stone-200 dark:divide-stone-800">
               {importantDates.map((d: any, idx: number) => (
                 <div key={idx} className="py-2.5 flex items-center justify-between text-[11px] hover:bg-stone-50/5">
-                  <span className="font-semibold text-stone-805 dark:text-stone-150">{d.event?.value || d.event || "Deadline"}</span>
+                  <span className="font-semibold text-stone-800 dark:text-stone-200">{d.event?.value || d.event || "Deadline"}</span>
                   <div className="flex items-center gap-2 font-sans">
                     <span className="font-mono bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 font-bold px-1.5 py-0.5 rounded-md">
                       {d.dateValue?.value || d.dateValue || "Date"}
@@ -1113,10 +1113,10 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
       <div 
         onClick={() => onFieldClick("risks")}
         className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "risks" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-[#eeded5] dark:border-stone-850 bg-stone-50/40 dark:bg-[#1c1613]/30"
+          activeField === "risks" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-[#eeded5] dark:border-stone-800 bg-stone-50/40 dark:bg-[#1c1613]/30"
         } flex flex-col gap-2 shadow-2xs font-sans`}
       >
-        <h4 className="text-[10px] font-extrabold uppercase tracking-wide text-stone-800 dark:text-stone-200 border-b pb-2 border-[#eeded5] dark:border-stone-850 font-sans">Risks</h4>
+        <h4 className="text-[10px] font-extrabold uppercase tracking-wide text-stone-800 dark:text-stone-200 border-b pb-2 border-[#eeded5] dark:border-stone-800 font-sans">Risks</h4>
         {risks.length === 0 ? (
           <p className="p-4 rounded-xl text-center text-[11px] text-[#C86432] italic bg-[#C86432]/5 font-bold border border-[#C86432]/10 flex items-center justify-center gap-1.5 font-sans">
             🛡️ No critical contractual risks visualizable.
@@ -1126,22 +1126,22 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
             {risks.map((risk: any, idx: number) => {
               const severityVal = (risk.severity?.value || risk.severity || "Medium").toLowerCase();
               const badgeBg = severityVal.includes("high") 
-                ? "bg-rose-500/10 text-rose-600 dark:text-rose-455 border border-rose-500/20" 
+                ? "bg-rose-500/10 text-rose-600 dark:text-rose-500 border border-rose-500/20" 
                 : severityVal.includes("low") 
-                ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-455 border border-emerald-500/20"
-                : "bg-amber-500/10 text-amber-600 dark:text-amber-455 border border-amber-500/20";
+                ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 border border-emerald-500/20"
+                : "bg-amber-500/10 text-amber-600 dark:text-amber-500 border border-amber-500/20";
               return (
-                <div key={idx} className="p-3 rounded-xl border border-stone-150 dark:border-stone-800 bg-stone-50/10 flex flex-col gap-1.5 text-stone-700 dark:text-stone-300">
+                <div key={idx} className="p-3 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50/10 flex flex-col gap-1.5 text-stone-700 dark:text-stone-300">
                   <div className="flex items-center justify-between animate-fade-in">
                     <div className="flex items-center gap-2">
                       <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${badgeBg}`}>
                         {risk.severity?.value || "Medium"}
                       </span>
-                      <span className="text-xs font-bold text-stone-805 dark:text-white font-sans">{risk.riskFactor?.value || "Risk Factor"}</span>
+                      <span className="text-xs font-bold text-stone-800 dark:text-white font-sans">{risk.riskFactor?.value || "Risk Factor"}</span>
                     </div>
                     <CopyFieldButton value={`${risk.riskFactor?.value || ""}: ${risk.detail?.value || ""}`} />
                   </div>
-                  <p className="text-[11px] text-stone-555 leading-relaxed font-sans">{risk.detail?.value || ""}</p>
+                  <p className="text-[11px] text-stone-600 leading-relaxed font-sans">{risk.detail?.value || ""}</p>
                   {risk.riskFactor?.confidence !== undefined && <ConfidenceMeter value={risk.riskFactor?.confidence} />}
                 </div>
               );
@@ -1154,10 +1154,10 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
       <div 
         onClick={() => onFieldClick("clauses")}
         className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "clauses" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-150 dark:border-stone-855 bg-stone-50/40 dark:bg-[#1c1613]/30"
+          activeField === "clauses" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/40 dark:bg-[#1c1613]/30"
         } flex flex-col gap-2 shadow-2xs font-sans`}
       >
-        <h4 className="text-[10px] font-extrabold uppercase tracking-wide text-stone-800 dark:text-stone-200 border-b pb-2 border-stone-150 dark:border-stone-850 font-sans">Clauses</h4>
+        <h4 className="text-[10px] font-extrabold uppercase tracking-wide text-stone-800 dark:text-stone-200 border-b pb-2 border-stone-200 dark:border-stone-800 font-sans">Clauses</h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 py-1 select-none font-sans">
           <div className="p-2.5 rounded-xl bg-stone-100/35 dark:bg-stone-900/40 border flex flex-col justify-between gap-1">
             <div>
@@ -1189,20 +1189,20 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
         </div>
         {keyClauses.length > 0 && (
           <div className="flex flex-col gap-2.5 mt-2 font-sans font-sans">
-            <span className="text-[9px] uppercase font-bold tracking-wider text-stone-455 font-sans">Legal Provisions</span>
+            <span className="text-[9px] uppercase font-bold tracking-wider text-stone-500 font-sans">Legal Provisions</span>
             <div className="flex flex-col gap-2">
               {keyClauses.map((clause: any, idx: number) => (
-                <details key={idx} className="group border border-stone-150 dark:border-stone-800/80 rounded-xl bg-stone-100/10 dark:bg-stone-900/10 [&_summary::-webkit-details-marker]:hidden transition-all duration-300">
-                  <summary className="p-3 select-none flex justify-between items-center text-xs font-bold text-stone-805 dark:text-white cursor-pointer hover:bg-stone-50/20 font-sans">
+                <details key={idx} className="group border border-stone-200 dark:border-stone-800/80 rounded-xl bg-stone-100/10 dark:bg-stone-900/10 [&_summary::-webkit-details-marker]:hidden transition-all duration-300">
+                  <summary className="p-3 select-none flex justify-between items-center text-xs font-bold text-stone-800 dark:text-white cursor-pointer hover:bg-stone-50/20 font-sans">
                     <div className="flex items-center gap-2 font-sans">
                       <span className="w-1.5 h-1.5 bg-[#C86432] rounded-full" />
                       <span>{clause.title?.value || clause.title || "Section Clause"}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <ChevronDown className="w-3.5 h-3.5 text-stone-450 group-open:rotate-180 transition-transform" />
+                      <ChevronDown className="w-3.5 h-3.5 text-stone-400 group-open:rotate-180 transition-transform" />
                     </div>
                   </summary>
-                  <div className="p-3 pt-0 border-t border-stone-150 dark:border-stone-800/55 text-[11px] text-stone-555 leading-relaxed font-sans">
+                  <div className="p-3 pt-0 border-t border-stone-200 dark:border-stone-800/55 text-[11px] text-stone-600 leading-relaxed font-sans">
                     <div className="flex justify-end mb-1">
                       <CopyFieldButton value={clause.content?.value || clause.content || ""} />
                     </div>
@@ -1236,7 +1236,7 @@ const renderResumeNode = (
         className={`p-3.5 rounded-2xl border transition-all cursor-pointer hover:bg-[#C86432]/5 ${
           activeField === "candidateName" || activeField === "email" || activeField === "phone"
             ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
-            : "border-stone-150 dark:border-stone-800 bg-stone-50/55 dark:bg-stone-900/40"
+            : "border-stone-200 dark:border-stone-800 bg-stone-50/55 dark:bg-stone-900/40"
         } flex flex-col gap-2.5`}
       >
         <div className="flex items-center justify-between">
@@ -1244,16 +1244,16 @@ const renderResumeNode = (
           {data.candidateName?.confidence !== undefined && <ConfidenceMeter value={data.candidateName?.confidence} />}
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px] text-stone-500 border-t border-stone-150 dark:border-stone-800 pt-2.5">
-          <p onClick={(e) => { e.stopPropagation(); onFieldClick("email"); }} className={`p-1 rounded-sm hover:bg-[#C86432]/5 transition-all ${activeField === "email" ? "bg-[#C86432]/10 font-bold" : ""}`}>📧 Email: <span className="font-semibold text-stone-750 dark:text-stone-200">{data.email?.value || "N/A"}</span></p>
-          <p onClick={(e) => { e.stopPropagation(); onFieldClick("phone"); }} className={`p-1 rounded-sm hover:bg-[#C86432]/5 transition-all ${activeField === "phone" ? "bg-[#C86432]/10 font-bold" : ""}`}>📞 Phone: <span className="font-semibold text-stone-750 dark:text-stone-200">{data.phone?.value || "N/A"}</span></p>
-          <p>📍 Location: <span className="font-semibold text-stone-750 dark:text-stone-200">{data.location?.value || "N/A"}</span></p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px] text-stone-500 border-t border-stone-200 dark:border-stone-800 pt-2.5">
+          <p onClick={(e) => { e.stopPropagation(); onFieldClick("email"); }} className={`p-1 rounded-sm hover:bg-[#C86432]/5 transition-all ${activeField === "email" ? "bg-[#C86432]/10 font-bold" : ""}`}>📧 Email: <span className="font-semibold text-stone-700 dark:text-stone-200">{data.email?.value || "N/A"}</span></p>
+          <p onClick={(e) => { e.stopPropagation(); onFieldClick("phone"); }} className={`p-1 rounded-sm hover:bg-[#C86432]/5 transition-all ${activeField === "phone" ? "bg-[#C86432]/10 font-bold" : ""}`}>📞 Phone: <span className="font-semibold text-stone-700 dark:text-stone-200">{data.phone?.value || "N/A"}</span></p>
+          <p>📍 Location: <span className="font-semibold text-stone-700 dark:text-stone-200">{data.location?.value || "N/A"}</span></p>
         </div>
 
         {data.summary?.value && (
           <div className="bg-stone-100/30 dark:bg-stone-900/30 p-2.5 rounded-xl mt-1.5">
             <span className="text-[9px] uppercase font-bold tracking-wider text-stone-400 block mb-0.5">Summary Profile</span>
-            <p className="text-[11px] leading-relaxed italic text-stone-550 dark:text-stone-350">{data.summary.value}</p>
+            <p className="text-[11px] leading-relaxed italic text-stone-500 dark:text-stone-300">{data.summary.value}</p>
           </div>
         )}
       </div>
@@ -1268,7 +1268,7 @@ const renderResumeNode = (
           <h4 className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Technical Skillset</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
             {skills.map((sk: any, idx: number) => (
-              <div key={idx} className="p-2.5 rounded-xl border border-stone-150 dark:border-stone-800 bg-stone-50/10">
+              <div key={idx} className="p-2.5 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50/10">
                 <span className="text-xs font-bold text-[#C86432] block mb-1.5">{sk.category?.value || "Skills"}</span>
                 <div className="flex flex-wrap gap-1">
                   {Array.isArray(sk.skillsList) ? sk.skillsList.map((item: string, id: number) => (
@@ -1293,11 +1293,11 @@ const renderResumeNode = (
           <h3 className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Experience History</h3>
           <div className="flex flex-col gap-2.5">
             {experience.map((ex: any, idx: number) => (
-              <div key={idx} className="p-3 rounded-xl border border-stone-150 dark:border-stone-800 flex flex-col gap-1.5 bg-stone-50/5">
-                <div className="flex flex-wrap justify-between items-start gap-2 border-b border-stone-150 dark:border-stone-850 pb-1.5">
+              <div key={idx} className="p-3 rounded-xl border border-stone-200 dark:border-stone-800 flex flex-col gap-1.5 bg-stone-50/5">
+                <div className="flex flex-wrap justify-between items-start gap-2 border-b border-stone-200 dark:border-stone-800 pb-1.5">
                   <div className="flex flex-col">
                     <span className="text-xs font-bold text-stone-800 dark:text-white">{ex.role?.value || "Role"}</span>
-                    <span className="text-[11px] text-stone-505">{ex.company?.value || "Employer"}</span>
+                    <span className="text-[11px] text-stone-500">{ex.company?.value || "Employer"}</span>
                   </div>
                   <div className="flex flex-col items-end gap-1">
                     <span className="text-[9.5px] font-mono bg-stone-100 dark:bg-stone-800 px-1.5 py-0.5 rounded-md font-bold text-[#C86432]">
@@ -1323,10 +1323,10 @@ const renderResumeNode = (
           <h3 className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Academic History</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
             {education.map((ed: any, idx: number) => (
-              <div key={idx} className="p-2.5 rounded-xl border border-stone-150 dark:border-stone-800 bg-stone-50/10 flex items-center justify-between">
+              <div key={idx} className="p-2.5 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50/10 flex items-center justify-between">
                 <div className="flex flex-col gap-0.5">
                   <span className="text-xs font-bold text-stone-800 dark:text-white">{ed.degree?.value || "Degree"}</span>
-                  <span className="text-[10px] text-stone-550">{ed.institution?.value || "College/Univ"}</span>
+                  <span className="text-[10px] text-stone-500">{ed.institution?.value || "College/Univ"}</span>
                 </div>
                 <div className="flex flex-col items-end gap-1">
                   <span className="text-[9.5px] font-mono font-bold text-[#C86432]">{ed.graduationYear?.value || ""}</span>
@@ -1354,13 +1354,13 @@ const renderReceiptNode = (
         className={`p-3.5 rounded-2xl border transition-all cursor-pointer hover:bg-[#C86432]/5 text-center flex flex-col items-center gap-1 ${
           activeField === "merchantName" || activeField === "merchantAddress" || activeField === "merchantPhone"
             ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
-            : "border-stone-150 dark:border-stone-800 bg-stone-100/30 dark:bg-stone-900/30"
+            : "border-stone-200 dark:border-stone-800 bg-stone-100/30 dark:bg-stone-900/30"
         }`}
       >
-        <span className="text-[9px] uppercase font-bold text-stone-450">Commercial Slip</span>
-        <h3 className="text-xs font-black text-stone-850 dark:text-white uppercase tracking-wider">{data.merchantName?.value || "Merchant"}</h3>
-        <p className="text-[10px] text-stone-505">{data.merchantAddress?.value || ""}</p>
-        <p className="text-[9px] text-stone-450 font-mono">{data.merchantPhone?.value || ""}</p>
+        <span className="text-[9px] uppercase font-bold text-stone-400">Commercial Slip</span>
+        <h3 className="text-xs font-black text-stone-800 dark:text-white uppercase tracking-wider">{data.merchantName?.value || "Merchant"}</h3>
+        <p className="text-[10px] text-stone-500">{data.merchantAddress?.value || ""}</p>
+        <p className="text-[9px] text-stone-400 font-mono">{data.merchantPhone?.value || ""}</p>
         {data.merchantName?.confidence !== undefined && <div className="mt-1.5"><ConfidenceMeter value={data.merchantName?.confidence} /></div>}
       </div>
 
@@ -1369,7 +1369,7 @@ const renderReceiptNode = (
         className={`grid grid-cols-2 gap-2 text-[11px] border-y py-2.5 font-mono cursor-pointer transition-all hover:bg-[#C86432]/5 ${
           activeField === "transactionDate" || activeField === "transactionTime"
             ? "ring-1 ring-[#C86432] border-[#C86432] bg-[#C86432]/5 px-2 rounded-lg"
-            : "border-stone-150 dark:border-stone-800"
+            : "border-stone-200 dark:border-stone-800"
         }`}
       >
         <div>📅 DATE: <span className="font-bold">{data.transactionDate?.value || "N/A"}</span></div>
@@ -1383,24 +1383,24 @@ const renderReceiptNode = (
         }`}
       >
         <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Purchases List</span>
-        <div className="border border-stone-150 dark:border-stone-850 rounded-xl overflow-hidden bg-stone-50/10">
-          <div className="p-2 bg-stone-100 dark:bg-stone-800/80 text-[9px] font-bold text-stone-500 uppercase flex items-center justify-between border-b dark:border-stone-850">
+        <div className="border border-stone-200 dark:border-stone-800 rounded-xl overflow-hidden bg-stone-50/10">
+          <div className="p-2 bg-stone-100 dark:bg-stone-800/80 text-[9px] font-bold text-stone-500 uppercase flex items-center justify-between border-b dark:border-stone-800">
             <span>Description</span>
             <div className="flex items-center gap-5">
               <span>Qty</span>
               <span className="w-14 text-right">Total</span>
             </div>
           </div>
-          <div className="divide-y divide-stone-150 dark:divide-stone-800/60">
+          <div className="divide-y divide-stone-200 dark:divide-stone-800/60">
             {items.map((it: any, idx: number) => (
               <div key={idx} className="p-2 flex items-center justify-between text-[11px] hover:bg-stone-100/5">
                 <div className="flex flex-col gap-0.5">
-                  <span className="font-semibold text-stone-850 dark:text-stone-150">{it.description?.value || "Purchase Item"}</span>
+                  <span className="font-semibold text-stone-800 dark:text-stone-200">{it.description?.value || "Purchase Item"}</span>
                   {it.description?.confidence !== undefined && <ConfidenceMeter value={it.description?.confidence} />}
                 </div>
                 <div className="flex items-center gap-6 font-mono">
                   <span>{it.quantity?.value !== undefined ? it.quantity.value : "1"}</span>
-                  <span className="w-14 text-right font-bold text-stone-850 dark:text-white">{it.totalPrice?.value !== undefined ? it.totalPrice.value : "N/A"}</span>
+                  <span className="w-14 text-right font-bold text-stone-800 dark:text-white">{it.totalPrice?.value !== undefined ? it.totalPrice.value : "N/A"}</span>
                 </div>
               </div>
             ))}
@@ -1413,22 +1413,22 @@ const renderReceiptNode = (
         className={`border p-2.5 rounded-2xl transition-all cursor-pointer flex flex-col gap-1.5 text-[11px] hover:bg-[#C86432]/5 ${
           activeField === "totalAmount" || activeField === "subtotal" || activeField === "tax"
             ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
-            : "border-stone-150 dark:border-stone-800"
+            : "border-stone-200 dark:border-stone-800"
         }`}
       >
-        <div className="flex justify-between items-center text-stone-555">
+        <div className="flex justify-between items-center text-stone-600">
           <span>VAT Taxes:</span>
           <span className="font-mono">{data.tax?.value || "0.00"}</span>
         </div>
-        <div className="flex justify-between items-center text-stone-555">
+        <div className="flex justify-between items-center text-stone-600">
           <span>Tips:</span>
           <span className="font-mono">{data.tip?.value || "0.00"}</span>
         </div>
-        <div className="flex justify-between items-center text-stone-555">
+        <div className="flex justify-between items-center text-stone-600">
           <span>Payment Channel:</span>
           <span className="font-semibold">{data.paymentMethod?.value || "Card"}</span>
         </div>
-        <div className="flex justify-between items-center text-stone-850 dark:text-white font-bold border-t dark:border-stone-85 pt-1.5">
+        <div className="flex justify-between items-center text-stone-800 dark:text-white font-bold border-t dark:border-stone-85 pt-1.5">
           <span>GRAND TOTAL:</span>
           <span className="font-mono text-[#C86432]">{data.totalAmount?.value || "0.00"}</span>
         </div>
@@ -1450,7 +1450,7 @@ const renderTableNode = (
       <div 
         onClick={() => onFieldClick("tableName")}
         className={`p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all hover:bg-[#C86432]/5 ${
-          activeField === "tableName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-150 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-900/40"
+          activeField === "tableName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-900/40"
         }`}
       >
         <div>
@@ -1465,10 +1465,10 @@ const renderTableNode = (
         className={`border rounded-2xl overflow-x-auto transition-all cursor-pointer hover:bg-[#C86432]/5 ${
           activeField === "rows" || activeField === "headers"
             ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
-            : "border-stone-150 dark:border-stone-800 bg-stone-50/10"
+            : "border-stone-200 dark:border-stone-800 bg-stone-50/10"
         }`}
       >
-        <table className="w-full text-[11px] text-left text-stone-550 dark:text-stone-400 border-collapse">
+        <table className="w-full text-[11px] text-left text-stone-500 dark:text-stone-400 border-collapse">
           <thead>
             <tr className="bg-stone-100 dark:bg-stone-800/80 text-[9px] font-bold uppercase tracking-wider text-stone-500 border-b dark:border-stone-800">
               {headers.map((h: any, idx: number) => (
@@ -1481,7 +1481,7 @@ const renderTableNode = (
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-stone-150 dark:divide-stone-800/60">
+          <tbody className="divide-y divide-stone-200 dark:divide-stone-800/60">
             {rows.length === 0 ? (
               <tr>
                 <td colSpan={headers.length || 1} className="p-3 text-center text-stone-400 italic">No structured rows.</td>
@@ -1521,7 +1521,7 @@ const renderGeneralOcrNode = (
       <div 
         onClick={() => onFieldClick("title")}
         className={`p-3 rounded-xl border grid grid-cols-2 gap-3 transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-          activeField === "title" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-150 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-900/40"
+          activeField === "title" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-900/40"
         }`}
       >
         <div>
@@ -1545,9 +1545,9 @@ const renderGeneralOcrNode = (
         <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 font-sans">Blocks</span>
         <div className="flex flex-col gap-2.5">
           {keyBlocks.map((blk: any, idx: number) => (
-            <div key={idx} className="p-2.5 rounded-xl border border-stone-150 dark:border-stone-800 bg-stone-50/20">
+            <div key={idx} className="p-2.5 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50/20">
               <span className="text-xs font-extrabold text-[#C86432] block mb-1">{blk.heading?.value || `Content Block #${idx + 1}`}</span>
-              <p className="text-[11px] text-stone-550 leading-relaxed font-sans">{blk.content?.value || ""}</p>
+              <p className="text-[11px] text-stone-500 leading-relaxed font-sans">{blk.content?.value || ""}</p>
             </div>
           ))}
         </div>
@@ -1595,7 +1595,7 @@ const renderVisualStructuredResult = (
           <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
           <span className="text-xs font-semibold">Showing customized text representation.</span>
         </div>
-        <div className="p-4 rounded-2xl border whitespace-pre-wrap font-sans text-xs leading-relaxed selection:bg-[#C86432] border-stone-200 bg-stone-50 text-stone-850 dark:border-stone-800 dark:bg-stone-950 dark:text-stone-200">
+        <div className="p-4 rounded-2xl border whitespace-pre-wrap font-sans text-xs leading-relaxed selection:bg-[#C86432] border-stone-200 bg-stone-50 text-stone-800 dark:border-stone-800 dark:bg-stone-950 dark:text-stone-200">
           {extractedText}
         </div>
       </div>
@@ -1705,13 +1705,13 @@ const BeforeVsAfterWorkspace = ({
             <Layers className="w-5 h-5 text-[#C86432]" />
           </div>
           <div className="text-left">
-            <h3 className="font-extrabold text-sm text-stone-850 dark:text-white flex items-center flex-wrap gap-2">
+            <h3 className="font-extrabold text-sm text-stone-800 dark:text-white flex items-center flex-wrap gap-2">
               Before vs After Document Processing
               <span className="text-[10px] font-mono font-bold bg-[#C86432]/10 text-[#C86432] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                 {resultDocumentType.replace("_", " ")}
               </span>
             </h3>
-            <p className="text-xs text-stone-550 dark:text-stone-400">
+            <p className="text-xs text-stone-500 dark:text-stone-400">
               Side-by-side verification and synchronized layout alignment workspace.
             </p>
           </div>
@@ -1744,7 +1744,7 @@ const BeforeVsAfterWorkspace = ({
             isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
           }`} style={{ minHeight: "580px" }}>
             
-            <div className="flex items-center justify-between border-b dark:border-stone-850 pb-3 flex-wrap gap-2">
+            <div className="flex items-center justify-between border-b dark:border-stone-800 pb-3 flex-wrap gap-2">
               <span className="text-xs font-bold tracking-wider text-stone-400 font-sans flex items-center gap-1.5">
                 <Eye className="w-4 h-4 text-[#C86432]" />
                 BEFORE: RAW ORIGINAL SOURCE
@@ -1773,7 +1773,7 @@ const BeforeVsAfterWorkspace = ({
             </div>
 
             {/* Document viewing canvas wrapper */}
-            <div className="relative border border-stone-250 dark:border-stone-850 rounded-2xl bg-stone-100/20 dark:bg-stone-950/30 flex items-center justify-center p-4 min-h-[420px] h-[480px] overflow-hidden select-none">
+            <div className="relative border border-stone-300 dark:border-stone-800 rounded-2xl bg-stone-100/20 dark:bg-stone-950/30 flex items-center justify-center p-4 min-h-[420px] h-[480px] overflow-hidden select-none">
               
               <div className="overflow-auto w-full h-full relative flex items-center justify-center">
                 <div 
@@ -1836,7 +1836,7 @@ const BeforeVsAfterWorkspace = ({
           }`} style={{ minHeight: "580px", maxHeight: "580px" }}>
             
             {/* Header Tabs Navigation layout - Compact labels supporting sweep with hidden scrollbars */}
-            <div className="flex border-b dark:border-stone-850 pb-3 overflow-x-auto no-scrollbar gap-2 shrink-0">
+            <div className="flex border-b dark:border-stone-800 pb-3 overflow-x-auto no-scrollbar gap-2 shrink-0">
               <button
                 onClick={() => { setActiveTab("visual"); setIsEditing(false); }}
                 className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all flex items-center gap-1 text-xs whitespace-nowrap cursor-pointer ${
@@ -1892,7 +1892,7 @@ const BeforeVsAfterWorkspace = ({
                     value={editedText}
                     onChange={(e) => setEditedText(e.target.value)}
                     className={`w-full min-h-[300px] flex-1 p-4 font-mono rounded-2xl border focus:outline-hidden text-xs leading-relaxed ${
-                      isDarkMode ? "border-stone-850 bg-[#14100e] text-white" : "border-stone-200 bg-stone-50 text-stone-850"
+                      isDarkMode ? "border-stone-800 bg-[#14100e] text-white" : "border-stone-200 bg-stone-50 text-stone-800"
                     }`}
                   />
                 </div>
@@ -1915,15 +1915,15 @@ const BeforeVsAfterWorkspace = ({
                             <span>OCR transcription fully synchronized. Selected field bounds lit up instantly.</span>
                           </div>
 
-                          <div className="flex items-center justify-between border-b dark:border-stone-850 pb-2">
+                          <div className="flex items-center justify-between border-b dark:border-stone-800 pb-2">
                             <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">⚡ Structured Format</span>
-                            <div className="flex items-center gap-1 bg-stone-100 dark:bg-stone-900 border dark:border-stone-850 p-0.5 rounded-xl text-[10px]/none my-0.5">
+                            <div className="flex items-center gap-1 bg-stone-100 dark:bg-stone-900 border dark:border-stone-800 p-0.5 rounded-xl text-[10px]/none my-0.5">
                               <button
                                 onClick={() => setIsJsonVisualMode(true)}
                                 className={`px-2.5 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                   isJsonVisualMode
                                     ? "bg-[#C86432] text-white"
-                                    : "text-stone-400 hover:text-stone-550"
+                                    : "text-stone-400 hover:text-stone-500"
                                 }`}
                               >
                                 Visual
@@ -1933,7 +1933,7 @@ const BeforeVsAfterWorkspace = ({
                                 className={`px-2.5 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                   !isJsonVisualMode
                                     ? "bg-[#C86432] text-white"
-                                    : "text-stone-400 hover:text-stone-550"
+                                    : "text-stone-400 hover:text-stone-500"
                                 }`}
                               >
                                 Raw JSON
@@ -1989,9 +1989,9 @@ const BeforeVsAfterWorkspace = ({
                         </p>
 
                         {resultDocumentType === "invoice" && (
-                          <div className="flex flex-col gap-2 border-t dark:border-stone-850 pt-3 mt-1 underline-none">
+                          <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1 underline-none">
                             <h4 className="font-bold text-[#C86432]">Invoice Verification Parameters</h4>
-                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-550 leading-normal">
+                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-500 leading-normal">
                               <li><strong>Identified Billing:</strong> Document points to recorded recipient matches. Address is structurally aligned.</li>
                               <li><strong>Due Terms Checking:</strong> Payment is requested via stated invoice dates. Watch boundaries.</li>
                               <li><strong>Integrity Check:</strong> Subtotal sums align perfectly with parsed line matrices.</li>
@@ -2000,9 +2000,9 @@ const BeforeVsAfterWorkspace = ({
                         )}
 
                         {resultDocumentType === "contract" && (
-                          <div className="flex flex-col gap-2 border-t dark:border-stone-850 pt-3 mt-1">
+                          <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
                             <h4 className="font-bold text-[#C86432]">Legal Risk Diagnostics</h4>
-                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-550 leading-normal">
+                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-500 leading-normal">
                               <li><strong>Contracting Outlines:</strong> Agreement terms matched. Verify identified parties thoroughly.</li>
                               <li><strong>Deadlines & Milestones:</strong> Contract triggers clear timelines in chronological outlines.</li>
                               <li><strong>Clause Indexing:</strong> Business parameters parsed. High integrity matched on key indemnity blocks.</li>
@@ -2011,9 +2011,9 @@ const BeforeVsAfterWorkspace = ({
                         )}
 
                         {resultDocumentType === "resume" && (
-                          <div className="flex flex-col gap-2 border-t dark:border-stone-850 pt-3 mt-1">
+                          <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
                             <h4 className="font-bold text-[#C86432]">Performance & Strengths Index</h4>
-                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-550 leading-normal">
+                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-500 leading-normal">
                               <li><strong>Core Competency Matched:</strong> Skills categories list complete technical strengths.</li>
                               <li><strong>Experience Continuity:</strong> Professional histories validated with timeline matrices.</li>
                               <li><strong>Interview Triage:</strong> Route parameters directly to talent pipeline directories.</li>
@@ -2022,9 +2022,9 @@ const BeforeVsAfterWorkspace = ({
                         )}
 
                         {resultDocumentType === "receipt" && (
-                          <div className="flex flex-col gap-2 border-t dark:border-stone-850 pt-3 mt-1">
+                          <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
                             <h4 className="font-bold text-[#C86432]">Receipt Expense Analysis</h4>
-                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-550 leading-normal">
+                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-500 leading-normal">
                               <li><strong>Merchant Triage:</strong> Slips register commercial locations. Matches corporate guidelines.</li>
                               <li><strong>Expense Audit:</strong> Clean item sums. Highly verified for immediate reimbursement loops.</li>
                               <li><strong>Details:</strong> Standard transaction channels checked with full vat outlines.</li>
@@ -2033,9 +2033,9 @@ const BeforeVsAfterWorkspace = ({
                         )}
 
                         {!["invoice", "contract", "resume", "receipt"].includes(resultDocumentType) && (
-                          <div className="flex flex-col gap-2 border-t dark:border-stone-850 pt-3 mt-1">
+                          <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
                             <h4 className="font-bold text-[#C86432]">OCR Spatial Findings</h4>
-                            <p className="text-[11px] text-stone-550 leading-relaxed">
+                            <p className="text-[11px] text-stone-500 leading-relaxed">
                               Characters are mapped on dense layers. Hover over document parts to isolate values.
                             </p>
                           </div>
@@ -2073,11 +2073,11 @@ const BeforeVsAfterWorkspace = ({
                         </div>
 
                         <div className="flex-1 flex flex-col gap-1 text-left">
-                          <h4 className="font-extrabold text-xs text-stone-850 dark:text-white flex items-center gap-1.5">
+                          <h4 className="font-extrabold text-xs text-stone-800 dark:text-white flex items-center gap-1.5">
                             <TrendingUp className="w-3.5 h-3.5 text-[#C86432]" />
                             Average Extraction Quality
                           </h4>
-                          <p className="text-stone-550 dark:text-stone-400 leading-normal text-[11px]">
+                          <p className="text-stone-500 dark:text-stone-400 leading-normal text-[11px]">
                             OCR metrics benchmarked from spatial coordinates, dictionary validation, and neural parsing models.
                           </p>
                           <div className="mt-1">
@@ -2107,14 +2107,14 @@ const BeforeVsAfterWorkspace = ({
                                 key={box.field}
                                 onClick={() => setActiveField(box.field)}
                                 className={`p-2 rounded-xl border cursor-pointer transition-all hover:bg-[#C86432]/5 flex flex-col gap-1 ${
-                                  isSel ? "border-[#C86432] bg-[#C86432]/5" : "border-stone-150 dark:border-stone-850"
+                                  isSel ? "border-[#C86432] bg-[#C86432]/5" : "border-stone-200 dark:border-stone-800"
                                 }`}
                               >
                                 <div className="flex justify-between items-center text-[10.5px]">
                                   <span className="font-bold text-stone-700 dark:text-stone-300">{box.label}</span>
                                   <span className="font-bold font-mono text-[#C86432]">{fieldConf}%</span>
                                 </div>
-                                <div className="h-1.5 bg-stone-100 dark:bg-stone-850 rounded-full overflow-hidden">
+                                <div className="h-1.5 bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden">
                                   <div 
                                     className="h-full bg-[#C86432]" 
                                     style={{ width: `${fieldConf}%` }}
@@ -2160,7 +2160,7 @@ const BeforeVsAfterWorkspace = ({
                                   ? "self-end bg-[#C86432] text-white rounded-tr-none"
                                   : isDarkMode
                                   ? "self-start bg-stone-900 border border-stone-800 text-stone-200 rounded-tl-none"
-                                  : "self-start bg-stone-100 text-stone-850 rounded-tl-none"
+                                  : "self-start bg-stone-100 text-stone-800 rounded-tl-none"
                               }`}
                             >
                               <span className="text-[8px] font-bold uppercase select-none opacity-60">
@@ -2198,7 +2198,7 @@ const BeforeVsAfterWorkspace = ({
                           placeholder="Ask anything about this document..."
                           disabled={isChatting}
                           className={`flex-1 text-xs p-2.5 rounded-xl border focus:outline-hidden focus:ring-1 focus:ring-[#C86432] ${
-                            isDarkMode ? "border-stone-800 bg-[#14100e] text-white" : "border-stone-205 bg-white text-stone-850"
+                            isDarkMode ? "border-stone-800 bg-[#14100e] text-white" : "border-stone-205 bg-white text-stone-800"
                           }`}
                         />
                         <button
@@ -2260,8 +2260,8 @@ const BeforeVsAfterWorkspace = ({
                     : "border-[#eeded5] bg-stone-100/50 text-stone-700"
                 }`}>
                   <button onClick={() => downloadTextFile("md")} className="p-1 px-2 font-bold font-mono hover:text-[#C86432] cursor-pointer">.MD</button>
-                  <button onClick={() => downloadTextFile("txt")} className="p-1 px-2 font-bold font-mono border-l border-stone-200 dark:border-stone-850 hover:text-[#C86432] cursor-pointer">.TXT</button>
-                  <button onClick={downloadDocFile} className="p-1 px-2 font-bold font-mono border-l border-stone-200 dark:border-stone-850 hover:text-[#C86432] cursor-pointer animate-none">.DOC</button>
+                  <button onClick={() => downloadTextFile("txt")} className="p-1 px-2 font-bold font-mono border-l border-stone-200 dark:border-stone-800 hover:text-[#C86432] cursor-pointer">.TXT</button>
+                  <button onClick={downloadDocFile} className="p-1 px-2 font-bold font-mono border-l border-stone-200 dark:border-stone-800 hover:text-[#C86432] cursor-pointer animate-none">.DOC</button>
                 </div>
               </div>
             </div>
@@ -2691,7 +2691,7 @@ export default function Home() {
               className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 activeView === "home"
                   ? "bg-[#C86432]/10 text-[#C86432]"
-                  : "text-stone-500 hover:text-stone-850 dark:text-stone-400 dark:hover:text-stone-100"
+                  : "text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
               }`}
             >
               {t.navOverview}
@@ -2701,7 +2701,7 @@ export default function Home() {
               className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 activeView === "workspace"
                   ? "bg-[#C86432]/10 text-[#C86432]"
-                  : "text-stone-500 hover:text-stone-850 dark:text-stone-400 dark:hover:text-stone-100"
+                  : "text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
               }`}
             >
               {t.navWorkspace}
@@ -2821,8 +2821,8 @@ export default function Home() {
                         activeView === "home"
                           ? "bg-[#C86432] text-white"
                           : isDarkMode
-                          ? "bg-[#1d1714] text-stone-300 border border-stone-850"
-                          : "bg-white text-stone-700 border border-stone-150"
+                          ? "bg-[#1d1714] text-stone-300 border border-stone-800"
+                          : "bg-white text-stone-700 border border-stone-200"
                       }`}
                     >
                       <BookOpen className="w-4 h-4" />
@@ -2834,8 +2834,8 @@ export default function Home() {
                         activeView === "workspace"
                           ? "bg-[#C86432] text-white"
                           : isDarkMode
-                          ? "bg-[#1d1714] text-stone-300 border border-stone-850"
-                          : "bg-white text-stone-700 border border-stone-150"
+                          ? "bg-[#1d1714] text-stone-300 border border-stone-800"
+                          : "bg-white text-stone-700 border border-stone-200"
                       }`}
                     >
                       <Layers className="w-4 h-4" />
@@ -2855,7 +2855,7 @@ export default function Home() {
                           language === "en"
                             ? "bg-[#C86432]/10 border-[#C86432] text-[#C86432]"
                             : isDarkMode
-                            ? "bg-[#1d1714] border-stone-850 text-stone-400"
+                            ? "bg-[#1d1714] border-stone-800 text-stone-400"
                             : "bg-white border-stone-200 text-stone-600"
                         }`}
                       >
@@ -2867,7 +2867,7 @@ export default function Home() {
                           language === "ru"
                             ? "bg-[#C86432]/10 border-[#C86432] text-[#C86432]"
                             : isDarkMode
-                            ? "bg-[#1d1714] border-stone-850 text-stone-400"
+                            ? "bg-[#1d1714] border-stone-800 text-stone-400"
                             : "bg-white border-stone-200 text-stone-600"
                         }`}
                       >
@@ -2879,7 +2879,7 @@ export default function Home() {
                           language === "am"
                             ? "bg-[#C86432]/10 border-[#C86432] text-[#C86432]"
                             : isDarkMode
-                            ? "bg-[#1d1714] border-stone-850 text-stone-400"
+                            ? "bg-[#1d1714] border-stone-800 text-stone-400"
                             : "bg-white border-stone-200 text-stone-600"
                         }`}
                       >
@@ -3012,7 +3012,7 @@ export default function Home() {
                             <div className="bg-[#eeded5]/40 dark:bg-stone-800 p-1.5 rounded-xl shrink-0" dangerouslySetInnerHTML={{ __html: preset.illustration }} />
                             <div className="truncate">
                               <span className="text-xs font-bold block">{preset.name}</span>
-                              <span className="text-[10px] text-stone-550 dark:text-stone-400">Preset Interactive Simulation File</span>
+                              <span className="text-[10px] text-stone-500 dark:text-stone-400">Preset Interactive Simulation File</span>
                             </div>
                           </button>
                         ))}
@@ -3247,7 +3247,7 @@ export default function Home() {
                         <p className="text-xs font-semibold">
                           Drop your file here, or <span className="text-[#C86432] underline">browse</span>
                         </p>
-                        <p className={`text-[10px] mt-1 ${isDarkMode ? "text-stone-400" : "text-stone-550"}`}>
+                        <p className={`text-[10px] mt-1 ${isDarkMode ? "text-stone-400" : "text-stone-500"}`}>
                           {t.dropZoneSubText}
                         </p>
                       </motion.div>
@@ -3255,7 +3255,7 @@ export default function Home() {
                       <motion.div
                         key="preview"
                         className={`border rounded-2xl overflow-hidden relative flex flex-col min-h-[220px] justify-center items-center ${
-                          isDarkMode ? "border-stone-850 bg-stone-900/10" : "border-stone-200 bg-white"
+                          isDarkMode ? "border-stone-800 bg-stone-900/10" : "border-stone-200 bg-white"
                         }`}
                       >
                         {fileMimeType.startsWith("image/") ? (
@@ -3277,7 +3277,7 @@ export default function Home() {
                             }`}>
                               <FileText className="w-8 h-8" />
                             </div>
-                            <span className="text-xs font-bold font-mono text-stone-550 uppercase tracking-widest">PDF DOCUMENT</span>
+                            <span className="text-xs font-bold font-mono text-stone-500 uppercase tracking-widest">PDF DOCUMENT</span>
                           </div>
                         )}
 
@@ -3469,7 +3469,7 @@ export default function Home() {
                         <Layers className="w-5 h-5" />
                       </div>
                       <h3 className="text-sm font-bold">{t.noContentTitle}</h3>
-                      <p className={`text-xs max-w-sm mt-1.5 leading-relaxed ${isDarkMode ? "text-stone-400" : "text-stone-550"}`}>
+                      <p className={`text-xs max-w-sm mt-1.5 leading-relaxed ${isDarkMode ? "text-stone-400" : "text-stone-500"}`}>
                         {t.noContentSubText}
                       </p>
 
@@ -3533,7 +3533,7 @@ export default function Home() {
                               {idx < 4 && (
                                 <div
                                   className={`absolute left-3 top-6 w-0.5 h-10 -ml-[1px] ${
-                                    isCompleted ? "bg-[#C86432]" : isDarkMode ? "bg-stone-850" : "bg-stone-150"
+                                    isCompleted ? "bg-[#C86432]" : isDarkMode ? "bg-stone-800" : "bg-stone-200"
                                   }`}
                                 />
                               )}
@@ -3625,15 +3625,15 @@ export default function Home() {
                           <div className="flex-1 flex flex-col min-h-0">
                             {/* Visual vs Raw JSON Toggler for Specialized Extractions */}
                             {isSpecializedResult && !isEditing && (
-                              <div className="px-5 pt-3.5 pb-2 border-b border-stone-150 dark:border-stone-800 flex items-center justify-between bg-stone-100/10 dark:bg-stone-900/10">
+                              <div className="px-5 pt-3.5 pb-2 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between bg-stone-100/10 dark:bg-stone-900/10">
                                 <span className="text-[10.5px] font-bold uppercase tracking-wider text-stone-400">⚡ Structured Mode</span>
-                                <div className="flex items-center gap-1 bg-stone-100 dark:bg-stone-900 border dark:border-stone-850 p-0.5 rounded-xl text-[10px]">
+                                <div className="flex items-center gap-1 bg-stone-100 dark:bg-stone-900 border dark:border-stone-800 p-0.5 rounded-xl text-[10px]">
                                   <button
                                     onClick={() => setIsJsonVisualMode(true)}
                                     className={`px-3 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                       isJsonVisualMode
                                         ? "bg-[#C86432] text-white"
-                                        : "text-stone-400 hover:text-stone-550"
+                                        : "text-stone-400 hover:text-stone-500"
                                     }`}
                                   >
                                     Visual Report
@@ -3643,7 +3643,7 @@ export default function Home() {
                                     className={`px-3 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                       !isJsonVisualMode
                                         ? "bg-[#C86432] text-white"
-                                        : "text-stone-400 hover:text-stone-550"
+                                        : "text-stone-400 hover:text-stone-500"
                                     }`}
                                   >
                                     Raw JSON Code
@@ -3660,7 +3660,7 @@ export default function Home() {
                                     value={editedText}
                                     onChange={(e) => setEditedText(e.target.value)}
                                     className={`w-full min-h-[220px] p-4 text-xs font-mono rounded-xl border focus:outline-hidden ${
-                                      isDarkMode ? "border-stone-800 bg-stone-950 text-white" : "border-stone-200 bg-stone-50 text-stone-850"
+                                      isDarkMode ? "border-stone-800 bg-stone-950 text-white" : "border-stone-200 bg-stone-50 text-stone-800"
                                     }`}
                                   />
                                 </div>
@@ -3715,7 +3715,7 @@ export default function Home() {
                                   {copyFeedback ? t.copied : t.copyText}
                                 </button>
 
-                                <div className="flex items-center border p-0.5 rounded-xl border-[#eeded5] dark:border-[#332822] bg-stone-150/40 text-[10px]">
+                                <div className="flex items-center border p-0.5 rounded-xl border-[#eeded5] dark:border-[#332822] bg-stone-200/40 text-[10px]">
                                   <button onClick={() => downloadTextFile("md")} className="p-1 px-2 font-bold font-mono">.MD</button>
                                   <button onClick={() => downloadTextFile("txt")} className="p-1 px-2 font-bold font-mono border-l border-[#eeded5] dark:border-[#332822]">.TXT</button>
                                   <button onClick={downloadDocFile} className="p-1 px-2 font-bold font-mono border-l border-[#eeded5] dark:border-[#332822]">.DOC</button>
@@ -3748,7 +3748,7 @@ export default function Home() {
                                     <button
                                       onClick={() => setChatInput(t.chatPromptDates)}
                                       className={`p-2.5 rounded-xl text-left border text-[11px] font-bold cursor-pointer ${
-                                        isDarkMode ? "border-stone-850 bg-stone-900/20 hover:bg-stone-900" : "border-stone-200 bg-white hover:bg-stone-50"
+                                        isDarkMode ? "border-stone-800 bg-stone-900/20 hover:bg-stone-900" : "border-stone-200 bg-white hover:bg-stone-50"
                                       }`}
                                     >
                                       {t.chatSample1}
@@ -3756,7 +3756,7 @@ export default function Home() {
                                     <button
                                       onClick={() => setChatInput(t.chatPromptInvoice)}
                                       className={`p-2.5 rounded-xl text-left border text-[11px] font-bold cursor-pointer ${
-                                        isDarkMode ? "border-stone-850 bg-stone-900/20 hover:bg-stone-900" : "border-stone-200 bg-white hover:bg-stone-50"
+                                        isDarkMode ? "border-stone-800 bg-stone-900/20 hover:bg-stone-900" : "border-stone-200 bg-white hover:bg-stone-50"
                                       }`}
                                     >
                                       {t.chatSample2}
@@ -3768,7 +3768,7 @@ export default function Home() {
                                   <div key={msg.id} className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}>
                                     <span className="text-[9px] font-mono tracking-widest text-[#C86432]/80 uppercase mb-0.5">{msg.role === "user" ? t.you : t.assistant}</span>
                                     <div className={`p-3 rounded-2xl max-w-[85%] text-xs leading-relaxed ${
-                                      msg.role === "user" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-950 text-stone-200 border border-stone-850" : "bg-stone-50 text-stone-800 border"
+                                      msg.role === "user" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-950 text-stone-200 border border-stone-800" : "bg-stone-50 text-stone-800 border"
                                     }`}>
                                       {msg.content}
                                     </div>
@@ -3806,7 +3806,7 @@ export default function Home() {
                                 placeholder={t.chatPlaceholder}
                                 disabled={isChatting}
                                 className={`flex-1 text-xs p-2.5 rounded-xl border focus:outline-hidden focus:ring-1 focus:ring-[#C86432] ${
-                                  isDarkMode ? "border-stone-800 bg-[#14100e] text-white" : "border-stone-200 bg-white text-stone-850"
+                                  isDarkMode ? "border-stone-800 bg-[#14100e] text-white" : "border-stone-200 bg-white text-stone-800"
                                 }`}
                               />
                               <button
@@ -3837,7 +3837,7 @@ export default function Home() {
 
       {/* Footer Segment */}
       <footer className={`border-t py-6 px-12 text-center text-xs transition-all duration-300 ${
-        isDarkMode ? "border-[#332822]/40 bg-[#14100e] text-stone-400" : "border-[#eeded5]/60 bg-white/30 text-stone-550"
+        isDarkMode ? "border-[#332822]/40 bg-[#14100e] text-stone-400" : "border-[#eeded5]/60 bg-white/30 text-stone-500"
       }`}>
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 font-sans">
           <p>{t.copyright}</p>
