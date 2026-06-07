@@ -575,6 +575,19 @@ const DEMO_PRESETS: DemoPreset[] = [
   }
 ];
 
+// Theme-aware tokens for structured result cards (light + dark must always pair)
+const SR = {
+  surface: "bg-white dark:bg-[#1a1412]",
+  surfaceMuted: "bg-stone-50 dark:bg-[#1f1815]",
+  surfaceInset: "bg-stone-100 dark:bg-[#252018]",
+  border: "border-stone-200 dark:border-stone-700",
+  textPrimary: "text-stone-800 dark:text-stone-100",
+  textSecondary: "text-stone-600 dark:text-stone-400",
+  textMuted: "text-stone-500 dark:text-stone-400",
+  textLabel: "text-stone-400 dark:text-stone-500",
+  hoverRow: "hover:bg-stone-50 dark:hover:bg-[#252018]",
+};
+
 // Sub-components for confidence scoring and visual results
 const ConfidenceMeter = ({ value }: { value: number }) => {
   const percentage = Math.round(value * 100);
@@ -875,44 +888,44 @@ const getDisplayableOrDownloadableText = (textVal: string, docType: string): str
 const renderInvoiceNode = (data: any, activeField: string | null = null, onFieldClick: (field: string) => void = () => {}) => {
   const lineItems = Array.isArray(data.lineItems) ? data.lineItems : [];
   return (
-    <div className="flex flex-col gap-4 text-stone-700 dark:text-stone-300 animate-fade-in font-sans">
+    <div className={`flex flex-col gap-4 ${SR.textSecondary} animate-fade-in font-sans`}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
         <div 
           onClick={() => onFieldClick("vendorName")}
           className={`p-3.5 rounded-xl border transition-all flex flex-col gap-1.5 shadow-3xs cursor-pointer hover:border-[#C86432]/50 ${
-            activeField === "vendorName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/55 dark:bg-stone-900/40"
+            activeField === "vendorName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
           }`}
         >
           <div className="flex items-center justify-between font-sans">
-            <span className="text-[9.5px] font-bold uppercase tracking-wider text-stone-400">Company (Vendor Name)</span>
+            <span className={`text-[9.5px] font-bold uppercase tracking-wider ${SR.textLabel}`}>Company (Vendor Name)</span>
             <div className="flex items-center gap-1.5 font-sans">
               {data.vendorName?.confidence !== undefined && <ConfidenceMeter value={data.vendorName?.confidence} />}
               <CopyFieldButton value={data.vendorName?.value || ""} />
             </div>
           </div>
-          <p className="text-xs font-black text-stone-800 dark:text-white font-sans">{data.vendorName?.value || "N/A"}</p>
-          <p className="text-[10px] text-stone-500 font-sans">{data.vendorAddress?.value || "N/A"}</p>
+          <p className={`text-xs font-black ${SR.textPrimary} font-sans`}>{data.vendorName?.value || "N/A"}</p>
+          <p className={`text-[10px] ${SR.textMuted} font-sans`}>{data.vendorAddress?.value || "N/A"}</p>
         </div>
 
         <div 
           onClick={() => onFieldClick("billingName")}
           className={`p-3.5 rounded-xl border transition-all flex flex-col gap-1.5 shadow-3xs cursor-pointer hover:border-[#C86432]/50 ${
-            activeField === "billingName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/55 dark:bg-stone-900/40"
+            activeField === "billingName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
           }`}
         >
           <div className="flex items-center justify-between font-sans">
-            <span className="text-[9.5px] font-bold uppercase tracking-wider text-stone-400">Customer (Billed To)</span>
+            <span className={`text-[9.5px] font-bold uppercase tracking-wider ${SR.textLabel}`}>Customer (Billed To)</span>
             <div className="flex items-center gap-1.5 font-sans">
               {data.billingName?.confidence !== undefined && <ConfidenceMeter value={data.billingName?.confidence} />}
               <CopyFieldButton value={data.billingName?.value || ""} />
             </div>
           </div>
-          <p className="text-xs font-semibold text-stone-800 dark:text-white font-sans">{data.billingName?.value || "N/A"}</p>
-          <p className="text-[10px] text-stone-500 font-sans">{data.billingAddress?.value || "N/A"}</p>
+          <p className={`text-xs font-semibold ${SR.textPrimary} font-sans`}>{data.billingName?.value || "N/A"}</p>
+          <p className={`text-[10px] ${SR.textMuted} font-sans`}>{data.billingAddress?.value || "N/A"}</p>
         </div>
       </div>
 
-      <div className="p-3.5 rounded-2xl border border-stone-200 dark:border-stone-800 bg-stone-50/55 dark:bg-stone-900/40 grid grid-cols-2 md:grid-cols-5 gap-3 shadow-3xs font-sans">
+      <div className={`p-3.5 rounded-2xl border ${SR.border} ${SR.surfaceMuted} grid grid-cols-2 md:grid-cols-5 gap-3 shadow-3xs font-sans`}>
         <div onClick={() => onFieldClick("invoiceNumber")} className={`p-2 rounded-xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${activeField === "invoiceNumber" ? "bg-[#C86432]/5 ring-1 ring-[#C86432]" : ""}`}>
           <span className="text-[9.5px] font-bold uppercase tracking-wider text-stone-400 block mb-0.5 font-sans">Invoice Number</span>
           <div className="flex items-center gap-1.5 font-sans">
@@ -957,11 +970,11 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
 
       <div 
         onClick={() => onFieldClick("lineItems")}
-        className={`rounded-2xl border overflow-hidden bg-stone-50/20 shadow-3xs transition-all cursor-pointer hover:border-[#C86432]/45 ${
-          activeField === "lineItems" ? "ring-2 ring-[#C86432] border-[#C86432]" : "border-stone-200 dark:border-stone-800"
+        className={`rounded-2xl border overflow-hidden ${SR.surfaceMuted} shadow-3xs transition-all cursor-pointer hover:border-[#C86432]/45 ${
+          activeField === "lineItems" ? "ring-2 ring-[#C86432] border-[#C86432]" : SR.border
         }`}
       >
-        <div className="p-2.5 bg-stone-100 dark:bg-stone-800/80 text-[10px] font-extrabold text-[#C86432] uppercase tracking-wider grid grid-cols-12 gap-2 border-b border-stone-200 dark:border-stone-800">
+        <div className={`p-2.5 ${SR.surfaceInset} text-[10px] font-extrabold text-[#C86432] uppercase tracking-wider grid grid-cols-12 gap-2 border-b ${SR.border}`}>
           <div className="col-span-6 animate-fade-in font-sans">Billed Item Description (Line Items)</div>
           <div className="col-span-2 text-center animate-fade-in font-sans">Qty</div>
           <div className="col-span-2 text-right animate-fade-in font-sans">Unit Price</div>
@@ -972,21 +985,21 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
             <p className="p-3 text-center text-[11px] text-stone-400 italic font-sans">No invoice line items parsed.</p>
           ) : (
             lineItems.map((item: any, id: number) => (
-              <div key={id} className="p-2.5 grid grid-cols-12 gap-2 text-[11px] items-center hover:bg-stone-100/10">
+              <div key={id} className={`p-2.5 grid grid-cols-12 gap-2 text-[11px] items-center ${SR.hoverRow}`}>
                 <div className="col-span-6 flex flex-col gap-0.5 font-sans">
                   <div className="flex items-center gap-1.5 font-sans animate-fade-in">
-                    <span className="font-semibold text-stone-800 dark:text-white font-sans">{item.description?.value || "Item"}</span>
+                    <span className={`font-semibold ${SR.textPrimary} font-sans`}>{item.description?.value || "Item"}</span>
                     <CopyFieldButton value={item.description?.value || ""} />
                   </div>
                   {item.description?.confidence !== undefined && <ConfidenceMeter value={item.description?.confidence} />}
                 </div>
-                <div className="col-span-2 text-center text-stone-500 font-mono">
+                <div className={`col-span-2 text-center ${SR.textMuted} font-mono`}>
                   {item.quantity?.value !== undefined ? item.quantity.value : "1"}
                 </div>
-                <div className="col-span-2 text-right text-stone-500 font-mono font-medium">
+                <div className={`col-span-2 text-right ${SR.textMuted} font-mono font-medium`}>
                   {item.unitPrice?.value !== undefined ? item.unitPrice.value : "N/A"}
                 </div>
-                <div className="col-span-2 text-right font-bold text-stone-800 dark:text-white font-mono">
+                <div className={`col-span-2 text-right font-bold ${SR.textPrimary} font-mono`}>
                   {item.total?.value !== undefined ? item.total.value : "N/A"}
                 </div>
               </div>
@@ -996,17 +1009,17 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
       </div>
 
       <div className="flex justify-end mt-1 font-sans font-sans">
-        <div className="w-full md:w-64 p-3.5 rounded-2xl border border-stone-200 dark:border-stone-800 bg-stone-50/55 dark:bg-stone-900/40 flex flex-col gap-2 shadow-2xs">
+        <div className={`w-full md:w-64 p-3.5 rounded-2xl border ${SR.border} ${SR.surfaceMuted} flex flex-col gap-2 shadow-2xs`}>
           <div className="flex items-center justify-between text-[11px] font-sans">
-            <span className="text-stone-400 font-sans">Subtotal:</span>
-            <span className="font-mono font-semibold">{data.subtotal?.value || "0.00"}</span>
+            <span className={`${SR.textLabel} font-sans`}>Subtotal:</span>
+            <span className={`font-mono font-semibold ${SR.textPrimary}`}>{data.subtotal?.value || "0.00"}</span>
           </div>
-          <div className="flex items-center justify-between text-[11px] border-b border-[#eeded5] dark:border-stone-800 pb-1.5">
-            <span className="text-stone-400 font-sans">VAT / Tax:</span>
-            <span className="font-mono font-semibold">{data.tax?.value || "0.00"}</span>
+          <div className={`flex items-center justify-between text-[11px] border-b ${SR.border} pb-1.5`}>
+            <span className={`${SR.textLabel} font-sans`}>VAT / Tax:</span>
+            <span className={`font-mono font-semibold ${SR.textPrimary}`}>{data.tax?.value || "0.00"}</span>
           </div>
-          <div className="flex items-center justify-between text-[11.5px] font-bold font-sans animate-fade-in bg-stone-50 dark:bg-stone-900/50 p-1 px-2.5 rounded-xl">
-            <span className="text-stone-800 dark:text-white font-sans font-extrabold">Grand Total:</span>
+          <div className={`flex items-center justify-between text-[11.5px] font-bold font-sans animate-fade-in ${SR.surfaceInset} p-1 px-2.5 rounded-xl`}>
+            <span className={`${SR.textPrimary} font-sans font-extrabold`}>Grand Total:</span>
             <div className="flex items-center gap-1.5 flex-row">
               <span className="font-mono text-emerald-600 dark:text-emerald-500 font-extrabold">{data.totalAmount?.value || "0.00"}</span>
               <CopyFieldButton value={data.totalAmount?.value || ""} />
@@ -1026,12 +1039,12 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
   const keyClauses = Array.isArray(data.keyClauses) ? data.keyClauses : [];
 
   return (
-    <div className="flex flex-col gap-4 text-stone-700 dark:text-stone-300 animate-fade-in font-sans">
+    <div className={`flex flex-col gap-4 ${SR.textSecondary} animate-fade-in font-sans`}>
       {/* Title block */}
       <div 
         onClick={() => onFieldClick("contractTitle")}
         className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "contractTitle" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/55 dark:bg-stone-900/40"
+          activeField === "contractTitle" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
         } flex flex-col gap-1.5 shadow-3xs`}
       >
         <div className="flex justify-between items-center animate-fade-in">
@@ -1046,14 +1059,14 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
       <div 
         onClick={() => onFieldClick("summary")}
         className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "summary" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/40 dark:bg-[#1c1613]/30"
+          activeField === "summary" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
         } flex flex-col gap-2 shadow-2xs font-sans`}
       >
-        <div className="flex justify-between items-center border-b pb-2 border-stone-200 dark:border-stone-800 font-sans">
-          <h4 className="text-[10px] font-extrabold uppercase tracking-wide text-stone-800 dark:text-stone-200 font-sans">Summary</h4>
+        <div className={`flex justify-between items-center border-b pb-2 ${SR.border} font-sans`}>
+          <h4 className={`text-[10px] font-extrabold uppercase tracking-wide ${SR.textPrimary} font-sans`}>Summary</h4>
           <CopyFieldButton value={data.summary?.value || ""} />
         </div>
-        <p className="text-[11px] leading-relaxed italic text-stone-600 dark:text-stone-300 bg-stone-100/10 p-2.5 rounded-xl font-sans">
+        <p className={`text-[11px] leading-relaxed italic ${SR.textSecondary} ${SR.surfaceInset} p-2.5 rounded-xl font-sans`}>
           {data.summary?.value || "No agreement summary parsed."}
         </p>
         {data.summary?.confidence !== undefined && <ConfidenceMeter value={data.summary?.confidence} />}
@@ -1063,12 +1076,12 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
       <div 
         onClick={() => onFieldClick("dates")}
         className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "dates" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/40 dark:bg-[#1c1613]/30"
+          activeField === "dates" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
         } flex flex-col gap-2 shadow-2xs font-sans`}
       >
-        <h4 className="text-[10px] font-extrabold uppercase tracking-wide text-stone-800 dark:text-stone-200 border-b pb-2 border-stone-200 dark:border-stone-800">Important Dates & Notice Details</h4>
+        <h4 className={`text-[10px] font-extrabold uppercase tracking-wide ${SR.textPrimary} border-b pb-2 ${SR.border}`}>Important Dates & Notice Details</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
-          <div className="p-3 bg-stone-100/30 dark:bg-stone-900/40 rounded-xl border border-dashed border-stone-200 dark:border-stone-800 flex flex-col justify-between">
+          <div className={`p-3 ${SR.surfaceInset} rounded-xl border border-dashed ${SR.border} flex flex-col justify-between`}>
             <div>
               <span className="text-[9px] uppercase font-bold text-stone-400 block pb-0.5">Effective Start Date</span>
               <span className="text-xs font-bold text-stone-800 dark:text-white">{data.effectiveDate?.value || "N/A"}</span>
@@ -1078,7 +1091,7 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
               <CopyFieldButton value={data.effectiveDate?.value || ""} />
             </div>
           </div>
-          <div className="p-3 bg-stone-100/30 dark:bg-stone-900/40 rounded-xl border border-dashed border-stone-200 dark:border-stone-800 flex flex-col justify-between">
+          <div className={`p-3 ${SR.surfaceInset} rounded-xl border border-dashed ${SR.border} flex flex-col justify-between`}>
             <div>
               <span className="text-[9px] uppercase font-bold text-stone-400 block pb-0.5">Expiration Date</span>
               <span className="text-xs font-bold text-stone-800 dark:text-white">{data.expirationDate?.value || "N/A"}</span>
@@ -1094,10 +1107,10 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
             <span className="text-[9px] uppercase font-bold tracking-wider text-stone-500">Dates & Deadlines</span>
             <div className="divide-y divide-stone-200 dark:divide-stone-800">
               {importantDates.map((d: any, idx: number) => (
-                <div key={idx} className="py-2.5 flex items-center justify-between text-[11px] hover:bg-stone-50/5">
-                  <span className="font-semibold text-stone-800 dark:text-stone-200">{d.event?.value || d.event || "Deadline"}</span>
+                <div key={idx} className={`py-2.5 flex items-center justify-between text-[11px] ${SR.hoverRow}`}>
+                  <span className={`font-semibold ${SR.textPrimary}`}>{d.event?.value || d.event || "Deadline"}</span>
                   <div className="flex items-center gap-2 font-sans">
-                    <span className="font-mono bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 font-bold px-1.5 py-0.5 rounded-md">
+                    <span className={`font-mono ${SR.surfaceInset} ${SR.textSecondary} font-bold px-1.5 py-0.5 rounded-md`}>
                       {d.dateValue?.value || d.dateValue || "Date"}
                     </span>
                     <CopyFieldButton value={d.dateValue?.value || d.dateValue || ""} />
@@ -1113,10 +1126,10 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
       <div 
         onClick={() => onFieldClick("risks")}
         className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "risks" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-[#eeded5] dark:border-stone-800 bg-stone-50/40 dark:bg-[#1c1613]/30"
+          activeField === "risks" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
         } flex flex-col gap-2 shadow-2xs font-sans`}
       >
-        <h4 className="text-[10px] font-extrabold uppercase tracking-wide text-stone-800 dark:text-stone-200 border-b pb-2 border-[#eeded5] dark:border-stone-800 font-sans">Risks</h4>
+        <h4 className={`text-[10px] font-extrabold uppercase tracking-wide ${SR.textPrimary} border-b pb-2 ${SR.border} font-sans`}>Risks</h4>
         {risks.length === 0 ? (
           <p className="p-4 rounded-xl text-center text-[11px] text-[#C86432] italic bg-[#C86432]/5 font-bold border border-[#C86432]/10 flex items-center justify-center gap-1.5 font-sans">
             🛡️ No critical contractual risks visualizable.
@@ -1131,17 +1144,17 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
                 ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 border border-emerald-500/20"
                 : "bg-amber-500/10 text-amber-600 dark:text-amber-500 border border-amber-500/20";
               return (
-                <div key={idx} className="p-3 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50/10 flex flex-col gap-1.5 text-stone-700 dark:text-stone-300">
+                <div key={idx} className={`p-3 rounded-xl border ${SR.border} ${SR.surfaceInset} flex flex-col gap-1.5 ${SR.textSecondary}`}>
                   <div className="flex items-center justify-between animate-fade-in">
                     <div className="flex items-center gap-2">
                       <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${badgeBg}`}>
                         {risk.severity?.value || "Medium"}
                       </span>
-                      <span className="text-xs font-bold text-stone-800 dark:text-white font-sans">{risk.riskFactor?.value || "Risk Factor"}</span>
+                      <span className={`text-xs font-bold ${SR.textPrimary} font-sans`}>{risk.riskFactor?.value || "Risk Factor"}</span>
                     </div>
                     <CopyFieldButton value={`${risk.riskFactor?.value || ""}: ${risk.detail?.value || ""}`} />
                   </div>
-                  <p className="text-[11px] text-stone-600 leading-relaxed font-sans">{risk.detail?.value || ""}</p>
+                  <p className={`text-[11px] ${SR.textSecondary} leading-relaxed font-sans`}>{risk.detail?.value || ""}</p>
                   {risk.riskFactor?.confidence !== undefined && <ConfidenceMeter value={risk.riskFactor?.confidence} />}
                 </div>
               );
@@ -1154,12 +1167,12 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
       <div 
         onClick={() => onFieldClick("clauses")}
         className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "clauses" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/40 dark:bg-[#1c1613]/30"
+          activeField === "clauses" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
         } flex flex-col gap-2 shadow-2xs font-sans`}
       >
-        <h4 className="text-[10px] font-extrabold uppercase tracking-wide text-stone-800 dark:text-stone-200 border-b pb-2 border-stone-200 dark:border-stone-800 font-sans">Clauses</h4>
+        <h4 className={`text-[10px] font-extrabold uppercase tracking-wide ${SR.textPrimary} border-b pb-2 ${SR.border} font-sans`}>Clauses</h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 py-1 select-none font-sans">
-          <div className="p-2.5 rounded-xl bg-stone-100/35 dark:bg-stone-900/40 border flex flex-col justify-between gap-1">
+          <div className={`p-2.5 rounded-xl ${SR.surfaceInset} border ${SR.border} flex flex-col justify-between gap-1`}>
             <div>
               <span className="text-[9px] uppercase font-bold text-stone-400 font-sans block pb-0.5 font-sans">Governing Law</span>
               <p className="text-xs font-semibold font-sans text-stone-800 dark:text-white">{data.governingLaw?.value || "Default"}</p>
@@ -1168,7 +1181,7 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
               <CopyFieldButton value={data.governingLaw?.value || ""} />
             </div>
           </div>
-          <div className="p-2.5 rounded-xl bg-stone-100/35 dark:bg-stone-900/40 border flex flex-col justify-between gap-1 font-sans">
+          <div className={`p-2.5 rounded-xl ${SR.surfaceInset} border ${SR.border} flex flex-col justify-between gap-1 font-sans`}>
             <div>
               <span className="text-[9px] uppercase font-bold text-stone-400 font-sans block pb-0.5 font-sans">Termination Period</span>
               <p className="text-xs font-semibold font-sans text-stone-800 dark:text-white">{data.terminationNoticePeriod?.value || "Immediate"}</p>
@@ -1177,7 +1190,7 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
               <CopyFieldButton value={data.terminationNoticePeriod?.value || ""} />
             </div>
           </div>
-          <div className="p-2.5 rounded-xl bg-stone-100/35 dark:bg-stone-900/40 border flex flex-col justify-between gap-1 font-sans">
+          <div className={`p-2.5 rounded-xl ${SR.surfaceInset} border ${SR.border} flex flex-col justify-between gap-1 font-sans`}>
             <div>
               <span className="text-[9px] uppercase font-bold text-stone-400 font-sans block pb-0.5 font-sans">Liability Cap</span>
               <p className="text-xs font-bold font-sans text-stone-800 dark:text-white">{data.liabilityCap?.value || "No Caps Listed"}</p>
@@ -1192,8 +1205,8 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
             <span className="text-[9px] uppercase font-bold tracking-wider text-stone-500 font-sans">Legal Provisions</span>
             <div className="flex flex-col gap-2">
               {keyClauses.map((clause: any, idx: number) => (
-                <details key={idx} className="group border border-stone-200 dark:border-stone-800/80 rounded-xl bg-stone-100/10 dark:bg-stone-900/10 [&_summary::-webkit-details-marker]:hidden transition-all duration-300">
-                  <summary className="p-3 select-none flex justify-between items-center text-xs font-bold text-stone-800 dark:text-white cursor-pointer hover:bg-stone-50/20 font-sans">
+                <details key={idx} className={`group border ${SR.border} rounded-xl ${SR.surfaceInset} [&_summary::-webkit-details-marker]:hidden transition-all duration-300`}>
+                  <summary className={`p-3 select-none flex justify-between items-center text-xs font-bold ${SR.textPrimary} cursor-pointer ${SR.hoverRow} font-sans`}>
                     <div className="flex items-center gap-2 font-sans">
                       <span className="w-1.5 h-1.5 bg-[#C86432] rounded-full" />
                       <span>{clause.title?.value || clause.title || "Section Clause"}</span>
@@ -1202,7 +1215,7 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
                       <ChevronDown className="w-3.5 h-3.5 text-stone-400 group-open:rotate-180 transition-transform" />
                     </div>
                   </summary>
-                  <div className="p-3 pt-0 border-t border-stone-200 dark:border-stone-800/55 text-[11px] text-stone-600 leading-relaxed font-sans">
+                  <div className={`p-3 pt-0 border-t ${SR.border} text-[11px] ${SR.textSecondary} leading-relaxed font-sans`}>
                     <div className="flex justify-end mb-1">
                       <CopyFieldButton value={clause.content?.value || clause.content || ""} />
                     </div>
@@ -1230,13 +1243,13 @@ const renderResumeNode = (
   const experience = Array.isArray(data.experience) ? data.experience : [];
 
   return (
-    <div className="flex flex-col gap-4 text-stone-700 dark:text-stone-300">
+    <div className={`flex flex-col gap-4 ${SR.textSecondary}`}>
       <div 
         onClick={() => onFieldClick("candidateName")}
         className={`p-3.5 rounded-2xl border transition-all cursor-pointer hover:bg-[#C86432]/5 ${
           activeField === "candidateName" || activeField === "email" || activeField === "phone"
             ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
-            : "border-stone-200 dark:border-stone-800 bg-stone-50/55 dark:bg-stone-900/40"
+            : `${SR.border} ${SR.surfaceMuted}`
         } flex flex-col gap-2.5`}
       >
         <div className="flex items-center justify-between">
@@ -1244,16 +1257,16 @@ const renderResumeNode = (
           {data.candidateName?.confidence !== undefined && <ConfidenceMeter value={data.candidateName?.confidence} />}
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px] text-stone-500 border-t border-stone-200 dark:border-stone-800 pt-2.5">
-          <p onClick={(e) => { e.stopPropagation(); onFieldClick("email"); }} className={`p-1 rounded-sm hover:bg-[#C86432]/5 transition-all ${activeField === "email" ? "bg-[#C86432]/10 font-bold" : ""}`}>📧 Email: <span className="font-semibold text-stone-700 dark:text-stone-200">{data.email?.value || "N/A"}</span></p>
-          <p onClick={(e) => { e.stopPropagation(); onFieldClick("phone"); }} className={`p-1 rounded-sm hover:bg-[#C86432]/5 transition-all ${activeField === "phone" ? "bg-[#C86432]/10 font-bold" : ""}`}>📞 Phone: <span className="font-semibold text-stone-700 dark:text-stone-200">{data.phone?.value || "N/A"}</span></p>
-          <p>📍 Location: <span className="font-semibold text-stone-700 dark:text-stone-200">{data.location?.value || "N/A"}</span></p>
+        <div className={`grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px] ${SR.textMuted} border-t ${SR.border} pt-2.5`}>
+          <p onClick={(e) => { e.stopPropagation(); onFieldClick("email"); }} className={`p-1 rounded-sm hover:bg-[#C86432]/5 transition-all ${activeField === "email" ? "bg-[#C86432]/10 font-bold" : ""}`}>📧 Email: <span className={`font-semibold ${SR.textPrimary}`}>{data.email?.value || "N/A"}</span></p>
+          <p onClick={(e) => { e.stopPropagation(); onFieldClick("phone"); }} className={`p-1 rounded-sm hover:bg-[#C86432]/5 transition-all ${activeField === "phone" ? "bg-[#C86432]/10 font-bold" : ""}`}>📞 Phone: <span className={`font-semibold ${SR.textPrimary}`}>{data.phone?.value || "N/A"}</span></p>
+          <p>📍 Location: <span className={`font-semibold ${SR.textPrimary}`}>{data.location?.value || "N/A"}</span></p>
         </div>
 
         {data.summary?.value && (
-          <div className="bg-stone-100/30 dark:bg-stone-900/30 p-2.5 rounded-xl mt-1.5">
-            <span className="text-[9px] uppercase font-bold tracking-wider text-stone-400 block mb-0.5">Summary Profile</span>
-            <p className="text-[11px] leading-relaxed italic text-stone-500 dark:text-stone-300">{data.summary.value}</p>
+          <div className={`${SR.surfaceInset} p-2.5 rounded-xl mt-1.5`}>
+            <span className={`text-[9px] uppercase font-bold tracking-wider ${SR.textLabel} block mb-0.5`}>Summary Profile</span>
+            <p className={`text-[11px] leading-relaxed italic ${SR.textSecondary}`}>{data.summary.value}</p>
           </div>
         )}
       </div>
@@ -1268,11 +1281,11 @@ const renderResumeNode = (
           <h4 className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Technical Skillset</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
             {skills.map((sk: any, idx: number) => (
-              <div key={idx} className="p-2.5 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50/10">
+              <div key={idx} className={`p-2.5 rounded-xl border ${SR.border} ${SR.surfaceInset}`}>
                 <span className="text-xs font-bold text-[#C86432] block mb-1.5">{sk.category?.value || "Skills"}</span>
                 <div className="flex flex-wrap gap-1">
                   {Array.isArray(sk.skillsList) ? sk.skillsList.map((item: string, id: number) => (
-                    <span key={id} className="text-[9.5px] bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 font-bold px-1.5 py-0.5 rounded-md">
+                    <span key={id} className={`text-[9.5px] ${SR.surfaceInset} ${SR.textSecondary} font-bold px-1.5 py-0.5 rounded-md`}>
                       {item}
                     </span>
                   )) : <span className="text-[9.5px] italic">{String(sk.skillsList)}</span>}
@@ -1293,20 +1306,20 @@ const renderResumeNode = (
           <h3 className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Experience History</h3>
           <div className="flex flex-col gap-2.5">
             {experience.map((ex: any, idx: number) => (
-              <div key={idx} className="p-3 rounded-xl border border-stone-200 dark:border-stone-800 flex flex-col gap-1.5 bg-stone-50/5">
-                <div className="flex flex-wrap justify-between items-start gap-2 border-b border-stone-200 dark:border-stone-800 pb-1.5">
+              <div key={idx} className={`p-3 rounded-xl border ${SR.border} flex flex-col gap-1.5 ${SR.surfaceMuted}`}>
+                <div className={`flex flex-wrap justify-between items-start gap-2 border-b ${SR.border} pb-1.5`}>
                   <div className="flex flex-col">
-                    <span className="text-xs font-bold text-stone-800 dark:text-white">{ex.role?.value || "Role"}</span>
-                    <span className="text-[11px] text-stone-500">{ex.company?.value || "Employer"}</span>
+                    <span className={`text-xs font-bold ${SR.textPrimary}`}>{ex.role?.value || "Role"}</span>
+                    <span className={`text-[11px] ${SR.textMuted}`}>{ex.company?.value || "Employer"}</span>
                   </div>
                   <div className="flex flex-col items-end gap-1">
-                    <span className="text-[9.5px] font-mono bg-stone-100 dark:bg-stone-800 px-1.5 py-0.5 rounded-md font-bold text-[#C86432]">
+                    <span className={`text-[9.5px] font-mono ${SR.surfaceInset} px-1.5 py-0.5 rounded-md font-bold text-[#C86432]`}>
                       {ex.startDate?.value || "Start"} - {ex.endDate?.value || "End"}
                     </span>
                     {ex.role?.confidence !== undefined && <ConfidenceMeter value={ex.role?.confidence} />}
                   </div>
                 </div>
-                <p className="text-[11px] text-stone-500 leading-relaxed font-sans">{ex.description?.value || ""}</p>
+                <p className={`text-[11px] ${SR.textMuted} leading-relaxed font-sans`}>{ex.description?.value || ""}</p>
               </div>
             ))}
           </div>
@@ -1323,10 +1336,10 @@ const renderResumeNode = (
           <h3 className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Academic History</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
             {education.map((ed: any, idx: number) => (
-              <div key={idx} className="p-2.5 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50/10 flex items-center justify-between">
+              <div key={idx} className={`p-2.5 rounded-xl border ${SR.border} ${SR.surfaceInset} flex items-center justify-between`}>
                 <div className="flex flex-col gap-0.5">
-                  <span className="text-xs font-bold text-stone-800 dark:text-white">{ed.degree?.value || "Degree"}</span>
-                  <span className="text-[10px] text-stone-500">{ed.institution?.value || "College/Univ"}</span>
+                  <span className={`text-xs font-bold ${SR.textPrimary}`}>{ed.degree?.value || "Degree"}</span>
+                  <span className={`text-[10px] ${SR.textMuted}`}>{ed.institution?.value || "College/Univ"}</span>
                 </div>
                 <div className="flex flex-col items-end gap-1">
                   <span className="text-[9.5px] font-mono font-bold text-[#C86432]">{ed.graduationYear?.value || ""}</span>
@@ -1348,19 +1361,19 @@ const renderReceiptNode = (
 ) => {
   const items = Array.isArray(data.items) ? data.items : [];
   return (
-    <div className="flex flex-col gap-4 text-stone-700 dark:text-stone-300 animate-fadeIn">
+    <div className={`flex flex-col gap-4 ${SR.textSecondary} animate-fadeIn`}>
       <div 
         onClick={() => onFieldClick("merchantName")}
         className={`p-3.5 rounded-2xl border transition-all cursor-pointer hover:bg-[#C86432]/5 text-center flex flex-col items-center gap-1 ${
           activeField === "merchantName" || activeField === "merchantAddress" || activeField === "merchantPhone"
             ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
-            : "border-stone-200 dark:border-stone-800 bg-stone-100/30 dark:bg-stone-900/30"
+            : `${SR.border} ${SR.surfaceInset}`
         }`}
       >
-        <span className="text-[9px] uppercase font-bold text-stone-400">Commercial Slip</span>
-        <h3 className="text-xs font-black text-stone-800 dark:text-white uppercase tracking-wider">{data.merchantName?.value || "Merchant"}</h3>
-        <p className="text-[10px] text-stone-500">{data.merchantAddress?.value || ""}</p>
-        <p className="text-[9px] text-stone-400 font-mono">{data.merchantPhone?.value || ""}</p>
+        <span className={`text-[9px] uppercase font-bold ${SR.textLabel}`}>Commercial Slip</span>
+        <h3 className={`text-xs font-black ${SR.textPrimary} uppercase tracking-wider`}>{data.merchantName?.value || "Merchant"}</h3>
+        <p className={`text-[10px] ${SR.textMuted}`}>{data.merchantAddress?.value || ""}</p>
+        <p className={`text-[9px] ${SR.textLabel} font-mono`}>{data.merchantPhone?.value || ""}</p>
         {data.merchantName?.confidence !== undefined && <div className="mt-1.5"><ConfidenceMeter value={data.merchantName?.confidence} /></div>}
       </div>
 
@@ -1372,8 +1385,8 @@ const renderReceiptNode = (
             : "border-stone-200 dark:border-stone-800"
         }`}
       >
-        <div>📅 DATE: <span className="font-bold">{data.transactionDate?.value || "N/A"}</span></div>
-        <div className="text-right">🕒 TIME: <span className="font-bold">{data.transactionTime?.value || "N/A"}</span></div>
+        <div className="text-stone-700 dark:text-stone-300">📅 DATE: <span className="font-bold text-stone-900 dark:text-white">{data.transactionDate?.value || "N/A"}</span></div>
+        <div className="text-right text-stone-700 dark:text-stone-300">🕒 TIME: <span className="font-bold text-stone-900 dark:text-white">{data.transactionTime?.value || "N/A"}</span></div>
       </div>
 
       <div 
@@ -1383,8 +1396,8 @@ const renderReceiptNode = (
         }`}
       >
         <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Purchases List</span>
-        <div className="border border-stone-200 dark:border-stone-800 rounded-xl overflow-hidden bg-stone-50/10">
-          <div className="p-2 bg-stone-100 dark:bg-stone-800/80 text-[9px] font-bold text-stone-500 uppercase flex items-center justify-between border-b dark:border-stone-800">
+        <div className={`border ${SR.border} rounded-xl overflow-hidden ${SR.surfaceMuted}`}>
+          <div className={`p-2 ${SR.surfaceInset} text-[9px] font-bold ${SR.textMuted} uppercase flex items-center justify-between border-b ${SR.border}`}>
             <span>Description</span>
             <div className="flex items-center gap-5">
               <span>Qty</span>
@@ -1393,14 +1406,14 @@ const renderReceiptNode = (
           </div>
           <div className="divide-y divide-stone-200 dark:divide-stone-800/60">
             {items.map((it: any, idx: number) => (
-              <div key={idx} className="p-2 flex items-center justify-between text-[11px] hover:bg-stone-100/5">
+              <div key={idx} className={`p-2 flex items-center justify-between text-[11px] ${SR.hoverRow}`}>
                 <div className="flex flex-col gap-0.5">
-                  <span className="font-semibold text-stone-800 dark:text-stone-200">{it.description?.value || "Purchase Item"}</span>
+                  <span className={`font-semibold ${SR.textPrimary}`}>{it.description?.value || "Purchase Item"}</span>
                   {it.description?.confidence !== undefined && <ConfidenceMeter value={it.description?.confidence} />}
                 </div>
-                <div className="flex items-center gap-6 font-mono">
+                <div className={`flex items-center gap-6 font-mono ${SR.textSecondary}`}>
                   <span>{it.quantity?.value !== undefined ? it.quantity.value : "1"}</span>
-                  <span className="w-14 text-right font-bold text-stone-800 dark:text-white">{it.totalPrice?.value !== undefined ? it.totalPrice.value : "N/A"}</span>
+                  <span className={`w-14 text-right font-bold ${SR.textPrimary}`}>{it.totalPrice?.value !== undefined ? it.totalPrice.value : "N/A"}</span>
                 </div>
               </div>
             ))}
@@ -1416,19 +1429,19 @@ const renderReceiptNode = (
             : "border-stone-200 dark:border-stone-800"
         }`}
       >
-        <div className="flex justify-between items-center text-stone-600">
+        <div className={`flex justify-between items-center ${SR.textSecondary}`}>
           <span>VAT Taxes:</span>
           <span className="font-mono">{data.tax?.value || "0.00"}</span>
         </div>
-        <div className="flex justify-between items-center text-stone-600">
+        <div className={`flex justify-between items-center ${SR.textSecondary}`}>
           <span>Tips:</span>
           <span className="font-mono">{data.tip?.value || "0.00"}</span>
         </div>
-        <div className="flex justify-between items-center text-stone-600">
+        <div className={`flex justify-between items-center ${SR.textSecondary}`}>
           <span>Payment Channel:</span>
           <span className="font-semibold">{data.paymentMethod?.value || "Card"}</span>
         </div>
-        <div className="flex justify-between items-center text-stone-800 dark:text-white font-bold border-t dark:border-stone-85 pt-1.5">
+        <div className={`flex justify-between items-center ${SR.textPrimary} font-bold border-t ${SR.border} pt-1.5`}>
           <span>GRAND TOTAL:</span>
           <span className="font-mono text-[#C86432]">{data.totalAmount?.value || "0.00"}</span>
         </div>
@@ -1446,16 +1459,16 @@ const renderTableNode = (
   const rows = Array.isArray(data.rows) ? data.rows : [];
 
   return (
-    <div className="flex flex-col gap-3.5 text-stone-700 dark:text-stone-300">
+    <div className={`flex flex-col gap-3.5 ${SR.textSecondary}`}>
       <div 
         onClick={() => onFieldClick("tableName")}
         className={`p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all hover:bg-[#C86432]/5 ${
-          activeField === "tableName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-900/40"
+          activeField === "tableName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
         }`}
       >
         <div>
-          <span className="text-[9.5px] font-bold uppercase text-stone-400 block pb-0.5">Grid Title</span>
-          <h4 className="text-xs font-bold text-stone-800 dark:text-white">{data.tableName?.value || "Structured Data Matrix"}</h4>
+          <span className={`text-[9.5px] font-bold uppercase ${SR.textLabel} block pb-0.5`}>Grid Title</span>
+          <h4 className={`text-xs font-bold ${SR.textPrimary}`}>{data.tableName?.value || "Structured Data Matrix"}</h4>
         </div>
         {data.tableName?.confidence !== undefined && <ConfidenceMeter value={data.tableName?.confidence} />}
       </div>
@@ -1465,12 +1478,12 @@ const renderTableNode = (
         className={`border rounded-2xl overflow-x-auto transition-all cursor-pointer hover:bg-[#C86432]/5 ${
           activeField === "rows" || activeField === "headers"
             ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
-            : "border-stone-200 dark:border-stone-800 bg-stone-50/10"
+            : `${SR.border} ${SR.surfaceMuted}`
         }`}
       >
-        <table className="w-full text-[11px] text-left text-stone-500 dark:text-stone-400 border-collapse">
+        <table className={`w-full text-[11px] text-left ${SR.textMuted} border-collapse`}>
           <thead>
-            <tr className="bg-stone-100 dark:bg-stone-800/80 text-[9px] font-bold uppercase tracking-wider text-stone-500 border-b dark:border-stone-800">
+            <tr className={`${SR.surfaceInset} text-[9px] font-bold uppercase tracking-wider ${SR.textMuted} border-b ${SR.border}`}>
               {headers.map((h: any, idx: number) => (
                 <th key={idx} className="p-2.5 font-semibold">
                   <div className="flex flex-col gap-0.5">
@@ -1490,11 +1503,11 @@ const renderTableNode = (
               rows.map((row: any, rIdx: number) => {
                 const cells = Array.isArray(row.cells) ? row.cells : [];
                 return (
-                  <tr key={rIdx} className="hover:bg-stone-100/5">
+                  <tr key={rIdx} className={SR.hoverRow}>
                     {cells.map((cell: any, cIdx: number) => (
                       <td key={cIdx} className="p-2.5">
                         <div className="flex flex-col gap-0.5">
-                          <span className="font-medium text-stone-800 dark:text-stone-200">{cell.value || ""}</span>
+                          <span className={`font-medium ${SR.textPrimary}`}>{cell.value || ""}</span>
                           {cell.confidence !== undefined && <div className="scale-75 origin-left"><ConfidenceMeter value={cell.confidence} /></div>}
                         </div>
                       </td>
@@ -1517,21 +1530,21 @@ const renderGeneralOcrNode = (
 ) => {
   const keyBlocks = Array.isArray(data.keyBlocks) ? data.keyBlocks : [];
   return (
-    <div className="flex flex-col gap-3.5 text-stone-700 dark:text-stone-300">
+    <div className={`flex flex-col gap-3.5 ${SR.textSecondary}`}>
       <div 
         onClick={() => onFieldClick("title")}
         className={`p-3 rounded-xl border grid grid-cols-2 gap-3 transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-          activeField === "title" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : "border-stone-200 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-900/40"
+          activeField === "title" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
         }`}
       >
         <div>
-          <span className="text-[9.5px] uppercase font-bold text-stone-400 block mb-0.5 font-sans">Title Code</span>
-          <span className="text-xs font-bold text-stone-800 dark:text-white">{data.documentTitle?.value || "N/A"}</span>
+          <span className={`text-[9.5px] uppercase font-bold ${SR.textLabel} block mb-0.5 font-sans`}>Title Code</span>
+          <span className={`text-xs font-bold ${SR.textPrimary}`}>{data.documentTitle?.value || "N/A"}</span>
           {data.documentTitle?.confidence !== undefined && <ConfidenceMeter value={data.documentTitle?.confidence} />}
         </div>
         <div>
-          <span className="text-[9.5px] uppercase font-bold text-stone-400 block mb-0.5 font-sans">Detected Language</span>
-          <span className="text-xs font-bold text-stone-800 dark:text-white">{data.detectedLanguage?.value || "N/A"}</span>
+          <span className={`text-[9.5px] uppercase font-bold ${SR.textLabel} block mb-0.5 font-sans`}>Detected Language</span>
+          <span className={`text-xs font-bold ${SR.textPrimary}`}>{data.detectedLanguage?.value || "N/A"}</span>
           {data.detectedLanguage?.confidence !== undefined && <ConfidenceMeter value={data.detectedLanguage?.confidence} />}
         </div>
       </div>
@@ -1545,9 +1558,9 @@ const renderGeneralOcrNode = (
         <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 font-sans">Blocks</span>
         <div className="flex flex-col gap-2.5">
           {keyBlocks.map((blk: any, idx: number) => (
-            <div key={idx} className="p-2.5 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50/20">
+            <div key={idx} className={`p-2.5 rounded-xl border ${SR.border} ${SR.surfaceInset}`}>
               <span className="text-xs font-extrabold text-[#C86432] block mb-1">{blk.heading?.value || `Content Block #${idx + 1}`}</span>
-              <p className="text-[11px] text-stone-500 leading-relaxed font-sans">{blk.content?.value || ""}</p>
+              <p className={`text-[11px] ${SR.textMuted} leading-relaxed font-sans`}>{blk.content?.value || ""}</p>
             </div>
           ))}
         </div>
@@ -1556,7 +1569,7 @@ const renderGeneralOcrNode = (
       {data.rawText?.value && (
         <div className="mt-1 text-[11px] border-t dark:border-stone-800 pt-2.5">
           <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block mb-1 font-sans">Raw Fallback</span>
-          <pre className="p-2.5 border rounded-xl bg-stone-100/40 dark:bg-stone-900/40 font-mono text-[9.5px] leading-relaxed whitespace-pre-wrap overflow-x-auto text-stone-500">
+          <pre className={`p-2.5 border rounded-xl ${SR.border} ${SR.surfaceInset} font-mono text-[9.5px] leading-relaxed whitespace-pre-wrap overflow-x-auto ${SR.textMuted}`}>
             {data.rawText.value}
           </pre>
         </div>
@@ -1720,7 +1733,7 @@ const BeforeVsAfterWorkspace = ({
         <div className="flex items-center gap-2">
           <button
             onClick={() => setExtractedText("")}
-            className="text-xs font-bold px-3 py-1.5 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-100 hover:bg-stone-200 dark:bg-stone-900 dark:hover:bg-stone-800 transition-all flex items-center gap-1.5 cursor-pointer text-stone-700 dark:text-stone-300"
+            className={`text-xs font-bold px-3 py-1.5 rounded-xl border ${SR.border} ${SR.surfaceMuted} hover:opacity-90 transition-all flex items-center gap-1.5 cursor-pointer ${SR.textSecondary}`}
           >
             <RefreshCw className="w-3.5 h-3.5" />
             Parameter Settings
@@ -1832,7 +1845,7 @@ const BeforeVsAfterWorkspace = ({
         {/* Right Side: After Analysis, Summary & Metrics Tabs */}
         <div className="col-span-12 xl:col-span-6 flex flex-col gap-4">
           <div className={`p-5 rounded-3xl border flex flex-col h-full relative ${
-            isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+            isDarkMode ? "bg-[#1d1714]/80 border-[#332822] text-stone-200" : "bg-white border-[#eeded5] text-stone-800"
           }`} style={{ minHeight: "580px", maxHeight: "580px" }}>
             
             {/* Header Tabs Navigation layout - Compact labels supporting sweep with hidden scrollbars */}
@@ -1906,7 +1919,7 @@ const BeforeVsAfterWorkspace = ({
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
-                      className="flex flex-col gap-4 text-xs"
+                      className="flex flex-col gap-4 text-xs text-stone-800 dark:text-stone-200"
                     >
                       {isSpecializedResult ? (
                         <>
@@ -1923,7 +1936,7 @@ const BeforeVsAfterWorkspace = ({
                                 className={`px-2.5 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                   isJsonVisualMode
                                     ? "bg-[#C86432] text-white"
-                                    : "text-stone-400 hover:text-stone-500"
+                                    : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
                                 }`}
                               >
                                 Visual
@@ -1933,7 +1946,7 @@ const BeforeVsAfterWorkspace = ({
                                 className={`px-2.5 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                   !isJsonVisualMode
                                     ? "bg-[#C86432] text-white"
-                                    : "text-stone-400 hover:text-stone-500"
+                                    : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
                                 }`}
                               >
                                 Raw JSON
@@ -1945,7 +1958,7 @@ const BeforeVsAfterWorkspace = ({
                             {isJsonVisualMode ? (
                               renderVisualStructuredResult(extractedText, resultDocumentType, activeField, setActiveField)
                             ) : (
-                              <pre className="p-4 rounded-xl border whitespace-pre-wrap font-mono text-[10.5px] leading-relaxed selection:bg-[#C86432] bg-stone-950 text-stone-200 border-stone-800">
+                              <pre className={`p-4 rounded-xl border whitespace-pre-wrap font-mono text-[10.5px] leading-relaxed selection:bg-[#C86432] ${SR.border} ${isDarkMode ? "bg-[#14100e] text-stone-200" : "bg-stone-50 text-stone-800"}`}>
                                 {extractedText}
                               </pre>
                             )}
@@ -1974,7 +1987,7 @@ const BeforeVsAfterWorkspace = ({
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
-                      className="flex flex-col gap-3 text-xs"
+                      className="flex flex-col gap-3 text-xs text-stone-800 dark:text-stone-200"
                     >
                       <div className={`p-4 rounded-2xl border flex flex-col gap-3 ${
                         isDarkMode ? "bg-stone-900/60 border-stone-800" : "bg-stone-50 border-stone-200"
@@ -1984,14 +1997,14 @@ const BeforeVsAfterWorkspace = ({
                           Executive Intelligence Digest
                         </div>
                         
-                        <p className="text-stone-600 dark:text-stone-300 leading-relaxed font-sans">
+                        <p className="text-stone-700 dark:text-stone-300 leading-relaxed font-sans">
                           This analyzed file has been verified as type <strong>{resultDocumentType.toUpperCase()}</strong>. It is translated into structured JSON nodes with corresponding spatial coordinates of raw outlines.
                         </p>
 
                         {resultDocumentType === "invoice" && (
                           <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1 underline-none">
                             <h4 className="font-bold text-[#C86432]">Invoice Verification Parameters</h4>
-                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-500 leading-normal">
+                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-600 dark:text-stone-400 leading-normal">
                               <li><strong>Identified Billing:</strong> Document points to recorded recipient matches. Address is structurally aligned.</li>
                               <li><strong>Due Terms Checking:</strong> Payment is requested via stated invoice dates. Watch boundaries.</li>
                               <li><strong>Integrity Check:</strong> Subtotal sums align perfectly with parsed line matrices.</li>
@@ -2002,7 +2015,7 @@ const BeforeVsAfterWorkspace = ({
                         {resultDocumentType === "contract" && (
                           <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
                             <h4 className="font-bold text-[#C86432]">Legal Risk Diagnostics</h4>
-                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-500 leading-normal">
+                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-600 dark:text-stone-400 leading-normal">
                               <li><strong>Contracting Outlines:</strong> Agreement terms matched. Verify identified parties thoroughly.</li>
                               <li><strong>Deadlines & Milestones:</strong> Contract triggers clear timelines in chronological outlines.</li>
                               <li><strong>Clause Indexing:</strong> Business parameters parsed. High integrity matched on key indemnity blocks.</li>
@@ -2013,7 +2026,7 @@ const BeforeVsAfterWorkspace = ({
                         {resultDocumentType === "resume" && (
                           <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
                             <h4 className="font-bold text-[#C86432]">Performance & Strengths Index</h4>
-                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-500 leading-normal">
+                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-600 dark:text-stone-400 leading-normal">
                               <li><strong>Core Competency Matched:</strong> Skills categories list complete technical strengths.</li>
                               <li><strong>Experience Continuity:</strong> Professional histories validated with timeline matrices.</li>
                               <li><strong>Interview Triage:</strong> Route parameters directly to talent pipeline directories.</li>
@@ -2024,7 +2037,7 @@ const BeforeVsAfterWorkspace = ({
                         {resultDocumentType === "receipt" && (
                           <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
                             <h4 className="font-bold text-[#C86432]">Receipt Expense Analysis</h4>
-                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-500 leading-normal">
+                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-600 dark:text-stone-400 leading-normal">
                               <li><strong>Merchant Triage:</strong> Slips register commercial locations. Matches corporate guidelines.</li>
                               <li><strong>Expense Audit:</strong> Clean item sums. Highly verified for immediate reimbursement loops.</li>
                               <li><strong>Details:</strong> Standard transaction channels checked with full vat outlines.</li>
@@ -2035,7 +2048,7 @@ const BeforeVsAfterWorkspace = ({
                         {!["invoice", "contract", "resume", "receipt"].includes(resultDocumentType) && (
                           <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
                             <h4 className="font-bold text-[#C86432]">OCR Spatial Findings</h4>
-                            <p className="text-[11px] text-stone-500 leading-relaxed">
+                            <p className="text-[11px] text-stone-600 dark:text-stone-400 leading-relaxed">
                               Characters are mapped on dense layers. Hover over document parts to isolate values.
                             </p>
                           </div>
@@ -2051,7 +2064,7 @@ const BeforeVsAfterWorkspace = ({
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
-                      className="flex flex-col gap-4 text-xs"
+                      className="flex flex-col gap-4 text-xs text-stone-800 dark:text-stone-200"
                     >
                       <div className={`p-4 rounded-3xl border flex flex-col md:flex-row items-center gap-6 ${
                         isDarkMode ? "bg-stone-900/60 border-stone-800" : "bg-stone-50 border-stone-200"
@@ -2107,7 +2120,7 @@ const BeforeVsAfterWorkspace = ({
                                 key={box.field}
                                 onClick={() => setActiveField(box.field)}
                                 className={`p-2 rounded-xl border cursor-pointer transition-all hover:bg-[#C86432]/5 flex flex-col gap-1 ${
-                                  isSel ? "border-[#C86432] bg-[#C86432]/5" : "border-stone-200 dark:border-stone-800"
+                                  isSel ? "border-[#C86432] bg-[#C86432]/5" : `${SR.border} ${SR.surfaceMuted}`
                                 }`}
                               >
                                 <div className="flex justify-between items-center text-[10.5px]">
@@ -2136,7 +2149,7 @@ const BeforeVsAfterWorkspace = ({
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
-                      className="flex flex-col border border-stone-200 dark:border-stone-800 rounded-3xl overflow-hidden shadow-sm bg-stone-50/10 dark:bg-[#14100e] text-left"
+                      className={`flex flex-col border ${SR.border} rounded-3xl overflow-hidden shadow-sm ${isDarkMode ? "bg-[#14100e]" : "bg-stone-50"} text-stone-800 dark:text-stone-200 text-left`}
                     >
                       {chatMessages.length === 0 && (
                         <div className={`p-3 text-[11px] ${isDarkMode ? "bg-[#301c13]/30 text-stone-300" : "bg-[#eeded5]/20 text-stone-700"}`}>
@@ -2172,7 +2185,7 @@ const BeforeVsAfterWorkspace = ({
                         })}
 
                         {isChatting && (
-                          <div className="self-start bg-stone-100/50 dark:bg-stone-900/50 p-3 rounded-2xl rounded-tl-none flex items-center gap-2 text-[10.5px]">
+                          <div className={`self-start ${SR.surfaceMuted} p-3 rounded-2xl rounded-tl-none flex items-center gap-2 text-[10.5px] ${SR.textSecondary}`}>
                             <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#C86432]" />
                             <span>Fusing context metrics...</span>
                           </div>
@@ -2231,7 +2244,7 @@ const BeforeVsAfterWorkspace = ({
                     </button>
                     <button
                       onClick={() => { setEditedText(extractedText); setIsEditing(false); }}
-                      className="px-3.5 py-1.5 border border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-300 font-bold text-xs rounded-xl transition-all cursor-pointer hover:bg-stone-100"
+                      className={`px-3.5 py-1.5 border ${SR.border} ${SR.textSecondary} font-bold text-xs rounded-xl transition-all cursor-pointer ${SR.hoverRow}`}
                     >
                       {t.cancelBtn || "Cancel"}
                     </button>
@@ -2350,6 +2363,11 @@ export default function Home() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const chatBottomRef = useRef<HTMLDivElement>(null);
   const [dragOver, setDragOver] = useState<boolean>(false);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDarkMode);
+    return () => document.documentElement.classList.remove("dark");
+  }, [isDarkMode]);
 
   const t = TRANSLATIONS[language] || TRANSLATIONS.en;
 
@@ -3625,7 +3643,7 @@ export default function Home() {
                           <div className="flex-1 flex flex-col min-h-0">
                             {/* Visual vs Raw JSON Toggler for Specialized Extractions */}
                             {isSpecializedResult && !isEditing && (
-                              <div className="px-5 pt-3.5 pb-2 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between bg-stone-100/10 dark:bg-stone-900/10">
+                              <div className="px-5 pt-3.5 pb-2 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between bg-stone-100 dark:bg-stone-900/10">
                                 <span className="text-[10.5px] font-bold uppercase tracking-wider text-stone-400">⚡ Structured Mode</span>
                                 <div className="flex items-center gap-1 bg-stone-100 dark:bg-stone-900 border dark:border-stone-800 p-0.5 rounded-xl text-[10px]">
                                   <button
@@ -3633,7 +3651,7 @@ export default function Home() {
                                     className={`px-3 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                       isJsonVisualMode
                                         ? "bg-[#C86432] text-white"
-                                        : "text-stone-400 hover:text-stone-500"
+                                        : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
                                     }`}
                                   >
                                     Visual Report
@@ -3643,7 +3661,7 @@ export default function Home() {
                                     className={`px-3 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                       !isJsonVisualMode
                                         ? "bg-[#C86432] text-white"
-                                        : "text-stone-400 hover:text-stone-500"
+                                        : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
                                     }`}
                                   >
                                     Raw JSON Code
@@ -3652,7 +3670,7 @@ export default function Home() {
                               </div>
                             )}
 
-                            <div className="flex-1 overflow-y-auto p-5 max-h-[380px] text-xs">
+                            <div className={`flex-1 overflow-y-auto p-5 max-h-[380px] text-xs ${isDarkMode ? "text-stone-200" : "text-stone-800"}`}>
                               {isEditing ? (
                                 <div className="flex flex-col gap-1.5 h-full">
                                   <span className="text-[10px] font-bold text-[#C86432]">EDIT MODE</span>

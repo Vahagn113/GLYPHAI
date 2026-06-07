@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Tie dark: utilities to the app theme toggle (.dark on <html>), not OS preference */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Sleek custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
