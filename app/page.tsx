@@ -37,7 +37,11 @@ import {
   ChevronRight,
   Gauge,
   TrendingUp,
-  ShieldAlert
+  ShieldAlert,
+  Briefcase,
+  Target,
+  Palette,
+  Award
 } from "lucide-react";
 
 interface ChatMessage {
@@ -54,6 +58,91 @@ interface SampleDocument {
   mockData: string;
   initialExtract: string;
 }
+
+const CV_POSITION_CATEGORIES = [
+  "Data Analyst",
+  "Business Analyst",
+  "Financial Analyst",
+  "Product Manager",
+  "Project Manager",
+  "Operations Manager",
+  "Software Engineer",
+  "Frontend Developer",
+  "Backend Developer",
+  "Full Stack Developer",
+  "QA Engineer",
+  "DevOps Engineer",
+  "Cybersecurity Analyst",
+  "Cloud Engineer",
+  "Machine Learning Engineer",
+  "AI Engineer",
+  "Data Scientist",
+  "Data Engineer",
+  "UX/UI Designer",
+  "Graphic Designer",
+  "Digital Marketing Specialist",
+  "SEO Specialist",
+  "Content Manager",
+  "Sales Manager",
+  "Account Executive",
+  "Customer Success Manager",
+  "HR Specialist",
+  "Recruiter",
+  "Administrative Assistant",
+  "Executive Assistant",
+  "Legal Assistant",
+  "Teacher",
+  "Nurse",
+  "Healthcare Administrator",
+  "Logistics Coordinator",
+  "Supply Chain Analyst",
+  "Civil Engineer",
+  "Mechanical Engineer",
+  "Electrical Engineer",
+  "Architect",
+  "Research Assistant",
+  "Consultant",
+  "Entrepreneur",
+];
+
+const CV_TEMPLATES = [
+  {
+    id: "modern-ats",
+    name: "Modern ATS",
+    desc: "Clean headings, recruiter-friendly structure, strong keyword density.",
+  },
+  {
+    id: "executive",
+    name: "Executive",
+    desc: "Leadership profile with strategic impact and concise achievements.",
+  },
+  {
+    id: "technical",
+    name: "Technical",
+    desc: "Skills matrix, projects, tools, and engineering achievements up front.",
+  },
+  {
+    id: "creative",
+    name: "Creative Pro",
+    desc: "Stylish but still export-safe for design, marketing, and content roles.",
+  },
+  {
+    id: "graduate",
+    name: "Graduate",
+    desc: "Education, projects, internships, and transferable skills emphasized.",
+  },
+];
+
+const CV_FOCUS_AREAS = [
+  "ATS keywords",
+  "Measurable achievements",
+  "Leadership impact",
+  "Technical skills",
+  "Transferable skills",
+  "Grammar polish",
+  "Shorter one-page style",
+  "International format",
+];
 
 const SAMPLES: SampleDocument[] = [
   {
@@ -2288,7 +2377,7 @@ const BeforeVsAfterWorkspace = ({
 };
 
 export default function Home() {
-  const [activeView, setActiveView] = useState<"home" | "workspace">("home");
+  const [activeView, setActiveView] = useState<"home" | "workspace" | "cv">("home");
   const [language, setLanguage] = useState<Language>("en");
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [publishingMethod, setPublishingMethod] = useState<string>("raw");
@@ -2339,6 +2428,27 @@ export default function Home() {
   const [simIsLoading, setSimIsLoading] = useState<boolean>(false);
   const [simText, setSimText] = useState<string>(DEMO_PRESETS[0].raw);
 
+  // CV Builder states
+  const [cvFilePreview, setCvFilePreview] = useState<string>("");
+  const [cvFileMimeType, setCvFileMimeType] = useState<string>("");
+  const [cvFileName, setCvFileName] = useState<string>("");
+  const [cvFileSize, setCvFileSize] = useState<string>("");
+  const [cvSelectedPositions, setCvSelectedPositions] = useState<string[]>(["Data Analyst"]);
+  const [cvTemplate, setCvTemplate] = useState<string>("modern-ats");
+  const [cvTone, setCvTone] = useState<string>("Confident professional");
+  const [cvSeniority, setCvSeniority] = useState<string>("Adaptive");
+  const [cvFocusAreas, setCvFocusAreas] = useState<string[]>(["ATS keywords", "Measurable achievements", "Grammar polish"]);
+  const [cvCustomRequest, setCvCustomRequest] = useState<string>("");
+  const [cvGeneratedText, setCvGeneratedText] = useState<string>("");
+  const [cvEditedText, setCvEditedText] = useState<string>("");
+  const [cvPreviewMode, setCvPreviewMode] = useState<"text" | "preview">("preview");
+  const [cvIsGenerating, setCvIsGenerating] = useState<boolean>(false);
+  const [cvError, setCvError] = useState<string>("");
+  const [cvCopyFeedback, setCvCopyFeedback] = useState<boolean>(false);
+  const [cvDragOver, setCvDragOver] = useState<boolean>(false);
+  const [cvTrackerStep, setCvTrackerStep] = useState<number>(0);
+  const cvTrackerRef = useRef<number | null>(null);
+
   const selectSimPreset = (idx: number) => {
     setSimSelectedPreset(idx);
     setSimIsLoading(true);
@@ -2361,6 +2471,8 @@ export default function Home() {
 
   const dropRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const cvDropRef = useRef<HTMLDivElement>(null);
+  const cvFileInputRef = useRef<HTMLInputElement>(null);
   const chatBottomRef = useRef<HTMLDivElement>(null);
   const [dragOver, setDragOver] = useState<boolean>(false);
 
@@ -2426,6 +2538,246 @@ export default function Home() {
 
   const triggerFileSelect = () => {
     fileInputRef.current?.click();
+  };
+
+  const processSelectedCvFile = (selectedFile: File) => {
+    if (!selectedFile) return;
+
+    if (selectedFile.size > 10 * 1024 * 1024) {
+      setCvError("The CV file is too large. Please upload files smaller than 10MB.");
+      return;
+    }
+
+    const kb = selectedFile.size / 1024;
+    const mb = kb / 1024;
+    setCvFileName(selectedFile.name);
+    setCvFileMimeType(selectedFile.type || "application/pdf");
+    setCvFileSize(mb >= 1 ? `${mb.toFixed(2)} MB` : `${kb.toFixed(0)} KB`);
+    setCvGeneratedText("");
+    setCvEditedText("");
+    setCvError("");
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setCvFilePreview(reader.result as string);
+    };
+    reader.readAsDataURL(selectedFile);
+  };
+
+  const handleCvDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setCvDragOver(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      processSelectedCvFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleCvFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      processSelectedCvFile(e.target.files[0]);
+    }
+  };
+
+  const clearCvFile = () => {
+    setCvFilePreview("");
+    setCvFileMimeType("");
+    setCvFileName("");
+    setCvFileSize("");
+    setCvGeneratedText("");
+    setCvEditedText("");
+    setCvError("");
+  };
+
+  const toggleCvPosition = (position: string) => {
+    setCvSelectedPositions((prev) =>
+      prev.includes(position)
+        ? prev.filter((item) => item !== position)
+        : [...prev, position]
+    );
+  };
+
+  const toggleCvFocusArea = (area: string) => {
+    setCvFocusAreas((prev) =>
+      prev.includes(area)
+        ? prev.filter((item) => item !== area)
+        : [...prev, area]
+    );
+  };
+
+  const handleGenerateCv = async () => {
+    if (!cvFilePreview) {
+      setCvError("Upload an existing CV before generating the rebuilt version.");
+      return;
+    }
+
+    if (cvSelectedPositions.length === 0) {
+      setCvError("Select at least one target position before rebuilding the CV.");
+      return;
+    }
+
+    setCvIsGenerating(true);
+    setCvError("");
+    setCvGeneratedText("");
+    setCvEditedText("");
+    // start a simple tracker to give users feedback
+    setCvTrackerStep(0);
+    if (cvTrackerRef.current) {
+      window.clearInterval(cvTrackerRef.current);
+      cvTrackerRef.current = null;
+    }
+    cvTrackerRef.current = window.setInterval(() => {
+      setCvTrackerStep((prev) => (prev < 4 ? prev + 1 : prev));
+    }, 1400);
+
+    try {
+      const response = await fetch("/api/cv-builder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          file: cvFilePreview,
+          mimeType: cvFileMimeType || "application/pdf",
+          targetPositions: cvSelectedPositions,
+          template: cvTemplate,
+          tone: cvTone,
+          seniority: cvSeniority,
+          focusAreas: cvFocusAreas,
+          customRequest: cvCustomRequest,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to rebuild the CV.");
+      }
+
+      // Post-process the returned markdown to remove auxiliary QA sections
+      // like ATS Keyword Alignment and Missing Details which should not
+      // appear in the end-user ready CV output by default.
+      const raw = data.text || "";
+      const cleaned = stripAuxSections(raw);
+
+      setCvGeneratedText(cleaned);
+      setCvEditedText(cleaned);
+    } catch (err: any) {
+      setCvError(err.message || "Failed to generate the optimized CV.");
+    } finally {
+      setCvIsGenerating(false);
+      // ensure tracker finishes
+      setCvTrackerStep(4);
+      if (cvTrackerRef.current) {
+        window.clearInterval(cvTrackerRef.current);
+        cvTrackerRef.current = null;
+      }
+    }
+  };
+
+  // Remove auxiliary headings and their content (e.g., ATS Keyword Alignment, Missing Details To Add)
+  const stripAuxSections = (md: string) => {
+    if (!md) return md;
+    // Remove sections that start with headings like '## ATS' or '## Missing Details' (case-insensitive)
+    // We remove from the matching heading until the next top-level heading of same level (##) or EOF.
+    try {
+      return md.replace(/(^|\n)##\s*(ATS Keyword Alignment|ATS Keywords|ATS Keyword|ATS Alignment|Missing Details To Add|Missing Details To Add\b|Missing Details|Missing Details to Add)[\s\S]*?(?=(\n##\s)|$)/gim, "");
+    } catch (e) {
+      return md;
+    }
+  };
+
+  const escapeHtml = (value: string) =>
+    value
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+
+  const convertCvMarkdownToHtml = (md: string): string => {
+    return md
+      .split("\n")
+      .map((line) => {
+        const trimmed = line.trim();
+        if (!trimmed) return "<p style='margin: 0 0 7px;'></p>";
+        if (trimmed.startsWith("# ")) return `<h1>${escapeHtml(trimmed.substring(2))}</h1>`;
+        if (trimmed.startsWith("## ")) return `<h2>${escapeHtml(trimmed.substring(3))}</h2>`;
+        if (trimmed.startsWith("### ")) return `<h3>${escapeHtml(trimmed.substring(4))}</h3>`;
+        if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+          return `<p class="bullet">• ${escapeHtml(trimmed.substring(2)).replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")}</p>`;
+        }
+        return `<p>${escapeHtml(trimmed).replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")}</p>`;
+      })
+      .join("");
+  };
+
+  const buildCvHtmlDocument = () => {
+    const md = cvEditedText || cvGeneratedText;
+    const body = convertCvMarkdownToHtml(md);
+    const templateName = CV_TEMPLATES.find((item) => item.id === cvTemplate)?.name || "Modern ATS";
+
+    // Template-specific CSS variations
+    const templateStyles: Record<string, string> = {
+      "modern-ats": `body{font-family:Inter, Arial, sans-serif;color:#2f2925;margin:40px;line-height:1.45}h1{font-size:26px;color:#1f2937;margin:0 0 6px}h2{color:#C86432;font-size:12px;text-transform:uppercase;margin-top:18px;border-bottom:1px solid #fde8dc;padding-bottom:6px}p{font-size:12px;margin:0 0 8px}`,
+      "executive": `body{font-family:Georgia, serif;color:#111827;margin:48px;background:#fff}h1{font-family:Georgia, serif;color:#0f172a;font-size:30px;margin:0 0 4px}h2{color:#0f172a;font-size:13px;border-left:4px solid #cbd5e1;padding-left:10px;margin-top:16px}p{font-size:13px;margin:0 0 8px}`,
+      "technical": `body{font-family:JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;color:#0b1220;margin:36px;background:#f8fafc}h1{font-size:22px;color:#0b1220;border-bottom:2px dashed #e6edf3;padding-bottom:8px}h2{color:#0b1220;font-size:12px;margin-top:14px}p{font-size:12px;margin:0 0 6px}`,
+      "creative": `body{font-family:Space Grotesk, Arial, sans-serif;color:#1b1b1b;margin:36px}h1{font-size:28px;color:#6b21a8;margin:0 0 8px}h2{color:#6b21a8;font-size:12px;margin-top:12px}p{font-size:13px;margin:0 0 8px}`,
+      "graduate": `body{font-family:Inter, Arial, sans-serif;color:#222;margin:36px}h1{font-size:24px;color:#0f172a;margin:0 0 6px}h2{color:#0f172a;font-size:12px;margin-top:12px}p{font-size:12px;margin:0 0 6px}`,
+    };
+
+    const css = templateStyles[cvTemplate] || templateStyles["modern-ats"];
+
+    return `<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>${escapeHtml(templateName)} - Optimized CV</title>
+  <style>
+    ${css}
+    .meta{color:#8b7569;font-size:9px;margin-bottom:18px;text-transform:uppercase;letter-spacing:0.08em}
+    .bullet{margin-left:14px}
+    @page{margin:0.6in}
+  </style>
+</head>
+<body>
+  <div class="meta">Generated with GLYPH AI CV Builder · ${escapeHtml(templateName)}</div>
+  ${body}
+</body>
+</html>`;
+  };
+
+  const copyCvText = () => {
+    navigator.clipboard.writeText(cvEditedText || cvGeneratedText);
+    setCvCopyFeedback(true);
+    setTimeout(() => setCvCopyFeedback(false), 2000);
+  };
+
+  const downloadCvDoc = () => {
+  const blob = new Blob(["\ufeff" + buildCvHtmlDocument()], { type: "application/msword;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    const baseName = cvFileName ? cvFileName.substring(0, cvFileName.lastIndexOf(".")) || cvFileName : "optimized-cv";
+    link.download = `${baseName}-optimized.doc`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const exportCvPdf = () => {
+    // Open a preview window with the selected template and trigger print
+    const html = buildCvHtmlDocument();
+    const w = window.open("", "_blank", "width=900,height=1100");
+    if (!w) {
+      setCvError("The browser blocked the PDF export window. Please allow popups and try again.");
+      return;
+    }
+    w.document.open();
+    w.document.write(html);
+    w.document.close();
+    w.focus();
+    setTimeout(() => w.print(), 500);
   };
 
   const handleLoadSample = (sample: SampleDocument) => {
@@ -2724,6 +3076,16 @@ export default function Home() {
             >
               {t.navWorkspace}
             </button>
+            <button
+              onClick={() => setActiveView("cv")}
+              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                activeView === "cv"
+                  ? "bg-[#C86432]/10 text-[#C86432]"
+                  : "text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
+              }`}
+            >
+              CV Builder
+            </button>
           </div>
         </div>
 
@@ -2858,6 +3220,19 @@ export default function Home() {
                     >
                       <Layers className="w-4 h-4" />
                       {t.navWorkspace}
+                    </button>
+                    <button
+                      onClick={() => { setActiveView("cv"); setIsMobileMenuOpen(false); }}
+                      className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold transition-all flex items-center gap-3 ${
+                        activeView === "cv"
+                          ? "bg-[#C86432] text-white"
+                          : isDarkMode
+                          ? "bg-[#1d1714] text-stone-300 border border-stone-800"
+                          : "bg-white text-stone-700 border border-stone-200"
+                      }`}
+                    >
+                      <Briefcase className="w-4 h-4" />
+                      CV Builder
                     </button>
                   </div>
 
@@ -3171,7 +3546,7 @@ export default function Home() {
               </section>
 
             </motion.div>
-          ) : (
+          ) : activeView === "workspace" ? (
             
             /* ORIGINAL INTELLECTUAL WORKSPACE WITH COZY PALETTE */
             <motion.div
@@ -3848,7 +4223,421 @@ export default function Home() {
                 </>
               )}
             </motion.div>
-          )}
+          ) : activeView === "cv" ? (
+            
+            /* CV BUILDER PAGE - Full-featured resume optimization */
+            <motion.div
+              key="cv-builder"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch"
+            >
+              {/* Left Column: CV Upload & Configuration */}
+              <section className="lg:col-span-5 flex flex-col gap-6" id="cv-upload-panel">
+                
+                {/* CV Upload Card */}
+                <div className={`rounded-3xl border p-6 flex flex-col gap-4 ${
+                  isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                }`}>
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#C86432] animate-pulse"></span>
+                      Upload Existing CV
+                    </h2>
+                    {cvFilePreview && (
+                      <button
+                        onClick={clearCvFile}
+                        className="text-[11px] font-bold text-rose-500 hover:text-white border border-rose-500/20 bg-rose-500/10 hover:bg-rose-600 px-2.5 py-1 rounded-lg transition-all cursor-pointer"
+                      >
+                        Clear
+                      </button>
+                    )}
+                  </div>
+
+                  <AnimatePresence mode="wait">
+                    {!cvFilePreview ? (
+                      <motion.div
+                        key="cv-dropzone"
+                        ref={cvDropRef}
+                        onDragOver={(e) => { e.preventDefault(); setCvDragOver(true); }}
+                        onDragLeave={() => setCvDragOver(false)}
+                        onDrop={handleCvDrop}
+                        onClick={() => cvFileInputRef.current?.click()}
+                        className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center min-h-[220px] ${
+                          cvDragOver
+                            ? "border-[#C86432] bg-[#C86432]/5"
+                            : isDarkMode
+                            ? "border-stone-800 bg-[#1d1714]/30 hover:bg-[#1d1714]/65"
+                            : "border-stone-200 bg-white/30 hover:bg-white"
+                        }`}
+                      >
+                        <input
+                          type="file"
+                          ref={cvFileInputRef}
+                          onChange={handleCvFileChange}
+                          className="hidden"
+                          accept="image/*,.pdf,.doc,.docx"
+                        />
+                        <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-3 border ${
+                          isDarkMode ? "bg-[#301c13] text-[#D97736] border-[#4a2e21]" : "bg-[#eeded5]/60 text-[#C86432] border-[#eeded5]"
+                        }`}>
+                          <FileText className="w-6 h-6" />
+                        </div>
+                        <p className="text-xs font-semibold">
+                          Drop your CV here, or <span className="text-[#C86432] underline">browse</span>
+                        </p>
+                        <p className={`text-[10px] mt-1 ${isDarkMode ? "text-stone-400" : "text-stone-500"}`}>
+                          PDF, DOC, DOCX, PNG, JPG (Max 10MB)
+                        </p>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="cv-preview"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="flex flex-col gap-3"
+                      >
+                        <div className={`p-3 rounded-2xl flex items-start justify-between gap-3 ${
+                          isDarkMode ? "bg-[#301c13]/50 border border-[#4a2e21]" : "bg-[#eeded5]/30 border border-[#eeded5]"
+                        }`}>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-bold truncate">{cvFileName}</p>
+                            <p className={`text-[10px] ${isDarkMode ? "text-stone-400" : "text-stone-500"}`}>{cvFileSize}</p>
+                          </div>
+                          <Check className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                        </div>
+                        {cvFilePreview && cvFilePreview.startsWith("data:image") && (
+                          <div className={`w-full h-32 rounded-xl border overflow-hidden ${isDarkMode ? "border-stone-800 bg-stone-950" : "border-stone-200 bg-white"}`}>
+                            <img src={cvFilePreview} alt="CV Preview" className="w-full h-full object-cover" />
+                          </div>
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Template Selector Card */}
+                <div className={`rounded-3xl border p-6 flex flex-col gap-4 ${
+                  isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                }`}>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-[#C86432] flex items-center gap-2">
+                    <Palette className="w-4 h-4" />
+                    Template Style
+                  </h3>
+                  <div className="flex flex-col gap-2">
+                    {CV_TEMPLATES.map((template) => (
+                      <button
+                        key={template.id}
+                        onClick={() => setCvTemplate(template.id)}
+                        className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                          cvTemplate === template.id
+                            ? "border-[#C86432] bg-[#C86432]/10"
+                            : isDarkMode
+                            ? "border-transparent bg-[#1d1714]/30 hover:bg-[#1d1714]/50"
+                            : "border-transparent bg-white shadow-3xs hover:bg-stone-50"
+                        }`}
+                      >
+                        <span className={`text-xs font-bold block ${cvTemplate === template.id ? "text-[#C86432]" : ""}`}>
+                          {template.name}
+                        </span>
+                        <span className="text-[10px] text-stone-500 block mt-1 leading-tight">{template.desc}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CV Customization Card */}
+                <div className={`rounded-3xl border p-6 flex flex-col gap-4 ${
+                  isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                }`}>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-[#C86432] flex items-center gap-2">
+                    <Sparkles className="w-4 h-4" />
+                    Optimization Settings
+                  </h3>
+
+                  {/* Tone */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">Tone</label>
+                    <select
+                      value={cvTone}
+                      onChange={(e) => setCvTone(e.target.value)}
+                      className={`w-full p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                        isDarkMode ? "border-[#332822] bg-[#1a1412] text-white" : "border-[#eeded5] bg-white text-[#3c2f2f]"
+                      }`}
+                    >
+                      <option>Confident professional</option>
+                      <option>Bold leadership</option>
+                      <option>Technical expert</option>
+                      <option>Creative innovator</option>
+                      <option>Strategic thinker</option>
+                      <option>Collaborative team player</option>
+                    </select>
+                  </div>
+
+                  {/* Seniority Level */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">Seniority Level</label>
+                    <select
+                      value={cvSeniority}
+                      onChange={(e) => setCvSeniority(e.target.value)}
+                      className={`w-full p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                        isDarkMode ? "border-[#332822] bg-[#1a1412] text-white" : "border-[#eeded5] bg-white text-[#3c2f2f]"
+                      }`}
+                    >
+                      <option>Adaptive</option>
+                      <option>Junior (0-3 years)</option>
+                      <option>Mid-level (3-6 years)</option>
+                      <option>Senior (6-10 years)</option>
+                      <option>Executive (10+ years)</option>
+                    </select>
+                  </div>
+
+                  {/* Focus Areas - Multi-select */}
+                  <div className="flex flex-col gap-2 border-t border-[#eeded5] dark:border-[#332822] pt-3">
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400 flex items-center gap-2">
+                      <Target className="w-3.5 h-3.5" />
+                      Focus Areas
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {CV_FOCUS_AREAS.map((area) => (
+                        <button
+                          key={area}
+                          onClick={() => toggleCvFocusArea(area)}
+                          className={`p-2.5 rounded-lg border text-[11px] font-bold text-left transition-all cursor-pointer ${
+                            cvFocusAreas.includes(area)
+                              ? "border-[#C86432] bg-[#C86432]/10 text-[#C86432]"
+                              : isDarkMode
+                              ? "border-transparent bg-[#1d1714]/30 text-stone-400 hover:bg-[#1d1714]/50"
+                              : "border-transparent bg-white text-stone-600 shadow-xs hover:bg-stone-50"
+                          }`}
+                        >
+                          <div className="flex items-center gap-1.5">
+                            <div className={`w-3 h-3 rounded border ${cvFocusAreas.includes(area) ? "bg-[#C86432] border-[#C86432]" : isDarkMode ? "border-stone-700" : "border-stone-300"}`} />
+                            <span>{area}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Custom Request */}
+                  <div className="flex flex-col gap-1.5 border-t border-[#eeded5] dark:border-[#332822] pt-3">
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">Additional Notes</label>
+                    <textarea
+                      value={cvCustomRequest}
+                      onChange={(e) => setCvCustomRequest(e.target.value)}
+                      placeholder="E.g., 'Add missing degrees', 'Emphasize remote work', 'Add metrics'"
+                      maxLength={500}
+                      className={`w-full p-2.5 rounded-xl border text-xs resize-none h-20 focus:outline-hidden focus:ring-1 focus:ring-[#C86432] ${
+                        isDarkMode ? "border-stone-800 bg-[#14100e] text-white placeholder-stone-600" : "border-stone-200 bg-white text-stone-800 placeholder-stone-400"
+                      }`}
+                    />
+                    <span className="text-[9px] text-stone-400">{cvCustomRequest.length}/500</span>
+                  </div>
+                </div>
+              </section>
+
+              {/* Right Column: Target Positions & Results */}
+              <section className="lg:col-span-7 flex flex-col gap-6" id="cv-result-panel">
+                
+                {/* Target Positions Card */}
+                <div className={`rounded-3xl border p-6 flex flex-col gap-4 ${
+                  isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                }`}>
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xs font-bold uppercase tracking-widest text-[#C86432] flex items-center gap-2">
+                      <Briefcase className="w-4 h-4" />
+                      Target Positions
+                    </h3>
+                    <div className="flex items-center gap-2">
+                      <span className={`text-[10px] font-bold px-2 py-1 rounded-full ${
+                        cvSelectedPositions.length > 0 ? "bg-emerald-500/20 text-emerald-600" : "bg-amber-500/20 text-amber-600"
+                      }`}>
+                        {cvSelectedPositions.length} selected
+                      </span>
+                      <button
+                        onClick={() => setCvSelectedPositions([])}
+                        className="text-[11px] font-bold text-stone-500 hover:text-stone-800 border border-stone-200 px-2 py-1 rounded-lg transition-all"
+                      >
+                        Clear
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[480px] overflow-y-auto pr-2">
+                    {CV_POSITION_CATEGORIES.map((position) => (
+                      <button
+                        key={position}
+                        onClick={() => toggleCvPosition(position)}
+                        className={`p-2.5 rounded-xl border text-left text-xs font-bold transition-all cursor-pointer flex items-start gap-2 ${
+                          cvSelectedPositions.includes(position)
+                            ? "border-[#C86432] bg-[#C86432]/10 text-[#C86432]"
+                            : isDarkMode
+                            ? "border-transparent bg-[#1d1714]/30 text-stone-400 hover:bg-[#1d1714]/50"
+                            : "border-transparent bg-white text-stone-600 shadow-xs hover:bg-stone-50"
+                        }`}
+                      >
+                        <div className={`w-4 h-4 rounded border mt-0.5 flex-shrink-0 flex items-center justify-center ${
+                          cvSelectedPositions.includes(position)
+                            ? "bg-[#C86432] border-[#C86432]"
+                            : isDarkMode
+                            ? "border-stone-700"
+                            : "border-stone-300"
+                        }`}>
+                          {cvSelectedPositions.includes(position) && <Check className="w-2.5 h-2.5 text-white" />}
+                        </div>
+                        <span>{position}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Output Area */}
+                <div className={`rounded-3xl border flex flex-col h-full min-h-[400px] ${
+                  isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                }`}>
+                  
+                  {!cvGeneratedText ? (
+                    <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 border ${
+                        isDarkMode ? "bg-[#301c13] text-[#D97736] border-[#4a2e21]" : "bg-[#eeded5] text-[#C86432] border-[#eeded5]"
+                      }`}>
+                        <Award className="w-5 h-5" />
+                      </div>
+                      <h3 className="text-sm font-bold">Optimized CV Ready</h3>
+                      <p className={`text-xs max-w-sm mt-1.5 leading-relaxed ${isDarkMode ? "text-stone-400" : "text-stone-500"}`}>
+                        Upload your CV, select target positions, and generate an AI-optimized version tailored to your desired roles.
+                      </p>
+                      <button
+                        onClick={handleGenerateCv}
+                        disabled={!cvFilePreview || cvSelectedPositions.length === 0 || cvIsGenerating}
+                        className="mt-6 px-6 py-3 rounded-xl font-bold text-sm bg-[#C86432] hover:bg-[#aa5328] disabled:bg-stone-300 disabled:text-stone-500 text-white transition-all shadow-lg shadow-[#C86432]/10 hover:shadow-[#C86432]/20 hover:scale-[1.01] flex items-center gap-2 cursor-pointer"
+                      >
+                        <Sparkles className="w-4 h-4" />
+                        {cvIsGenerating ? "Optimizing..." : "Generate Optimized CV"}
+                      </button>
+                    </div>
+                  ) : cvIsGenerating ? (
+                    <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-10">
+                      <div className="w-full max-w-xl">
+                        <div className="relative mb-4 flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full border-4 border-transparent border-t-[#C86432] animate-spin" />
+                            <div>
+                              <div className="text-sm font-bold">Optimizing your CV</div>
+                              <div className="text-[11px] text-stone-500">AI is tailoring your resume for the selected positions...</div>
+                            </div>
+                          </div>
+                          <div className="text-[11px] text-stone-400">{cvSelectedPositions.length} positions</div>
+                        </div>
+
+                        <div className="w-full bg-stone-200 h-3 rounded-full overflow-hidden mb-2">
+                          <div className="h-full bg-[#C86432]" style={{ width: `${Math.min(100, Math.round(((cvTrackerStep + 1) / 5) * 100))}%` }} />
+                        </div>
+                        <div className="flex justify-between text-[11px] text-stone-500">
+                          <div>{Math.min(100, Math.round(((cvTrackerStep + 1) / 5) * 100))}%</div>
+                          <div className="uppercase text-[10px]">{(t.trackerSteps || [])[cvTrackerStep] || "Finishing"}</div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex-1 flex flex-col min-h-0">
+                      {/* Header with stats */}
+                      <div className={`p-4 border-b flex items-center justify-between gap-3 ${
+                        isDarkMode ? "border-[#332822] bg-[#1c1411]" : "border-[#eeded5] bg-[#FAF6F0]"
+                      }`}>
+                        <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10px] text-stone-500 font-bold uppercase">
+                          <span className="bg-emerald-500/10 text-emerald-600 px-2 py-1 rounded-lg">✓ Generated</span>
+                          <span className="bg-[#C86432]/10 text-[#C86432] px-2 py-1 rounded-lg">{cvSelectedPositions.length} Positions</span>
+                        </div>
+                        <button
+                          onClick={() => setCvGeneratedText("")}
+                          className="text-[11px] font-bold text-[#C86432] hover:text-white border border-[#C86432]/20 bg-[#C86432]/10 hover:bg-[#C86432] px-2.5 py-1 rounded-lg transition-all cursor-pointer"
+                        >
+                          Start Over
+                        </button>
+                      </div>
+
+                      {/* Output Text Area */}
+                      <div className={`flex-1 overflow-hidden p-4 max-h-[420px] text-xs leading-relaxed ${isDarkMode ? "text-stone-200" : "text-stone-800"}`}>
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => setCvPreviewMode("preview")}
+                              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${cvPreviewMode === "preview" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-900/20 text-stone-300" : "bg-white text-stone-700"}`}
+                            >
+                              Preview
+                            </button>
+                            <button
+                              onClick={() => setCvPreviewMode("text")}
+                              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${cvPreviewMode === "text" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-900/20 text-stone-300" : "bg-white text-stone-700"}`}
+                            >
+                              Text
+                            </button>
+                          </div>
+                          <div className="text-[10px] text-stone-400">Template: <span className="font-bold">{CV_TEMPLATES.find((t)=>t.id===cvTemplate)?.name}</span></div>
+                        </div>
+
+                        {cvPreviewMode === "preview" ? (
+                          <div className={`w-full h-[360px] rounded-xl border overflow-hidden ${isDarkMode ? "border-stone-800 bg-stone-950" : "border-stone-200 bg-white"}`}>
+                            <iframe
+                              title="cv-preview"
+                              srcDoc={buildCvHtmlDocument()}
+                              className="w-full h-full"
+                            />
+                          </div>
+                        ) : (
+                          <div className={`p-4 rounded-xl border whitespace-pre-wrap font-sans text-xs leading-relaxed selection:bg-[#C86432] ${
+                            isDarkMode ? "border-stone-800 bg-stone-950 text-stone-200" : "border-stone-200 bg-stone-50 text-stone-800"
+                          }`}>
+                            {cvEditedText || cvGeneratedText}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Export Toolbar */}
+                      <div className={`p-4 border-t flex flex-wrap items-center justify-between gap-3 ${
+                        isDarkMode ? "border-[#332822] bg-[#1d1714]/60" : "border-[#eeded5] bg-[#FAF6F0]"
+                      }`}>
+                        <button
+                          onClick={copyCvText}
+                          className="px-3 py-1.5 border border-[#eeded5] dark:border-[#332822] text-xs font-bold rounded-xl hover:bg-stone-50 dark:hover:bg-stone-900 cursor-pointer text-[#C86432] transition-all"
+                        >
+                          {cvCopyFeedback ? "✓ Copied!" : "Copy Text"}
+                        </button>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={downloadCvDoc}
+                            className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition-all flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                            Export .DOC
+                          </button>
+                          <button
+                            onClick={exportCvPdf}
+                            className="px-3.5 py-1.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-lg transition-all flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                            Export .PDF
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {cvError && (
+                    <div className="p-4 bg-rose-500/10 text-rose-800 dark:text-rose-200 text-xs font-bold rounded-xl font-mono flex items-start gap-2 m-4 mt-auto">
+                      <AlertCircle className="w-4 h-4 text-rose-500 mt-0.5 flex-shrink-0" />
+                      <span>{cvError}</span>
+                    </div>
+                  )}
+                </div>
+              </section>
+            </motion.div>
+          ) : null}
         </AnimatePresence>
 
       </div>
