@@ -20,6 +20,9 @@ const nextConfig: NextConfig = {
     ],
   },
   output: 'export',
+  basePath: '/GLYPHAI',        // ← replace with actual repo name
+  assetPrefix: '/GLYPHAI',    // ← same
+  trailingSlash: true,
   transpilePackages: ['motion'],
   webpack: (config, {dev}) => {
     // HMR is disabled in AI Studio via DISABLE_HMR env var.
