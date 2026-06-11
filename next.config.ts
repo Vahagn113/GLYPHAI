@@ -18,10 +18,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  output: 'export',
-  basePath: '/GLYPHAI',
-  assetPrefix: '/GLYPHAI/',
-  trailingSlash: true,
   transpilePackages: ['motion'],
   webpack: (config, {dev}) => {
     if (dev && process.env.DISABLE_HMR === 'true') {
