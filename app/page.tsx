@@ -2449,6 +2449,8 @@ export default function Home() {
   const [simText, setSimText] = useState<string>(DEMO_PRESETS[0].raw);
   // Simulator scope: 'extraction' shows extraction desk simulator; 'cv' shows CV Builder simulator
   const [simScope, setSimScope] = useState<"extraction" | "cv">("extraction");
+  // HTML preview for CV simulator (renders template-styled preview)
+  const [simPreviewHtml, setSimPreviewHtml] = useState<string>("");
 
   // CV Builder states
   const [cvFilePreview, setCvFilePreview] = useState<string>("");
@@ -2500,6 +2502,33 @@ export default function Home() {
       setSimIsLoading(false);
     }, 250);
   };
+
+  // Build a full HTML preview for a CV markdown and template id
+  const buildCvPreviewHtml = (md: string, tplId: string) => {
+    const body = convertCvMarkdownToHtml(md);
+    const templateName = CV_TEMPLATES.find((item) => item.id === tplId)?.name || "Modern ATS";
+    const templateStyles: Record<string, string> = {
+      "modern-ats": `body{font-family:Inter, Arial, sans-serif;color:#2f2925;margin:24px;line-height:1.45}h1{font-size:20px;color:#1f2937;margin:0 0 6px}h2{color:#C86432;font-size:11px;text-transform:uppercase;margin-top:12px;border-bottom:1px solid #fde8dc;padding-bottom:6px}p{font-size:12px;margin:0 0 8px}`,
+      "executive": `body{font-family:Georgia, serif;color:#111827;margin:32px;background:#fff}h1{font-family:Georgia, serif;color:#0f172a;font-size:24px;margin:0 0 4px}h2{color:#0f172a;font-size:12px;border-left:4px solid #cbd5e1;padding-left:10px;margin-top:10px}p{font-size:13px;margin:0 0 8px}`,
+      "technical": `body{font-family:JetBrains Mono, ui-monospace, monospace;color:#0b1220;margin:20px;background:#f8fafc}h1{font-size:18px;color:#0b1220;border-bottom:2px dashed #e6edf3;padding-bottom:8px}h2{color:#0b1220;font-size:11px;margin-top:10px}p{font-size:12px;margin:0 0 6px}`,
+      "creative": `body{font-family:Space Grotesk, Arial, sans-serif;color:#1b1b1b;margin:24px}h1{font-size:22px;color:#6b21a8;margin:0 0 8px}h2{color:#6b21a8;font-size:11px;margin-top:8px}p{font-size:13px;margin:0 0 8px}`,
+      "graduate": `body{font-family:Inter, Arial, sans-serif;color:#222;margin:24px}h1{font-size:20px;color:#0f172a;margin:0 0 6px}h2{color:#0f172a;font-size:11px;margin-top:10px}p{font-size:12px;margin:0 0 6px}`,
+    };
+
+    const css = templateStyles[tplId] || templateStyles["modern-ats"];
+
+    return `<!doctype html><html><head><meta charset='utf-8'/><meta name='viewport' content='width=device-width,initial-scale=1' /><title>${templateName}</title><style>${css}.bullet{margin-left:14px}</style></head><body><div class='meta' style='color:#8b7569;font-size:9px;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.08em'>${templateName} · CV Demo</div>${body}</body></html>`;
+  };
+
+  // Keep CV simulator preview in sync when sample or template changes
+  useEffect(() => {
+    if (simScope !== "cv") return;
+    const p = CV_DEMO_PRESETS[simSelectedPreset % CV_DEMO_PRESETS.length];
+    const html = buildCvPreviewHtml(p.markdown, cvTemplate);
+    setSimPreviewHtml(html);
+    // also keep simText markdown in sync
+    setSimText(p.markdown);
+  }, [simScope, simSelectedPreset, cvTemplate]);
 
   const handleLoadCvSimulatedToBuilder = (idx: number) => {
     const p = CV_DEMO_PRESETS[idx % CV_DEMO_PRESETS.length];
@@ -3666,9 +3695,15 @@ export default function Home() {
                               {simScope === "extraction" ? (
                                 <div className="whitespace-pre-wrap select-text selection:bg-[#C86432]">{simText}</div>
                               ) : (
-                                <div className={`p-4 rounded-xl border ${isDarkMode ? "border-stone-800 bg-stone-950 text-stone-200" : "border-stone-200 bg-stone-50 text-stone-800"}`}>
-                                  <h3 className="text-sm font-bold mb-2">{CV_DEMO_PRESETS[simSelectedPreset % CV_DEMO_PRESETS.length].name}</h3>
-                                  <pre className="whitespace-pre-wrap text-xs">{simText}</pre>
+                                <div className="w-full h-[340px] rounded-xl overflow-hidden border">
+                                  {simPreviewHtml ? (
+                                    <iframe title="cv-sim-preview" srcDoc={simPreviewHtml} className="w-full h-full" />
+                                  ) : (
+                                    <div className={`p-4 rounded-xl border ${isDarkMode ? "border-stone-800 bg-stone-950 text-stone-200" : "border-stone-200 bg-stone-50 text-stone-800"}`}>
+                                      <h3 className="text-sm font-bold mb-2">{CV_DEMO_PRESETS[simSelectedPreset % CV_DEMO_PRESETS.length].name}</h3>
+                                      <pre className="whitespace-pre-wrap text-xs">{simText}</pre>
+                                    </div>
+                                  )}
                                 </div>
                               )}
                             </motion.div>
