@@ -664,6 +664,26 @@ const DEMO_PRESETS: DemoPreset[] = [
   }
 ];
 
+// Small set of CV demo presets used for the homepage CV Builder simulator
+interface CvDemoPreset {
+  name: string;
+  illustration: string;
+  markdown: string;
+}
+
+const CV_DEMO_PRESETS: CvDemoPreset[] = [
+  {
+    name: "Data Analyst - Sample CV",
+    illustration: `<svg viewBox="0 0 100 100" class="w-24 h-24 text-amber-700/80"><rect width="80" height="90" x="10" y="5" rx="5" fill="#FAF6F0" stroke="#eeded5" stroke-width="2"/></svg>`,
+    markdown: `# Jane Doe\n\n**Data Analyst** · jane.doe@example.com · (555) 555-0100\n\n## Summary\nAnalytical Data Analyst with 4 years of experience turning raw data into actionable insights. Skilled in SQL, Python, and dashboarding.\n\n## Experience\n- **Data Analyst**, ACME Corp (2021 - Present) — Improved reporting pipelines, reduced query time by 30%.\n\n## Education\n- B.Sc. in Statistics, State University (2019)`
+  },
+  {
+    name: "Product Manager - Sample CV",
+    illustration: `<svg viewBox="0 0 100 100" class="w-24 h-24 text-amber-700/80"><rect width="80" height="90" x="10" y="5" rx="5" fill="#FAF6F0" stroke="#eeded5" stroke-width="2"/></svg>`,
+    markdown: `# Alex Smith\n\n**Product Manager** · alex.smith@example.com · (555) 555-0123\n\n## Summary\nProduct Manager with experience leading cross-functional teams and launching mobile products used by 200k+ users.\n\n## Experience\n- **PM**, FutureApps (2019 - Present) — Led roadmap and GTM for subscription product.`
+  }
+];
+
 // Theme-aware tokens for structured result cards (light + dark must always pair)
 const SR = {
   surface: "bg-white dark:bg-[#1a1412]",
@@ -2427,6 +2447,8 @@ export default function Home() {
   const [simSelectedMode, setSimSelectedMode] = useState<string>("raw");
   const [simIsLoading, setSimIsLoading] = useState<boolean>(false);
   const [simText, setSimText] = useState<string>(DEMO_PRESETS[0].raw);
+  // Simulator scope: 'extraction' shows extraction desk simulator; 'cv' shows CV Builder simulator
+  const [simScope, setSimScope] = useState<"extraction" | "cv">("extraction");
 
   // CV Builder states
   const [cvFilePreview, setCvFilePreview] = useState<string>("");
@@ -2453,8 +2475,13 @@ export default function Home() {
     setSimSelectedPreset(idx);
     setSimIsLoading(true);
     setTimeout(() => {
-      const p = DEMO_PRESETS[idx];
-      setSimText(p[simSelectedMode as keyof DemoPreset] || p.raw);
+      if (simScope === "extraction") {
+        const p = DEMO_PRESETS[idx];
+        setSimText(p[simSelectedMode as keyof DemoPreset] || p.raw);
+      } else {
+        const p = CV_DEMO_PRESETS[idx % CV_DEMO_PRESETS.length];
+        setSimText(p.markdown);
+      }
       setSimIsLoading(false);
     }, 250);
   };
@@ -2463,10 +2490,29 @@ export default function Home() {
     setSimSelectedMode(mode);
     setSimIsLoading(true);
     setTimeout(() => {
-      const p = DEMO_PRESETS[simSelectedPreset];
-      setSimText(p[mode as keyof DemoPreset] || p.raw);
+      if (simScope === "extraction") {
+        const p = DEMO_PRESETS[simSelectedPreset];
+        setSimText(p[mode as keyof DemoPreset] || p.raw);
+      } else {
+        const p = CV_DEMO_PRESETS[simSelectedPreset % CV_DEMO_PRESETS.length];
+        setSimText(p.markdown);
+      }
       setSimIsLoading(false);
     }, 250);
+  };
+
+  const handleLoadCvSimulatedToBuilder = (idx: number) => {
+    const p = CV_DEMO_PRESETS[idx % CV_DEMO_PRESETS.length];
+    // set a small svg preview and fill the CV editor/preview with markdown
+    const svgPreview = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='250'><rect width='100%' height='100%' fill='%23FAF6F0'/><text x='20' y='120' font-family='sans-serif' font-size='16' fill='%235A4A42'>${p.name}</text></svg>`;
+    setCvFilePreview(svgPreview);
+    setCvFileName(`${p.name}.md`);
+    setCvFileMimeType("text/markdown");
+    setCvFileSize("12 KB");
+    setCvGeneratedText(p.markdown);
+    setCvEditedText(p.markdown);
+    // navigate user to CV builder view
+    setActiveView("cv");
   };
 
   const dropRef = useRef<HTMLDivElement>(null);
@@ -3387,65 +3433,143 @@ export default function Home() {
                     <div className={`p-6 rounded-3xl border flex flex-col gap-4 ${
                       isDarkMode ? "bg-[#1d1714]/60 border-[#332822]" : "bg-white/60 border-[#eeded5]"
                     }`}>
-                      <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#C86432]">1. Select Document Template</h3>
-                      
-                      <div className="flex flex-col gap-2.5">
-                        {DEMO_PRESETS.map((preset, idx) => (
-                          <button
-                            key={idx}
-                            onClick={() => selectSimPreset(idx)}
-                            className={`p-3 rounded-2xl border text-left transition-all flex items-center gap-4 cursor-pointer ${
-                              simSelectedPreset === idx
-                                ? "border-[#C86432] bg-[#C86432]/5 shadow-sm"
-                                : isDarkMode
-                                ? "border-transparent bg-[#1d1714]/40 hover:bg-[#1d1714]"
-                                : "border-transparent bg-white/40 hover:bg-white"
-                            }`}
-                          >
-                            <div className="bg-[#eeded5]/40 dark:bg-stone-800 p-1.5 rounded-xl shrink-0" dangerouslySetInnerHTML={{ __html: preset.illustration }} />
-                            <div className="truncate">
-                              <span className="text-xs font-bold block">{preset.name}</span>
-                              <span className="text-[10px] text-stone-500 dark:text-stone-400">Preset Interactive Simulation File</span>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setSimScope("extraction")}
+                          className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
+                            simScope === "extraction" ? "bg-[#C86432] text-white" : "bg-stone-100 dark:bg-stone-900 text-stone-600"
+                          }`}
+                        >
+                          Extraction Desk
+                        </button>
+                        <button
+                          onClick={() => setSimScope("cv")}
+                          className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
+                            simScope === "cv" ? "bg-[#C86432] text-white" : "bg-stone-100 dark:bg-stone-900 text-stone-600"
+                          }`}
+                        >
+                          CV Builder
+                        </button>
+                      </div>
+
+                      {simScope === "extraction" ? (
+                        <>
+                          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#C86432]">1. Select Document Template</h3>
+                          <div className="flex flex-col gap-2.5">
+                            {DEMO_PRESETS.map((preset, idx) => (
+                              <button
+                                key={idx}
+                                onClick={() => selectSimPreset(idx)}
+                                className={`p-3 rounded-2xl border text-left transition-all flex items-center gap-4 cursor-pointer ${
+                                  simSelectedPreset === idx
+                                    ? "border-[#C86432] bg-[#C86432]/5 shadow-sm"
+                                    : isDarkMode
+                                    ? "border-transparent bg-[#1d1714]/40 hover:bg-[#1d1714]"
+                                    : "border-transparent bg-white/40 hover:bg-white"
+                                }`}
+                              >
+                                <div className="bg-[#eeded5]/40 dark:bg-stone-800 p-1.5 rounded-xl shrink-0" dangerouslySetInnerHTML={{ __html: preset.illustration }} />
+                                <div className="truncate">
+                                  <span className="text-xs font-bold block">{preset.name}</span>
+                                  <span className="text-[10px] text-stone-500 dark:text-stone-400">Preset Interactive Simulation File</span>
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+
+                          {/* Formula Selector */}
+                          <div className="border-t border-[#eeded5] dark:border-[#332822] pt-4 mt-2">
+                            <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2.5 text-[#C86432]">2. Choose Formula Mode</h3>
+                            <div className="flex flex-wrap gap-2">
+                              {["raw", "layout", "transcript", "summary", "key-value"].map((mode) => (
+                                <button
+                                  key={mode}
+                                  onClick={() => selectSimMode(mode)}
+                                  className={`py-1.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                                    simSelectedMode === mode
+                                      ? "bg-[#C86432] text-white"
+                                      : isDarkMode
+                                      ? "bg-[#1d1714]/30 hover:bg-[#1d1714]/85 text-[#cbb9af]"
+                                      : "bg-white/40 hover:bg-white text-[#7d6b60]"
+                                  }`}
+                                >
+                                  {t.modes[mode] || mode}
+                                </button>
+                              ))}
                             </div>
+                          </div>
+
+                          <button
+                            onClick={handleLoadSimulatedToWorkspace}
+                            className="w-full mt-4 py-3 bg-[#C86432] hover:bg-[#aa5328] text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer"
+                          >
+                            <Sparkles className="w-4 h-4 text-amber-200" />
+                            <span>{t.homeDemoLoad}</span>
                           </button>
-                        ))}
-                      </div>
+                        </>
+                      ) : (
+                        <>
+                          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#C86432]">1. Select CV Sample</h3>
+                          <div className="flex flex-col gap-2.5">
+                            {CV_DEMO_PRESETS.map((preset, idx) => (
+                              <button
+                                key={idx}
+                                onClick={() => { setSimSelectedPreset(idx); selectSimPreset(idx); }}
+                                className={`p-3 rounded-2xl border text-left transition-all flex items-center gap-4 cursor-pointer ${
+                                  simSelectedPreset === idx
+                                    ? "border-[#C86432] bg-[#C86432]/5 shadow-sm"
+                                    : isDarkMode
+                                    ? "border-transparent bg-[#1d1714]/40 hover:bg-[#1d1714]"
+                                    : "border-transparent bg-white/40 hover:bg-white"
+                                }`}
+                              >
+                                <div className="bg-[#eeded5]/40 dark:bg-stone-800 p-1.5 rounded-xl shrink-0" dangerouslySetInnerHTML={{ __html: preset.illustration }} />
+                                <div className="truncate">
+                                  <span className="text-xs font-bold block">{preset.name}</span>
+                                  <span className="text-[10px] text-stone-500 dark:text-stone-400">Sample CV markdown</span>
+                                </div>
+                              </button>
+                            ))}
+                          </div>
 
-                      {/* Formula Selector */}
-                      <div className="border-t border-[#eeded5] dark:border-[#332822] pt-4 mt-2">
-                        <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2.5 text-[#C86432]">2. Choose Formula Mode</h3>
-                        <div className="flex flex-wrap gap-2">
-                          {["raw", "layout", "transcript", "summary", "key-value"].map((mode) => (
-                            <button
-                              key={mode}
-                              onClick={() => selectSimMode(mode)}
-                              className={`py-1.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                                simSelectedMode === mode
-                                  ? "bg-[#C86432] text-white"
-                                  : isDarkMode
-                                  ? "bg-[#1d1714]/30 hover:bg-[#1d1714]/85 text-[#cbb9af]"
-                                  : "bg-white/40 hover:bg-white text-[#7d6b60]"
-                              }`}
-                            >
-                              {t.modes[mode] || mode}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
+                          <div className="border-t border-[#eeded5] dark:border-[#332822] pt-4 mt-2">
+                            <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2.5 text-[#C86432]">2. Template Preview</h3>
+                            <div className="flex flex-wrap gap-2">
+                              {CV_TEMPLATES.map((tpl) => (
+                                <button
+                                  key={tpl.id}
+                                  onClick={() => setCvTemplate(tpl.id)}
+                                  className={`py-1.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                                    cvTemplate === tpl.id
+                                      ? "bg-[#C86432] text-white"
+                                      : isDarkMode
+                                      ? "bg-[#1d1714]/30 hover:bg-[#1d1714]/85 text-[#cbb9af]"
+                                      : "bg-white/40 hover:bg-white text-[#7d6b60]"
+                                  }`}
+                                >
+                                  {tpl.name}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
 
-                      <button
-                        onClick={handleLoadSimulatedToWorkspace}
-                        className="w-full mt-4 py-3 bg-[#C86432] hover:bg-[#aa5328] text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer"
-                      >
-                        <Sparkles className="w-4 h-4 text-amber-200" />
-                        <span>{t.homeDemoLoad}</span>
-                      </button>
+                          <button
+                            onClick={() => handleLoadCvSimulatedToBuilder(simSelectedPreset)}
+                            className="w-full mt-4 py-3 bg-[#C86432] hover:bg-[#aa5328] text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer"
+                          >
+                            <BookOpen className="w-4 h-4 text-amber-200" />
+                            <span>Load to CV Builder</span>
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
 
                   {/* Simulated terminal result output (Right) */}
                   <div className="lg:col-span-7 flex flex-col">
-                    <div className="bg-[#110D0B] border border-[#2A1E19] text-amber-100 rounded-3xl p-6 flex flex-col h-full min-h-[350px] shadow-2xl relative overflow-hidden">
+                    <div className={`rounded-3xl p-6 flex flex-col h-full min-h-[350px] shadow-2xl relative overflow-hidden ${
+                      simScope === "extraction" ? "bg-[#110D0B] border border-[#2A1E19] text-amber-100" : isDarkMode ? "bg-[#1d1714]/60 border-[#332822] text-stone-100" : "bg-white border-[#eeded5] text-stone-800"
+                    }`}>
                       <div className="flex items-center justify-between border-b border-[#2A1E19] pb-3 mb-4">
                         <div className="flex items-center gap-2">
                           <span className="w-3 h-3 rounded-full bg-rose-500"></span>
@@ -3469,20 +3593,22 @@ export default function Home() {
                               <span>{t.homeDemoSimulating}</span>
                             </motion.div>
                           ) : (
-                            <motion.div
-                              key="simtext"
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              className="whitespace-pre-wrap select-text selection:bg-[#C86432]"
-                            >
-                              {simText}
+                            <motion.div key="simtext" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="whitespace-pre-wrap select-text selection:bg-[#C86432]">
+                              {simScope === "extraction" ? (
+                                <div className="whitespace-pre-wrap select-text selection:bg-[#C86432]">{simText}</div>
+                              ) : (
+                                <div className={`p-4 rounded-xl border ${isDarkMode ? "border-stone-800 bg-stone-950 text-stone-200" : "border-stone-200 bg-stone-50 text-stone-800"}`}>
+                                  <h3 className="text-sm font-bold mb-2">{CV_DEMO_PRESETS[simSelectedPreset % CV_DEMO_PRESETS.length].name}</h3>
+                                  <pre className="whitespace-pre-wrap text-xs">{simText}</pre>
+                                </div>
+                              )}
                             </motion.div>
                           )}
                         </AnimatePresence>
                       </div>
 
                       <div className="absolute bottom-3 right-3 bg-[#C86432]/10 text-[#D97736] px-2 py-0.5 rounded text-[9px] font-bold border border-[#C86432]/20">
-                        {simSelectedMode.toUpperCase()} VIEW
+                        {simScope === "extraction" ? simSelectedMode.toUpperCase() + " VIEW" : "CV SAMPLE"}
                       </div>
                     </div>
                   </div>
