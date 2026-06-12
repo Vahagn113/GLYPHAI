@@ -3348,43 +3348,78 @@ export default function Home() {
               transition={{ duration: 0.3 }}
               className="flex flex-col gap-16 py-4"
             >
-              {/* Cozy Hero Container */}
-              <section className="text-center max-w-4xl mx-auto flex flex-col items-center pt-6 pb-2 gap-5">
-                <span className={`text-[10px] uppercase font-mono px-3 py-1 rounded-full font-bold tracking-widest ${
-                  isDarkMode ? "bg-[#301c13] text-[#D97736]" : "bg-[#eeded5] text-[#C86432]"
-                }`}>
-                  Multimodal Document Engine
-                </span>
-                <h1 className="text-3xl sm:text-5xl font-display font-extrabold tracking-tight leading-tight">
-                  {t.homeHeroTitle}
-                </h1>
-                <p className={`text-sm sm:text-base leading-relaxed max-w-2xl ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
-                  {t.homeHeroSub}
-                </p>
-                <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
-                  <button
-                    onClick={() => setActiveView("workspace")}
-                    className="px-6 py-3.5 rounded-xl font-bold text-sm bg-[#C86432] hover:bg-[#aa5328] text-white transition-all shadow-lg shadow-[#C86432]/10 hover:shadow-[#C86432]/20 hover:scale-[1.01] flex items-center gap-2 cursor-pointer"
-                  >
-                    <span>{t.homeBtnLaunch}</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                  <a
-                    href="#simulator"
-                    className={`px-6 py-3.5 rounded-xl font-bold text-sm border transition-all flex items-center gap-1.5 cursor-pointer ${
-                      isDarkMode
-                        ? "border-[#332822] bg-[#1d1714]/60 text-[#cbb9af] hover:text-white"
-                        : "border-[#eeded5] bg-white/60 text-[#7d6b60] hover:text-[#3c2f2f]"
-                    }`}
-                  >
-                    <Zap className="w-3.5 h-3.5 text-[#C86432]" />
-                    <span>{t.homeBtnDemo}</span>
-                  </a>
-                </div>
-              </section>
+              {/* Cozy Hero Container (switches by simScope) */}
+              {simScope === "extraction" ? (
+                <section className="text-center max-w-4xl mx-auto flex flex-col items-center pt-6 pb-2 gap-5">
+                  <span className={`text-[10px] uppercase font-mono px-3 py-1 rounded-full font-bold tracking-widest ${
+                    isDarkMode ? "bg-[#301c13] text-[#D97736]" : "bg-[#eeded5] text-[#C86432]"
+                  }`}>
+                    Multimodal Document Engine
+                  </span>
+                  <h1 className="text-3xl sm:text-5xl font-display font-extrabold tracking-tight leading-tight">
+                    {t.homeHeroTitle}
+                  </h1>
+                  <p className={`text-sm sm:text-base leading-relaxed max-w-2xl ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
+                    {t.homeHeroSub}
+                  </p>
+                  <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
+                    <button
+                      onClick={() => setActiveView("workspace")}
+                      className="px-6 py-3.5 rounded-xl font-bold text-sm bg-[#C86432] hover:bg-[#aa5328] text-white transition-all shadow-lg shadow-[#C86432]/10 hover:shadow-[#C86432]/20 hover:scale-[1.01] flex items-center gap-2 cursor-pointer"
+                    >
+                      <span>{t.homeBtnLaunch}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                    <a
+                      href="#simulator"
+                      className={`px-6 py-3.5 rounded-xl font-bold text-sm border transition-all flex items-center gap-1.5 cursor-pointer ${
+                        isDarkMode
+                          ? "border-[#332822] bg-[#1d1714]/60 text-[#cbb9af] hover:text-white"
+                          : "border-[#eeded5] bg-white/60 text-[#7d6b60] hover:text-[#3c2f2f]"
+                      }`}
+                    >
+                      <Zap className="w-3.5 h-3.5 text-[#C86432]" />
+                      <span>{t.homeBtnDemo}</span>
+                    </a>
+                  </div>
+                </section>
+              ) : (
+                <section className="text-center max-w-4xl mx-auto flex flex-col items-center pt-6 pb-2 gap-5">
+                  <span className={`text-[10px] uppercase font-mono px-3 py-1 rounded-full font-bold tracking-widest ${
+                    isDarkMode ? "bg-[#301c13] text-[#D97736]" : "bg-[#eeded5] text-[#C86432]"
+                  }`}>
+                    CV Builder
+                  </span>
+                  <h1 className="text-3xl sm:text-4xl font-display font-extrabold tracking-tight leading-tight">Build & Optimize Resumes</h1>
+                  <p className={`text-sm sm:text-base leading-relaxed max-w-2xl ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
+                    Convert messy CVs into recruiter-ready resumes tailored to target roles and ATS-friendly templates.
+                  </p>
+                  <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
+                    <button
+                      onClick={() => setActiveView("cv")}
+                      className="px-6 py-3.5 rounded-xl font-bold text-sm bg-[#C86432] hover:bg-[#aa5328] text-white transition-all shadow-lg shadow-[#C86432]/10 hover:shadow-[#C86432]/20 hover:scale-[1.01] flex items-center gap-2 cursor-pointer"
+                    >
+                      <span>Open CV Builder</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                    <a
+                      href="#simulator"
+                      className={`px-6 py-3.5 rounded-xl font-bold text-sm border transition-all flex items-center gap-1.5 cursor-pointer ${
+                        isDarkMode
+                          ? "border-[#332822] bg-[#1d1714]/60 text-[#cbb9af] hover:text-white"
+                          : "border-[#eeded5] bg-white/60 text-[#7d6b60] hover:text-[#3c2f2f]"
+                      }`}
+                    >
+                      <BookOpen className="w-3.5 h-3.5 text-[#C86432]" />
+                      <span>Try CV Demo</span>
+                    </a>
+                  </div>
+                </section>
+              )}
 
-              {/* Three-step timeline section */}
-              <section className="flex flex-col gap-10">
+              {/* Three-step timeline section (switch by simScope) */}
+              {simScope === "extraction" ? (
+                <section className="flex flex-col gap-10">
                 <div className="text-center max-w-xl mx-auto gap-2 flex flex-col">
                   <h2 className="text-xl sm:text-2xl font-bold tracking-tight">{t.homeSection2Header}</h2>
                   <p className={`text-xs ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
@@ -3415,7 +3450,41 @@ export default function Home() {
                     <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.step3Sub}</p>
                   </div>
                 </div>
-              </section>
+                </section>
+              ) : (
+                <section className="flex flex-col gap-10">
+                  <div className="text-center max-w-xl mx-auto gap-2 flex flex-col">
+                    <h2 className="text-xl sm:text-2xl font-bold tracking-tight">How CV Builder Helps You Land Roles</h2>
+                    <p className={`text-xs ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
+                      Upload your CV, pick target roles and templates, and let AI optimize for keywords, metrics, and clarity.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+                    <div className={`p-6 rounded-3xl border transition-all flex flex-col gap-3 relative overflow-hidden ${
+                      isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                    }`}>
+                      <div className="w-8 h-8 rounded-full bg-[#C86432]/10 text-[#C86432] font-bold text-xs flex items-center justify-center">1</div>
+                      <h3 className="font-bold text-sm">Upload CV</h3>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>PDF, DOCX, or image — we accept common formats and extract content.</p>
+                    </div>
+                    <div className={`p-6 rounded-3xl border transition-all flex flex-col gap-3 relative overflow-hidden ${
+                      isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                    }`}>
+                      <div className="w-8 h-8 rounded-full bg-[#C86432]/10 text-[#C86432] font-bold text-xs flex items-center justify-center">2</div>
+                      <h3 className="font-bold text-sm">Select Targets</h3>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>Choose roles and templates — AI will prioritize relevant keywords and achievements.</p>
+                    </div>
+                    <div className={`p-6 rounded-3xl border transition-all flex flex-col gap-3 relative overflow-hidden ${
+                      isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                    }`}>
+                      <div className="w-8 h-8 rounded-full bg-[#C86432]/10 text-[#C86432] font-bold text-xs flex items-center justify-center">3</div>
+                      <h3 className="font-bold text-sm">Generate & Export</h3>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>Download in PDF/DOC or copy optimized markdown for ATS-friendly applications.</p>
+                    </div>
+                  </div>
+                </section>
+              )}
 
               {/* Interactive simulator playground */}
               <section id="simulator" className="flex flex-col gap-8 pt-4 scrolling-mt-10">
@@ -3616,8 +3685,9 @@ export default function Home() {
                 </div>
               </section>
 
-              {/* Bento information specification grid */}
-              <section className="flex flex-col gap-8 pb-8">
+              {/* Information specification grid (switch by simScope) */}
+              {simScope === "extraction" ? (
+                <section className="flex flex-col gap-8 pb-8">
                 <div className="text-center max-w-xl mx-auto gap-2 flex flex-col">
                   <h2 className="text-xl sm:text-2xl font-bold tracking-tight">{t.bentoHeader}</h2>
                   <p className={`text-xs ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
@@ -3669,7 +3739,41 @@ export default function Home() {
                     <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.bentoCard6Desc}</p>
                   </div>
                 </div>
-              </section>
+                </section>
+              ) : (
+                <section className="flex flex-col gap-8 pb-8">
+                  <div className="text-center max-w-xl mx-auto gap-2 flex flex-col">
+                    <h2 className="text-xl sm:text-2xl font-bold tracking-tight">CV Builder Features</h2>
+                    <p className={`text-xs ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
+                      Smart resume reconstruction, ATS alignment, template styling and role-specific optimization.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className={`p-8 rounded-3xl border flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
+                      isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
+                    }`}>
+                      <Palette className="w-7 h-7 text-[#C86432]" />
+                      <h3 className="font-bold text-sm mt-1">Template Styling</h3>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>Choose ATS-friendly templates and visual themes for recruiters.</p>
+                    </div>
+                    <div className={`p-8 rounded-3xl border flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
+                      isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
+                    }`}>
+                      <Target className="w-7 h-7 text-amber-600" />
+                      <h3 className="font-bold text-sm mt-1">Role Targeting</h3>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>Optimize for specific job titles with keyword alignment and achievements.</p>
+                    </div>
+                    <div className={`p-8 rounded-3xl border flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
+                      isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
+                    }`}>
+                      <Award className="w-7 h-7 text-teal-600" />
+                      <h3 className="font-bold text-sm mt-1">Export & Share</h3>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>Export polished DOC/PDF, copy markdown, or preview templates instantly.</p>
+                    </div>
+                  </div>
+                </section>
+              )}
 
             </motion.div>
           ) : activeView === "workspace" ? (
