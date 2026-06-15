@@ -76,6 +76,7 @@ export async function POST(req: NextRequest) {
     const {
       file,
       mimeType,
+      rawNotes,
       targetPositions,
       template,
       tone,
@@ -93,9 +94,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!file || !mimeType) {
+    const cleanRawNotes = typeof rawNotes === "string" ? rawNotes.trim() : "";
+    const hasRawNotes = cleanRawNotes.length >= 20;
+    const hasFileInput = Boolean(file && mimeType);
+
+    if (!hasFileInput && !hasRawNotes) {
       return NextResponse.json(
-        { error: "A CV file and MIME type are required." },
+        { error: "A CV file or raw bio/work notes are required." },
         { status: 400 }
       );
     }
@@ -107,21 +112,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    let cleanBase64 = file;
-    if (file.includes(";base64,")) {
-      cleanBase64 = file.split(";base64,").pop() || "";
-    }
+    let cleanBase64 = "";
+    if (hasFileInput) {
+      cleanBase64 = file;
+      if (file.includes(";base64,")) {
+        cleanBase64 = file.split(";base64,").pop() || "";
+      }
 
-    if (!cleanBase64) {
-      return NextResponse.json(
-        { error: "Could not parse the uploaded CV file." },
-        { status: 400 }
-      );
+      if (!cleanBase64) {
+        return NextResponse.json(
+          { error: "Could not parse the uploaded CV file." },
+          { status: 400 }
+        );
+      }
     }
 
     const instruction = `You are an expert resume writer, ATS optimization specialist, and technical recruiter.
 
-  First parse the uploaded CV and extract the candidate's factual details (name, contact, experience, education, skills, projects).
+  First parse the ${hasRawNotes ? "raw bio/work notes supplied by the user" : "uploaded CV"} and extract the candidate's factual details (name, contact, experience, education, skills, projects).
   Then rebuild a clean, production-ready, optimized CV tailored for these selected target positions: ${targetPositions.join(", ")}.
 
   Configuration:
@@ -141,11 +149,13 @@ export async function POST(req: NextRequest) {
   - Return clean Markdown only (no code fences). The markdown should contain the candidate name, contact line, summary/profile, core skills, professional experience, projects (if present), education, and certifications (if present).
   `;
 
-
-    console.log("[CV Builder API] Sending request to model (with 60s timeout)...");
-    const response = await withTimeout(
-      generateWithFallbackAndRetry(
-        [
+    const parts = hasRawNotes
+      ? [
+          {
+            text: `${instruction}\n\nRaw bio/work notes supplied by the user:\n${cleanRawNotes}`,
+          },
+        ]
+      : [
           {
             inlineData: {
               data: cleanBase64,
@@ -153,7 +163,12 @@ export async function POST(req: NextRequest) {
             },
           },
           { text: instruction },
-        ],
+        ];
+
+    console.log("[CV Builder API] Sending request to model (with 60s timeout)...");
+    const response = await withTimeout(
+      generateWithFallbackAndRetry(
+        parts,
         {
           temperature: 0.25,
         }

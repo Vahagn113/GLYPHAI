@@ -633,6 +633,451 @@ const TRANSLATIONS: Record<Language, any> = {
   }
 };
 
+Object.assign(TRANSLATIONS.en, {
+  featureExtractionTitle: "Extraction Desk",
+  featureExtractionDesc: "OCR, structured data, and document chat",
+  featureCvTitle: "CV Builder",
+  featureCvDesc: "Resumes, raw notes, roles, and export",
+  cvHeroTitle: "Build & Optimize Resumes",
+  cvHeroSub: "Convert messy CVs, raw bios, and work notes into recruiter-ready resumes tailored to target roles and ATS-friendly templates.",
+  cvOpenBuilder: "Open CV Builder",
+  cvTryDemo: "Try CV Demo",
+  cvHowHeader: "How CV Builder Helps You Land Roles",
+  cvHowSub: "Upload your CV or write raw work notes, pick target roles and templates, and let AI optimize for keywords, metrics, and clarity.",
+  cvStep1Title: "Add Source",
+  cvStep1Sub: "Upload a CV file or write raw notes with experience, education, skills, and goals.",
+  cvStep2Title: "Select Targets",
+  cvStep2Sub: "Choose roles and templates so AI can prioritize relevant keywords and achievements.",
+  cvStep3Title: "Generate & Export",
+  cvStep3Sub: "Download in PDF/DOC or copy optimized Markdown for ATS-friendly applications.",
+  cvSelectSample: "1. Select CV Sample",
+  cvSampleSubtitle: "Sample CV markdown",
+  cvTemplatePreview: "2. Template Preview",
+  cvLoadBuilder: "Load to CV Builder",
+  cvSource: "CV Source",
+  cvFileUpload: "File Upload",
+  cvRawNotes: "Raw Notes",
+  cvClear: "Clear",
+  cvDropTitle: "Drop your CV here, or browse",
+  cvDropSub: "PDF, DOC, DOCX, PNG, JPG (Max 10MB)",
+  cvRawNotesPlaceholder: "Write or paste raw bio/work notes here: name, contact details, target background, job history, responsibilities, achievements, education, skills, tools, languages, certifications, projects, and career goals.",
+  cvRawNotesMin: "Minimum",
+  cvTemplateStyle: "Template Style",
+  cvOptimizationSettings: "Optimization Settings",
+  cvTone: "Tone",
+  cvSeniority: "Seniority Level",
+  cvFocusAreas: "Focus Areas",
+  cvAdditionalNotes: "Additional Notes",
+  cvAdditionalPlaceholder: "E.g., 'Add missing degrees', 'Emphasize remote work', 'Add metrics'",
+  cvTargetPositions: "Target Positions",
+  cvSelected: "selected",
+  cvOptimizedReady: "Optimized CV Ready",
+  cvReadySub: "Upload your CV or add raw work notes, select target positions, and generate an AI-optimized version tailored to your desired roles.",
+  cvGenerate: "Generate Optimized CV",
+  cvOptimizing: "Optimizing...",
+  cvOptimizingTitle: "Optimizing your CV",
+  cvOptimizingSub: "AI is tailoring your resume for the selected positions...",
+  cvPositions: "positions",
+  cvGenerated: "Generated",
+  cvStartOver: "Start Over",
+  cvPreview: "Preview",
+  cvText: "Text",
+  cvTemplate: "Template",
+  cvCopyText: "Copy Text",
+  cvExportDoc: "Export .DOC",
+  cvExportPdf: "Export .PDF",
+  cvFeaturesHeader: "CV Builder Features",
+  cvFeaturesSub: "Smart resume reconstruction, ATS alignment, template styling, and role-specific optimization.",
+  cvFeatureCard1Title: "Template Styling",
+  cvFeatureCard1Desc: "Choose ATS-friendly templates and visual themes for recruiters.",
+  cvFeatureCard2Title: "Role Targeting",
+  cvFeatureCard2Desc: "Optimize for specific job titles with keyword alignment and achievements.",
+  cvFeatureCard3Title: "Export & Share",
+  cvFeatureCard3Desc: "Export polished DOC/PDF, copy Markdown, or preview templates instantly.",
+});
+
+Object.assign(TRANSLATIONS.ru, {
+  title: "GLYPH",
+  techEngine: "Движок Gemini 3.5",
+  connected: "Подключено",
+  tagline: "Извлечение и чат с документами",
+  clearFile: "Очистить файл",
+  dropZoneTitle: "Перетащите файл сюда или выберите",
+  dropZoneSubText: "PNG, JPG, WEBP или PDF (до 10 МБ)",
+  samplesTitle: "Интерактивные примеры:",
+  cursiveNotes: "Поддерживает рукописный текст, макеты, чеки и плотные PDF-отчеты.",
+  processingSettings: "Настройки обработки",
+  extractionModeLabel: "Режим извлечения",
+  additionalDirectives: "Дополнительные инструкции",
+  directivesPlaceholder: "Например: «Переведи на немецкий», «Найди цены»...",
+  startExtraction: "Начать извлечение",
+  parsingImage: "Анализ контекста изображения...",
+  extractionFailed: "Ошибка извлечения",
+  noContentTitle: "Контент пока не извлечен",
+  noContentSubText: "Добавьте файл слева, выберите режим извлечения и нажмите «Начать извлечение», чтобы запустить Gemini.",
+  step1Title: "Выберите источник",
+  step1Sub: "Изображения и многостраничные PDF обрабатываются быстро.",
+  step2Title: "Режим извлечения",
+  step2Sub: "Настройте вывод: резюме, Markdown-таблицы или очищенный текст.",
+  step3Title: "Чат с документом",
+  step3Sub: "Задавайте вопросы, извлекайте данные или проверяйте записи.",
+  loadingEngine: "Запущен OCR и движок извлечения",
+  loadingSubText: "анализ структуры, распознавание строк и форматирование результата...",
+  awaitingResponse: "ОБРАБОТКА (ОЖИДАНИЕ ОТВЕТА)",
+  trackerSteps: [
+    "Инициализация движка и защищенного рабочего буфера",
+    "Сканирование структуры документа и типографики",
+    "Распознавание макета, строк и координат",
+    "Исправление синтаксиса и сборка Markdown",
+    "Формирование финального форматированного результата",
+  ],
+  words: "слов",
+  chars: "символов",
+  formula: "режим",
+  extractedText: "Извлеченный текст",
+  chatWithDoc: "Чат с документом",
+  saveBtn: "Сохранить",
+  cancelBtn: "Отмена",
+  editBtn: "Редактировать",
+  copyText: "Копировать",
+  copied: "Скопировано!",
+  exportLabel: "Экспорт",
+  chatHintTitle: "Контекстный помощник",
+  chatHintDesc: "Попросите посчитать суммы, найти подписи, перевести текст или подготовить письмо по документу.",
+  chatPromptIntro: "Что вы хотите спросить?",
+  chatPromptDates: "Кратко опиши ключевые сроки",
+  chatPromptInvoice: "Найди цены и расходы",
+  chatSample1: "Суммировать сроки",
+  chatSample2: "Найти цены и расходы",
+  you: "Вы",
+  assistant: "Помощник по документам",
+  chatLoading: "Соединяю контекст файла...",
+  chatPlaceholder: "Спросите что-нибудь о документе...",
+  copyright: "© 2026 GLYPH AI OCR Engine. Создано с Gemini и Antigravity.",
+  statelessSandbox: "Без сохранения данных",
+  securitySafe: "Безопасно",
+  jsonOutput: "JSON-вывод",
+  publishingMethod: "Шаблон публикации",
+  publishingDesc: {
+    raw: "Исходный простой вывод",
+    email: "Профессиональное письмо",
+    wiki: "Техническая документация",
+    blog: "Редакционная статья/пост",
+    json: "Структурированный JSON-объект",
+  },
+  documentTypeLabel: "Тип документа",
+  docTypeGeneral: "Общий OCR",
+  docTypeInvoice: "Извлечение счета",
+  docTypeContract: "Анализ договора",
+  docTypeResume: "Разбор CV / резюме",
+  docTypeReceipt: "Обработка чека",
+  docTypeTable: "Извлечение таблицы",
+  modes: {
+    raw: "Точный текст",
+    rawDesc: "Извлечь чистый текст документа без дополнительных пояснений.",
+    layout: "Таблицы и списки",
+    layoutDesc: "Сохранить структуру таблиц, списков и визуальных блоков.",
+    transcript: "Рукописный текст",
+    transcriptDesc: "Распознать рукописные заметки и привести их к читаемому виду.",
+    summary: "Краткое резюме",
+    summaryDesc: "Сформировать структурированное резюме с важными пунктами.",
+    "key-value": "Ключевые поля",
+    "key-valueDesc": "Извлечь даты, суммы, метки и значения в таблицу.",
+  },
+  homeHeroTitle: "Мультимодальный центр анализа документов",
+  homeHeroSub: "Превращайте бумаги, чеки, сканы счетов и рукописные заметки в чистые записи, документы и краткие отчеты с Gemini 3.5.",
+  homeBtnLaunch: "Открыть Extraction Desk",
+  homeBtnDemo: "Открыть демо",
+  homeSection2Header: "Как Glyph преобразует файлы",
+  homeSection2Sub: "Три простых шага от бумажного документа к редактируемым цифровым данным.",
+  homeDemoHeader: "Интерактивный симулятор функций",
+  homeDemoSub: "Выберите пример и режим обработки, чтобы увидеть, как GLYPH восстанавливает данные.",
+  homeDemoLoad: "Открыть пример в рабочей области",
+  homeDemoSimulating: "Выравниваю OCR-слои...",
+  bentoHeader: "Возможности движка и защита данных",
+  bentoSub: "Безопасно, многоязычно и точно.",
+  bentoCard1Title: "Распознавание рукописного текста",
+  bentoCard1Desc: "Понимает сложный почерк, быстрые заметки и сокращения.",
+  bentoCard2Title: "Без сохранения в базе",
+  bentoCard2Desc: "Работает как stateless-среда: результат обрабатывается в памяти.",
+  bentoCard3Title: "Готовые к экспорту файлы",
+  bentoCard3Desc: "Скачивайте Markdown, TXT или DOC-файлы одним действием.",
+  bentoCard4Title: "Специализированные схемы",
+  bentoCard4Desc: "Извлекает структурированные данные из счетов, договоров, резюме, чеков и таблиц.",
+  bentoCard5Title: "Диалог с документом",
+  bentoCard5Desc: "Задавайте вопросы по извлеченному документу, считайте суммы и проверяйте условия.",
+  bentoCard6Title: "Пять общих режимов",
+  bentoCard6Desc: "Точный текст, таблицы, рукопись, резюме и ключевые поля.",
+  navOverview: "Обзор",
+  navWorkspace: "Extraction Desk",
+  navNavigation: "Навигация",
+  navLanguage: "Язык",
+  engineBadge: "Мультимодальный движок документов",
+  selectDocTemplate: "1. Выберите шаблон документа",
+  presetFileSubtitle: "Готовый интерактивный пример",
+  chooseFormulaMode: "2. Выберите режим",
+  viewLabel: "Вид",
+  lblImage: "Изображение",
+  lblPdf: "PDF-документ",
+  stepLabel: "Шаг",
+  editModeLabel: "Режим редактирования",
+  presetBakery: "Счет уютной пекарни #429",
+  presetArcheology: "Лекционные заметки по археологии",
+  sampleHandwritten: "Рукописные заметки встречи.png",
+  sampleInvoice: "Счет Acoustic Tavern.jpg",
+  featureExtractionTitle: "Extraction Desk",
+  featureExtractionDesc: "OCR, структурированные данные и чат",
+  featureCvTitle: "CV Builder",
+  featureCvDesc: "Резюме, заметки, роли и экспорт",
+  cvHeroTitle: "Создавайте и улучшайте резюме",
+  cvHeroSub: "Превращайте CV, биографию и рабочие заметки в резюме для рекрутеров, адаптированные под роли и ATS-шаблоны.",
+  cvOpenBuilder: "Открыть CV Builder",
+  cvTryDemo: "Попробовать демо CV",
+  cvHowHeader: "Как CV Builder помогает получить роль",
+  cvHowSub: "Загрузите CV или напишите рабочие заметки, выберите роли и шаблон, а AI усилит ключевые слова, метрики и ясность.",
+  cvStep1Title: "Добавьте источник",
+  cvStep1Sub: "Загрузите CV или внесите заметки об опыте, образовании, навыках и целях.",
+  cvStep2Title: "Выберите цели",
+  cvStep2Sub: "Выберите роли и шаблоны, чтобы AI выделил релевантные навыки и достижения.",
+  cvStep3Title: "Создайте и экспортируйте",
+  cvStep3Sub: "Скачайте PDF/DOC или скопируйте оптимизированный Markdown для ATS.",
+  cvSelectSample: "1. Выберите пример CV",
+  cvSampleSubtitle: "Пример Markdown-резюме",
+  cvTemplatePreview: "2. Предпросмотр шаблона",
+  cvLoadBuilder: "Загрузить в CV Builder",
+  cvSource: "Источник CV",
+  cvFileUpload: "Загрузка файла",
+  cvRawNotes: "Сырые заметки",
+  cvClear: "Очистить",
+  cvDropTitle: "Перетащите CV сюда или выберите файл",
+  cvDropSub: "PDF, DOC, DOCX, PNG, JPG (до 10 МБ)",
+  cvRawNotesPlaceholder: "Напишите или вставьте биографию/рабочие заметки: имя, контакты, опыт, обязанности, достижения, образование, навыки, инструменты, языки, сертификаты, проекты и карьерные цели.",
+  cvRawNotesMin: "Минимум",
+  cvTemplateStyle: "Стиль шаблона",
+  cvOptimizationSettings: "Настройки оптимизации",
+  cvTone: "Тон",
+  cvSeniority: "Уровень опыта",
+  cvFocusAreas: "Фокус",
+  cvAdditionalNotes: "Дополнительные заметки",
+  cvAdditionalPlaceholder: "Например: «Добавить образование», «Подчеркнуть удаленную работу», «Добавить метрики»",
+  cvTargetPositions: "Целевые должности",
+  cvSelected: "выбрано",
+  cvOptimizedReady: "Оптимизированное CV готово",
+  cvReadySub: "Загрузите CV или добавьте рабочие заметки, выберите целевые роли и создайте AI-оптимизированную версию.",
+  cvGenerate: "Создать оптимизированное CV",
+  cvOptimizing: "Оптимизация...",
+  cvOptimizingTitle: "Оптимизирую CV",
+  cvOptimizingSub: "AI адаптирует резюме под выбранные должности...",
+  cvPositions: "должностей",
+  cvGenerated: "Создано",
+  cvStartOver: "Начать заново",
+  cvPreview: "Предпросмотр",
+  cvText: "Текст",
+  cvTemplate: "Шаблон",
+  cvCopyText: "Копировать текст",
+  cvExportDoc: "Экспорт .DOC",
+  cvExportPdf: "Экспорт .PDF",
+  cvFeaturesHeader: "Возможности CV Builder",
+  cvFeaturesSub: "Умная реконструкция резюме, ATS-адаптация, стили шаблонов и оптимизация под роль.",
+  cvFeatureCard1Title: "Стиль шаблона",
+  cvFeatureCard1Desc: "Выбирайте ATS-дружелюбные шаблоны и визуальные темы для рекрутеров.",
+  cvFeatureCard2Title: "Фокус на роли",
+  cvFeatureCard2Desc: "Оптимизируйте резюме под конкретные должности, ключевые слова и достижения.",
+  cvFeatureCard3Title: "Экспорт и отправка",
+  cvFeatureCard3Desc: "Экспортируйте аккуратный DOC/PDF, копируйте Markdown или сразу смотрите предпросмотр.",
+});
+
+Object.assign(TRANSLATIONS.am, {
+  title: "GLYPH",
+  techEngine: "Gemini 3.5 շարժիչ",
+  connected: "Միացված է",
+  tagline: "Փաստաթղթերի տեքստի դուրսբերում և զրույց",
+  clearFile: "Մաքրել ֆայլը",
+  dropZoneTitle: "Քաշեք ֆայլը այստեղ կամ ընտրեք",
+  dropZoneSubText: "PNG, JPG, WEBP կամ PDF (մինչև 10 ՄԲ)",
+  samplesTitle: "Ինտերակտիվ օրինակներ՝",
+  cursiveNotes: "Աջակցում է ձեռագիր տեքստին, դասավորություններին, կտրոններին և խիտ PDF հաշվետվություններին։",
+  processingSettings: "Մշակման կարգավորումներ",
+  extractionModeLabel: "Դուրսբերման ռեժիմ",
+  additionalDirectives: "Լրացուցիչ հրահանգներ",
+  directivesPlaceholder: "Օրինակ՝ «Թարգմանիր գերմաներեն», «Գտիր գները»...",
+  startExtraction: "Սկսել դուրսբերումը",
+  parsingImage: "Վերլուծվում է պատկերի համատեքստը...",
+  extractionFailed: "Դուրսբերման սխալ",
+  noContentTitle: "Տեքստը դեռ դուրս չի բերվել",
+  noContentSubText: "Ավելացրեք ֆայլը ձախում, ընտրեք ռեժիմը և սեղմեք «Սկսել դուրսբերումը»՝ Gemini-ն գործարկելու համար։",
+  step1Title: "Ընտրեք աղբյուրը",
+  step1Sub: "Պատկերներն ու բազմաէջ PDF-ները մշակվում են արագ։",
+  step2Title: "Դուրսբերման ռեժիմ",
+  step2Sub: "Ձևավորեք արդյունքը՝ ամփոփում, Markdown աղյուսակ կամ մաքրված տեքստ։",
+  step3Title: "Զրույց փաստաթղթի հետ",
+  step3Sub: "Տվեք հարցեր, դուրս բերեք տվյալներ կամ ստուգեք գրառումները։",
+  loadingEngine: "Գործարկվում է OCR և դուրսբերման շարժիչը",
+  loadingSubText: "վերլուծվում է կառուցվածքը, ճանաչվում են տողերը և ձևավորվում արդյունքը...",
+  awaitingResponse: "ՄՇԱԿՈՒՄ (ՍՊԱՍՈՒՄ Է ՊԱՏԱՍԽԱՆԻ)",
+  trackerSteps: [
+    "Շարժիչի և անվտանգ աշխատանքային բուֆերի նախապատրաստում",
+    "Փաստաթղթի կառուցվածքի և տիպոգրաֆիայի սկանավորում",
+    "Դասավորության, տողերի և կոորդինատների ճանաչում",
+    "Շարահյուսության ուղղում և Markdown-ի հավաքում",
+    "Վերջնական ձևաչափված արդյունքի պատրաստում",
+  ],
+  words: "բառ",
+  chars: "նիշ",
+  formula: "ռեժիմ",
+  extractedText: "Դուրս բերված տեքստ",
+  chatWithDoc: "Զրույց փաստաթղթի հետ",
+  saveBtn: "Պահպանել",
+  cancelBtn: "Չեղարկել",
+  editBtn: "Խմբագրել",
+  copyText: "Պատճենել",
+  copied: "Պատճենվեց",
+  exportLabel: "Արտահանում",
+  chatHintTitle: "Համատեքստային օգնական",
+  chatHintDesc: "Խնդրեք հաշվել գումարները, գտնել ստորագրությունները, թարգմանել կամ պատրաստել նամակ փաստաթղթի հիման վրա։",
+  chatPromptIntro: "Ի՞նչ եք ուզում հարցնել։",
+  chatPromptDates: "Ամփոփիր կարևոր ժամկետները",
+  chatPromptInvoice: "Գտիր գներն ու ծախսերը",
+  chatSample1: "Ամփոփել ժամկետները",
+  chatSample2: "Գտնել գներն ու ծախսերը",
+  you: "Դուք",
+  assistant: "Փաստաթղթերի օգնական",
+  chatLoading: "Միացվում է ֆայլի համատեքստը...",
+  chatPlaceholder: "Հարցրեք փաստաթղթի մասին...",
+  copyright: "© 2026 GLYPH AI OCR Engine. Ստեղծված է Gemini-ի և Antigravity-ի միջոցով։",
+  statelessSandbox: "Առանց տվյալների պահպանում",
+  securitySafe: "Անվտանգ",
+  jsonOutput: "JSON արդյունք",
+  publishingMethod: "Հրապարակման ձևաչափ",
+  publishingDesc: {
+    raw: "Սկզբնական պարզ արդյունք",
+    email: "Մասնագիտական նամակ",
+    wiki: "Տեխնիկական փաստաթուղթ",
+    blog: "Խմբագրական հոդված/բլոգ",
+    json: "Կառուցվածքային JSON օբյեկտ",
+  },
+  documentTypeLabel: "Փաստաթղթի տեսակ",
+  docTypeGeneral: "Ընդհանուր OCR",
+  docTypeInvoice: "Հաշվի դուրսբերում",
+  docTypeContract: "Պայմանագրի վերլուծություն",
+  docTypeResume: "CV / ռեզյումեի վերլուծություն",
+  docTypeReceipt: "Կտրոնի մշակում",
+  docTypeTable: "Աղյուսակի դուրսբերում",
+  modes: {
+    raw: "Ճշգրիտ տեքստ",
+    rawDesc: "Դուրս բերել մաքուր տեքստը առանց հավելյալ մեկնաբանության։",
+    layout: "Աղյուսակներ և ցուցակներ",
+    layoutDesc: "Պահպանել աղյուսակների, ցուցակների և տեսողական բլոկների կառուցվածքը։",
+    transcript: "Ձեռագիր տեքստ",
+    transcriptDesc: "Ճանաչել ձեռագիր նշումները և դարձնել ընթեռնելի։",
+    summary: "Կարճ ամփոփում",
+    summaryDesc: "Ստեղծել կառուցվածքային ամփոփում կարևոր կետերով։",
+    "key-value": "Կարևոր դաշտեր",
+    "key-valueDesc": "Դուրս բերել ամսաթվեր, գումարներ, պիտակներ և արժեքներ աղյուսակով։",
+  },
+  homeHeroTitle: "Բազմամոդալ փաստաթղթերի վերլուծության կենտրոն",
+  homeHeroSub: "Թղթերը, կտրոնները, հաշիվների սկանները և ձեռագիր նշումները վերածեք մաքուր գրառումների, փաստաթղթերի և ամփոփագրերի՝ Gemini 3.5-ի միջոցով։",
+  homeBtnLaunch: "Բացել Extraction Desk-ը",
+  homeBtnDemo: "Բացել դեմոն",
+  homeSection2Header: "Ինչպես է Glyph-ը փոխակերպում ֆայլերը",
+  homeSection2Sub: "Երեք պարզ քայլ՝ թղթային փաստաթղթից մինչև խմբագրվող թվային տվյալներ։",
+  homeDemoHeader: "Ինտերակտիվ գործառույթների սիմուլյատոր",
+  homeDemoSub: "Ընտրեք օրինակն ու մշակման ռեժիմը՝ տեսնելու համար, թե ինչպես է GLYPH-ը վերականգնում տվյալները։",
+  homeDemoLoad: "Բացել օրինակը աշխատանքային տարածքում",
+  homeDemoSimulating: "Համադրվում են OCR շերտերը...",
+  bentoHeader: "Շարժիչի հնարավորություններ և տվյալների պաշտպանություն",
+  bentoSub: "Անվտանգ, բազմալեզու և ճշգրիտ։",
+  bentoCard1Title: "Ձեռագիր տեքստի ճանաչում",
+  bentoCard1Desc: "Կարդում է բարդ ձեռագիր, արագ նշումներ և կրճատումներ։",
+  bentoCard2Title: "Առանց տվյալների պահպանում",
+  bentoCard2Desc: "Աշխատում է stateless միջավայրում․ արդյունքը մշակվում է հիշողության մեջ։",
+  bentoCard3Title: "Արտահանման պատրաստ ֆայլեր",
+  bentoCard3Desc: "Ներբեռնեք Markdown, TXT կամ DOC ֆայլեր մեկ գործողությամբ։",
+  bentoCard4Title: "Մասնագիտացված սխեմաներ",
+  bentoCard4Desc: "Դուրս է բերում կառուցվածքային տվյալներ հաշիվներից, պայմանագրերից, ռեզյումեներից, կտրոններից և աղյուսակներից։",
+  bentoCard5Title: "Զրույց փաստաթղթի հետ",
+  bentoCard5Desc: "Հարցեր տվեք փաստաթղթի մասին, հաշվեք գումարներ և ստուգեք պայմանները։",
+  bentoCard6Title: "Հինգ ընդհանուր ռեժիմ",
+  bentoCard6Desc: "Ճշգրիտ տեքստ, աղյուսակներ, ձեռագիր, ամփոփում և կարևոր դաշտեր։",
+  navOverview: "Ընդհանուր",
+  navWorkspace: "Extraction Desk",
+  navNavigation: "Նավիգացիա",
+  navLanguage: "Լեզու",
+  engineBadge: "Բազմամոդալ փաստաթղթերի շարժիչ",
+  selectDocTemplate: "1. Ընտրեք փաստաթղթի օրինակը",
+  presetFileSubtitle: "Պատրաստ ինտերակտիվ օրինակ",
+  chooseFormulaMode: "2. Ընտրեք ռեժիմը",
+  viewLabel: "Տեսք",
+  lblImage: "Պատկեր",
+  lblPdf: "PDF փաստաթուղթ",
+  stepLabel: "Քայլ",
+  editModeLabel: "Խմբագրման ռեժիմ",
+  presetBakery: "Հարմարավետ փուռի հաշիվ #429",
+  presetArcheology: "Հնագիտության դասախոսության նշումներ",
+  sampleHandwritten: "Ձեռագիր հանդիպման նշումներ.png",
+  sampleInvoice: "Acoustic Tavern հաշիվ.jpg",
+  featureExtractionTitle: "Extraction Desk",
+  featureExtractionDesc: "OCR, կառուցվածքային տվյալներ և զրույց",
+  featureCvTitle: "CV Builder",
+  featureCvDesc: "Ռեզյումեներ, նշումներ, դերեր և արտահանում",
+  cvHeroTitle: "Ստեղծեք և օպտիմալացրեք ռեզյումեներ",
+  cvHeroSub: "CV-ները, կենսագրական տեքստերը և աշխատանքային նշումները վերածեք ռեկրուտերների համար պատրաստ ռեզյումեների՝ հարմարեցված դերերին և ATS ձևաչափերին։",
+  cvOpenBuilder: "Բացել CV Builder-ը",
+  cvTryDemo: "Փորձել CV դեմոն",
+  cvHowHeader: "Ինչպես է CV Builder-ը օգնում ստանալ աշխատանք",
+  cvHowSub: "Վերբեռնեք CV կամ գրեք աշխատանքային նշումներ, ընտրեք դերերն ու ձևաչափը, իսկ AI-ը կուժեղացնի բանալի բառերը, չափելի արդյունքները և հստակությունը։",
+  cvStep1Title: "Ավելացրեք աղբյուրը",
+  cvStep1Sub: "Վերբեռնեք CV կամ գրեք փորձի, կրթության, հմտությունների և նպատակների մասին նշումներ։",
+  cvStep2Title: "Ընտրեք թիրախները",
+  cvStep2Sub: "Ընտրեք դերեր և ձևաչափեր, որպեսզի AI-ը կարևորի համապատասխան հմտություններն ու ձեռքբերումները։",
+  cvStep3Title: "Ստեղծեք և արտահանեք",
+  cvStep3Sub: "Ներբեռնեք PDF/DOC կամ պատճենեք ATS-ի համար օպտիմալացված Markdown-ը։",
+  cvSelectSample: "1. Ընտրեք CV օրինակ",
+  cvSampleSubtitle: "Markdown ռեզյումեի օրինակ",
+  cvTemplatePreview: "2. Ձևաչափի նախադիտում",
+  cvLoadBuilder: "Բեռնել CV Builder-ում",
+  cvSource: "CV աղբյուր",
+  cvFileUpload: "Ֆայլի վերբեռնում",
+  cvRawNotes: "Սևագիր նշումներ",
+  cvClear: "Մաքրել",
+  cvDropTitle: "Քաշեք CV-ն այստեղ կամ ընտրեք ֆայլ",
+  cvDropSub: "PDF, DOC, DOCX, PNG, JPG (մինչև 10 ՄԲ)",
+  cvRawNotesPlaceholder: "Գրեք կամ տեղադրեք կենսագրական/աշխատանքային նշումներ՝ անուն, կոնտակտներ, փորձ, պարտականություններ, ձեռքբերումներ, կրթություն, հմտություններ, գործիքներ, լեզուներ, սերտիֆիկատներ, նախագծեր և կարիերայի նպատակներ։",
+  cvRawNotesMin: "Նվազագույնը",
+  cvTemplateStyle: "Ձևաչափի ոճ",
+  cvOptimizationSettings: "Օպտիմալացման կարգավորումներ",
+  cvTone: "Տոնայնություն",
+  cvSeniority: "Փորձի մակարդակ",
+  cvFocusAreas: "Կենտրոնացում",
+  cvAdditionalNotes: "Լրացուցիչ նշումներ",
+  cvAdditionalPlaceholder: "Օրինակ՝ «Ավելացնել կրթություն», «Շեշտել հեռավար աշխատանքը», «Ավելացնել չափումներ»",
+  cvTargetPositions: "Թիրախային պաշտոններ",
+  cvSelected: "ընտրված",
+  cvOptimizedReady: "Օպտիմալացված CV-ն պատրաստ է",
+  cvReadySub: "Վերբեռնեք CV կամ ավելացրեք աշխատանքային նշումներ, ընտրեք թիրախային դերերը և ստեղծեք AI-ով օպտիմալացված տարբերակ։",
+  cvGenerate: "Ստեղծել օպտիմալացված CV",
+  cvOptimizing: "Օպտիմալացվում է...",
+  cvOptimizingTitle: "Օպտիմալացվում է ձեր CV-ն",
+  cvOptimizingSub: "AI-ը հարմարեցնում է ռեզյումեն ընտրված պաշտոններին...",
+  cvPositions: "պաշտոն",
+  cvGenerated: "Ստեղծված է",
+  cvStartOver: "Սկսել նորից",
+  cvPreview: "Նախադիտում",
+  cvText: "Տեքստ",
+  cvTemplate: "Ձևաչափ",
+  cvCopyText: "Պատճենել տեքստը",
+  cvExportDoc: "Արտահանել .DOC",
+  cvExportPdf: "Արտահանել .PDF",
+  cvFeaturesHeader: "CV Builder-ի հնարավորություններ",
+  cvFeaturesSub: "Խելացի ռեզյումեի վերակառուցում, ATS համապատասխանեցում, ձևաչափի ոճավորում և օպտիմալացում ըստ դերի։",
+  cvFeatureCard1Title: "Ձևաչափի ոճավորում",
+  cvFeatureCard1Desc: "Ընտրեք ATS-ին հարմար ձևաչափեր և տեսողական ոճեր ռեկրուտերների համար։",
+  cvFeatureCard2Title: "Դերի թիրախավորում",
+  cvFeatureCard2Desc: "Օպտիմալացրեք կոնկրետ պաշտոնների համար՝ բանալի բառերով և ձեռքբերումներով։",
+  cvFeatureCard3Title: "Արտահանում և կիսում",
+  cvFeatureCard3Desc: "Արտահանեք DOC/PDF, պատճենեք Markdown կամ անմիջապես դիտեք նախադիտումը։",
+});
+
 interface DemoPreset {
   name: string;
   illustration: string;
@@ -2449,14 +2894,14 @@ export default function Home() {
   const [simText, setSimText] = useState<string>(DEMO_PRESETS[0].raw);
   // Simulator scope: 'extraction' shows extraction desk simulator; 'cv' shows CV Builder simulator
   const [simScope, setSimScope] = useState<"extraction" | "cv">("extraction");
-  // HTML preview for CV simulator (renders template-styled preview)
-  const [simPreviewHtml, setSimPreviewHtml] = useState<string>("");
 
   // CV Builder states
+  const [cvInputMode, setCvInputMode] = useState<"file" | "notes">("file");
   const [cvFilePreview, setCvFilePreview] = useState<string>("");
   const [cvFileMimeType, setCvFileMimeType] = useState<string>("");
   const [cvFileName, setCvFileName] = useState<string>("");
   const [cvFileSize, setCvFileSize] = useState<string>("");
+  const [cvRawNotes, setCvRawNotes] = useState<string>("");
   const [cvSelectedPositions, setCvSelectedPositions] = useState<string[]>(["Data Analyst"]);
   const [cvTemplate, setCvTemplate] = useState<string>("modern-ats");
   const [cvTone, setCvTone] = useState<string>("Confident professional");
@@ -2472,6 +2917,13 @@ export default function Home() {
   const [cvDragOver, setCvDragOver] = useState<boolean>(false);
   const [cvTrackerStep, setCvTrackerStep] = useState<number>(0);
   const cvTrackerRef = useRef<number | null>(null);
+  const cvRawNotesMinLength = 20;
+  const cvRawNotesMaxLength = 12000;
+  const cvRawNotesTrimmed = cvRawNotes.trim();
+  const hasValidCvInput =
+    cvInputMode === "file"
+      ? Boolean(cvFilePreview)
+      : cvRawNotesTrimmed.length >= cvRawNotesMinLength;
 
   const selectSimPreset = (idx: number) => {
     setSimSelectedPreset(idx);
@@ -2520,15 +2972,22 @@ export default function Home() {
     return `<!doctype html><html><head><meta charset='utf-8'/><meta name='viewport' content='width=device-width,initial-scale=1' /><title>${templateName}</title><style>${css}.bullet{margin-left:14px}</style></head><body><div class='meta' style='color:#8b7569;font-size:9px;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.08em'>${templateName} · CV Demo</div>${body}</body></html>`;
   };
 
-  // Keep CV simulator preview in sync when sample or template changes
-  useEffect(() => {
-    if (simScope !== "cv") return;
+  const simPreviewHtml =
+    simScope === "cv"
+      ? buildCvPreviewHtml(CV_DEMO_PRESETS[simSelectedPreset % CV_DEMO_PRESETS.length].markdown, cvTemplate)
+      : "";
+
+  const handleSelectSimScope = (scope: "extraction" | "cv") => {
+    setSimScope(scope);
+    if (scope === "extraction") {
+      const p = DEMO_PRESETS[simSelectedPreset % DEMO_PRESETS.length];
+      setSimText(p[simSelectedMode as keyof DemoPreset] || p.raw);
+      return;
+    }
+
     const p = CV_DEMO_PRESETS[simSelectedPreset % CV_DEMO_PRESETS.length];
-    const html = buildCvPreviewHtml(p.markdown, cvTemplate);
-    setSimPreviewHtml(html);
-    // also keep simText markdown in sync
     setSimText(p.markdown);
-  }, [simScope, simSelectedPreset, cvTemplate]);
+  };
 
   const handleLoadCvSimulatedToBuilder = (idx: number) => {
     const p = CV_DEMO_PRESETS[idx % CV_DEMO_PRESETS.length];
@@ -2680,8 +3139,13 @@ export default function Home() {
   };
 
   const handleGenerateCv = async () => {
-    if (!cvFilePreview) {
+    if (cvInputMode === "file" && !cvFilePreview) {
       setCvError("Upload an existing CV before generating the rebuilt version.");
+      return;
+    }
+
+    if (cvInputMode === "notes" && cvRawNotesTrimmed.length < cvRawNotesMinLength) {
+      setCvError("Add raw bio or work notes before generating the rebuilt CV.");
       return;
     }
 
@@ -2711,8 +3175,14 @@ export default function Home() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          file: cvFilePreview,
-          mimeType: cvFileMimeType || "application/pdf",
+          ...(cvInputMode === "file"
+            ? {
+                file: cvFilePreview,
+                mimeType: cvFileMimeType || "application/pdf",
+              }
+            : {
+                rawNotes: cvRawNotesTrimmed,
+              }),
           targetPositions: cvSelectedPositions,
           template: cvTemplate,
           tone: cvTone,
@@ -2761,14 +3231,15 @@ export default function Home() {
     }
   };
 
-  const escapeHtml = (value: string) =>
-    value
+  function escapeHtml(value: string) {
+    return value
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
+  }
 
-  const convertCvMarkdownToHtml = (md: string): string => {
+  function convertCvMarkdownToHtml(md: string): string {
     return md
       .split("\n")
       .map((line) => {
@@ -2783,7 +3254,7 @@ export default function Home() {
         return `<p>${escapeHtml(trimmed).replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")}</p>`;
       })
       .join("");
-  };
+  }
 
   const buildCvHtmlDocument = () => {
     const md = cvEditedText || cvGeneratedText;
@@ -3159,7 +3630,7 @@ export default function Home() {
                   : "text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
               }`}
             >
-              CV Builder
+              {t.featureCvTitle}
             </button>
           </div>
         </div>
@@ -3307,7 +3778,7 @@ export default function Home() {
                       }`}
                     >
                       <Briefcase className="w-4 h-4" />
-                      CV Builder
+                      {t.featureCvTitle}
                     </button>
                   </div>
 
@@ -3380,6 +3851,34 @@ export default function Home() {
               {/* Cozy Hero Container (switches by simScope) */}
               {simScope === "extraction" ? (
                 <section className="text-center max-w-4xl mx-auto flex flex-col items-center pt-6 pb-2 gap-5">
+                  <div className={`w-full max-w-xl grid grid-cols-2 gap-1.5 rounded-2xl border p-1.5 shadow-sm ${
+                    isDarkMode ? "bg-[#1d1714]/70 border-[#332822]" : "bg-white/70 border-[#eeded5]"
+                  }`}>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectSimScope("extraction")}
+                      className="rounded-xl px-3 py-3 text-left transition-all cursor-pointer bg-[#C86432] text-white shadow-md shadow-[#C86432]/15"
+                    >
+                      <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
+                        <Layers className="w-4 h-4" />
+                        {t.featureExtractionTitle}
+                      </span>
+                      <span className="mt-1 block text-[10px] font-semibold opacity-85 leading-tight">{t.featureExtractionDesc}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectSimScope("cv")}
+                      className={`rounded-xl px-3 py-3 text-left transition-all cursor-pointer ${
+                        isDarkMode ? "text-stone-300 hover:bg-[#301c13]" : "text-[#5a4a42] hover:bg-[#FAF6F0]"
+                      }`}
+                    >
+                      <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
+                        <Briefcase className="w-4 h-4 text-[#C86432]" />
+                        {t.featureCvTitle}
+                      </span>
+                      <span className="mt-1 block text-[10px] font-semibold opacity-70 leading-tight">{t.featureCvDesc}</span>
+                    </button>
+                  </div>
                   <span className={`text-[10px] uppercase font-mono px-3 py-1 rounded-full font-bold tracking-widest ${
                     isDarkMode ? "bg-[#301c13] text-[#D97736]" : "bg-[#eeded5] text-[#C86432]"
                   }`}>
@@ -3414,21 +3913,49 @@ export default function Home() {
                 </section>
               ) : (
                 <section className="text-center max-w-4xl mx-auto flex flex-col items-center pt-6 pb-2 gap-5">
+                  <div className={`w-full max-w-xl grid grid-cols-2 gap-1.5 rounded-2xl border p-1.5 shadow-sm ${
+                    isDarkMode ? "bg-[#1d1714]/70 border-[#332822]" : "bg-white/70 border-[#eeded5]"
+                  }`}>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectSimScope("extraction")}
+                      className={`rounded-xl px-3 py-3 text-left transition-all cursor-pointer ${
+                        isDarkMode ? "text-stone-300 hover:bg-[#301c13]" : "text-[#5a4a42] hover:bg-[#FAF6F0]"
+                      }`}
+                    >
+                      <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
+                        <Layers className="w-4 h-4 text-[#C86432]" />
+                        {t.featureExtractionTitle}
+                      </span>
+                      <span className="mt-1 block text-[10px] font-semibold opacity-70 leading-tight">{t.featureExtractionDesc}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectSimScope("cv")}
+                      className="rounded-xl px-3 py-3 text-left transition-all cursor-pointer bg-[#C86432] text-white shadow-md shadow-[#C86432]/15"
+                    >
+                      <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
+                        <Briefcase className="w-4 h-4" />
+                        {t.featureCvTitle}
+                      </span>
+                      <span className="mt-1 block text-[10px] font-semibold opacity-85 leading-tight">{t.featureCvDesc}</span>
+                    </button>
+                  </div>
                   <span className={`text-[10px] uppercase font-mono px-3 py-1 rounded-full font-bold tracking-widest ${
                     isDarkMode ? "bg-[#301c13] text-[#D97736]" : "bg-[#eeded5] text-[#C86432]"
                   }`}>
-                    CV Builder
+                    {t.featureCvTitle}
                   </span>
-                  <h1 className="text-3xl sm:text-4xl font-display font-extrabold tracking-tight leading-tight">Build & Optimize Resumes</h1>
+                  <h1 className="text-3xl sm:text-5xl font-display font-extrabold tracking-tight leading-tight">{t.cvHeroTitle}</h1>
                   <p className={`text-sm sm:text-base leading-relaxed max-w-2xl ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
-                    Convert messy CVs into recruiter-ready resumes tailored to target roles and ATS-friendly templates.
+                    {t.cvHeroSub}
                   </p>
                   <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
                     <button
                       onClick={() => setActiveView("cv")}
                       className="px-6 py-3.5 rounded-xl font-bold text-sm bg-[#C86432] hover:bg-[#aa5328] text-white transition-all shadow-lg shadow-[#C86432]/10 hover:shadow-[#C86432]/20 hover:scale-[1.01] flex items-center gap-2 cursor-pointer"
                     >
-                      <span>Open CV Builder</span>
+                      <span>{t.cvOpenBuilder}</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
                     <a
@@ -3440,7 +3967,7 @@ export default function Home() {
                       }`}
                     >
                       <BookOpen className="w-3.5 h-3.5 text-[#C86432]" />
-                      <span>Try CV Demo</span>
+                      <span>{t.cvTryDemo}</span>
                     </a>
                   </div>
                 </section>
@@ -3483,9 +4010,9 @@ export default function Home() {
               ) : (
                 <section className="flex flex-col gap-10">
                   <div className="text-center max-w-xl mx-auto gap-2 flex flex-col">
-                    <h2 className="text-xl sm:text-2xl font-bold tracking-tight">How CV Builder Helps You Land Roles</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold tracking-tight">{t.cvHowHeader}</h2>
                     <p className={`text-xs ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
-                      Upload your CV, pick target roles and templates, and let AI optimize for keywords, metrics, and clarity.
+                      {t.cvHowSub}
                     </p>
                   </div>
 
@@ -3494,22 +4021,22 @@ export default function Home() {
                       isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
                     }`}>
                       <div className="w-8 h-8 rounded-full bg-[#C86432]/10 text-[#C86432] font-bold text-xs flex items-center justify-center">1</div>
-                      <h3 className="font-bold text-sm">Upload CV</h3>
-                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>PDF, DOCX, or image — we accept common formats and extract content.</p>
+                      <h3 className="font-bold text-sm">{t.cvStep1Title}</h3>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.cvStep1Sub}</p>
                     </div>
                     <div className={`p-6 rounded-3xl border transition-all flex flex-col gap-3 relative overflow-hidden ${
                       isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
                     }`}>
                       <div className="w-8 h-8 rounded-full bg-[#C86432]/10 text-[#C86432] font-bold text-xs flex items-center justify-center">2</div>
-                      <h3 className="font-bold text-sm">Select Targets</h3>
-                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>Choose roles and templates — AI will prioritize relevant keywords and achievements.</p>
+                      <h3 className="font-bold text-sm">{t.cvStep2Title}</h3>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.cvStep2Sub}</p>
                     </div>
                     <div className={`p-6 rounded-3xl border transition-all flex flex-col gap-3 relative overflow-hidden ${
                       isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
                     }`}>
                       <div className="w-8 h-8 rounded-full bg-[#C86432]/10 text-[#C86432] font-bold text-xs flex items-center justify-center">3</div>
-                      <h3 className="font-bold text-sm">Generate & Export</h3>
-                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>Download in PDF/DOC or copy optimized markdown for ATS-friendly applications.</p>
+                      <h3 className="font-bold text-sm">{t.cvStep3Title}</h3>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.cvStep3Sub}</p>
                     </div>
                   </div>
                 </section>
@@ -3531,25 +4058,6 @@ export default function Home() {
                     <div className={`p-6 rounded-3xl border flex flex-col gap-4 ${
                       isDarkMode ? "bg-[#1d1714]/60 border-[#332822]" : "bg-white/60 border-[#eeded5]"
                     }`}>
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => setSimScope("extraction")}
-                          className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                            simScope === "extraction" ? "bg-[#C86432] text-white" : "bg-stone-100 dark:bg-stone-900 text-stone-600"
-                          }`}
-                        >
-                          Extraction Desk
-                        </button>
-                        <button
-                          onClick={() => setSimScope("cv")}
-                          className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                            simScope === "cv" ? "bg-[#C86432] text-white" : "bg-stone-100 dark:bg-stone-900 text-stone-600"
-                          }`}
-                        >
-                          CV Builder
-                        </button>
-                      </div>
-
                       {simScope === "extraction" ? (
                         <>
                           <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#C86432]">1. Select Document Template</h3>
@@ -3607,7 +4115,7 @@ export default function Home() {
                         </>
                       ) : (
                         <>
-                          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#C86432]">1. Select CV Sample</h3>
+                          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#C86432]">{t.cvSelectSample}</h3>
                           <div className="flex flex-col gap-2.5">
                             {CV_DEMO_PRESETS.map((preset, idx) => (
                               <button
@@ -3624,14 +4132,14 @@ export default function Home() {
                                 <div className="bg-[#eeded5]/40 dark:bg-stone-800 p-1.5 rounded-xl shrink-0" dangerouslySetInnerHTML={{ __html: preset.illustration }} />
                                 <div className="truncate">
                                   <span className="text-xs font-bold block">{preset.name}</span>
-                                  <span className="text-[10px] text-stone-500 dark:text-stone-400">Sample CV markdown</span>
+                                  <span className="text-[10px] text-stone-500 dark:text-stone-400">{t.cvSampleSubtitle}</span>
                                 </div>
                               </button>
                             ))}
                           </div>
 
                           <div className="border-t border-[#eeded5] dark:border-[#332822] pt-4 mt-2">
-                            <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2.5 text-[#C86432]">2. Template Preview</h3>
+                            <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2.5 text-[#C86432]">{t.cvTemplatePreview}</h3>
                             <div className="flex flex-wrap gap-2">
                               {CV_TEMPLATES.map((tpl) => (
                                 <button
@@ -3656,7 +4164,7 @@ export default function Home() {
                             className="w-full mt-4 py-3 bg-[#C86432] hover:bg-[#aa5328] text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer"
                           >
                             <BookOpen className="w-4 h-4 text-amber-200" />
-                            <span>Load to CV Builder</span>
+                            <span>{t.cvLoadBuilder}</span>
                           </button>
                         </>
                       )}
@@ -3778,9 +4286,9 @@ export default function Home() {
               ) : (
                 <section className="flex flex-col gap-8 pb-8">
                   <div className="text-center max-w-xl mx-auto gap-2 flex flex-col">
-                    <h2 className="text-xl sm:text-2xl font-bold tracking-tight">CV Builder Features</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold tracking-tight">{t.cvFeaturesHeader}</h2>
                     <p className={`text-xs ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
-                      Smart resume reconstruction, ATS alignment, template styling and role-specific optimization.
+                      {t.cvFeaturesSub}
                     </p>
                   </div>
 
@@ -3789,22 +4297,22 @@ export default function Home() {
                       isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
                     }`}>
                       <Palette className="w-7 h-7 text-[#C86432]" />
-                      <h3 className="font-bold text-sm mt-1">Template Styling</h3>
-                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>Choose ATS-friendly templates and visual themes for recruiters.</p>
+                      <h3 className="font-bold text-sm mt-1">{t.cvFeatureCard1Title}</h3>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.cvFeatureCard1Desc}</p>
                     </div>
                     <div className={`p-8 rounded-3xl border flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
                       isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
                     }`}>
                       <Target className="w-7 h-7 text-amber-600" />
-                      <h3 className="font-bold text-sm mt-1">Role Targeting</h3>
-                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>Optimize for specific job titles with keyword alignment and achievements.</p>
+                      <h3 className="font-bold text-sm mt-1">{t.cvFeatureCard2Title}</h3>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.cvFeatureCard2Desc}</p>
                     </div>
                     <div className={`p-8 rounded-3xl border flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
                       isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
                     }`}>
                       <Award className="w-7 h-7 text-teal-600" />
-                      <h3 className="font-bold text-sm mt-1">Export & Share</h3>
-                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>Export polished DOC/PDF, copy markdown, or preview templates instantly.</p>
+                      <h3 className="font-bold text-sm mt-1">{t.cvFeatureCard3Title}</h3>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.cvFeatureCard3Desc}</p>
                     </div>
                   </div>
                 </section>
@@ -4509,20 +5017,87 @@ export default function Home() {
                   <div className="flex items-center justify-between">
                     <h2 className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-[#C86432] animate-pulse"></span>
-                      Upload Existing CV
+                      {t.cvSource}
                     </h2>
-                    {cvFilePreview && (
+                    {cvInputMode === "file" && cvFilePreview && (
                       <button
                         onClick={clearCvFile}
                         className="text-[11px] font-bold text-rose-500 hover:text-white border border-rose-500/20 bg-rose-500/10 hover:bg-rose-600 px-2.5 py-1 rounded-lg transition-all cursor-pointer"
                       >
-                        Clear
+                        {t.cvClear}
+                      </button>
+                    )}
+                    {cvInputMode === "notes" && cvRawNotes && (
+                      <button
+                        onClick={() => setCvRawNotes("")}
+                        className="text-[11px] font-bold text-rose-500 hover:text-white border border-rose-500/20 bg-rose-500/10 hover:bg-rose-600 px-2.5 py-1 rounded-lg transition-all cursor-pointer"
+                      >
+                        {t.cvClear}
                       </button>
                     )}
                   </div>
 
+                  <div className={`grid grid-cols-2 gap-1 rounded-xl border p-1 text-[11px] font-bold ${
+                    isDarkMode ? "border-[#332822] bg-[#14100e]" : "border-[#eeded5] bg-[#FAF6F0]"
+                  }`}>
+                    <button
+                      type="button"
+                      onClick={() => setCvInputMode("file")}
+                      className={`rounded-lg px-3 py-2 transition-all cursor-pointer ${
+                        cvInputMode === "file"
+                          ? "bg-[#C86432] text-white shadow-sm"
+                          : isDarkMode
+                          ? "text-stone-400 hover:text-white"
+                          : "text-stone-600 hover:text-[#3c2f2f]"
+                      }`}
+                    >
+                      {t.cvFileUpload}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCvInputMode("notes")}
+                      className={`rounded-lg px-3 py-2 transition-all cursor-pointer ${
+                        cvInputMode === "notes"
+                          ? "bg-[#C86432] text-white shadow-sm"
+                          : isDarkMode
+                          ? "text-stone-400 hover:text-white"
+                          : "text-stone-600 hover:text-[#3c2f2f]"
+                      }`}
+                    >
+                      {t.cvRawNotes}
+                    </button>
+                  </div>
+
                   <AnimatePresence mode="wait">
-                    {!cvFilePreview ? (
+                    {cvInputMode === "notes" ? (
+                      <motion.div
+                        key="cv-raw-notes"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        className="flex flex-col gap-2"
+                      >
+                        <textarea
+                          value={cvRawNotes}
+                          onChange={(e) => setCvRawNotes(e.target.value.slice(0, cvRawNotesMaxLength))}
+                          placeholder={t.cvRawNotesPlaceholder}
+                          maxLength={cvRawNotesMaxLength}
+                          className={`w-full min-h-[240px] rounded-2xl border p-4 text-xs leading-relaxed resize-y focus:outline-hidden focus:ring-1 focus:ring-[#C86432] ${
+                            isDarkMode
+                              ? "border-stone-800 bg-[#14100e] text-white placeholder-stone-600"
+                              : "border-stone-200 bg-white text-stone-800 placeholder-stone-400"
+                          }`}
+                        />
+                        <div className="flex items-center justify-between gap-3 text-[10px]">
+                          <span className={cvRawNotesTrimmed.length > 0 && cvRawNotesTrimmed.length < cvRawNotesMinLength ? "text-amber-600 font-bold" : "text-stone-400"}>
+                            {t.cvRawNotesMin} {cvRawNotesMinLength} {t.chars}
+                          </span>
+                          <span className="text-stone-400 font-mono">
+                            {cvRawNotes.length}/{cvRawNotesMaxLength}
+                          </span>
+                        </div>
+                      </motion.div>
+                    ) : !cvFilePreview ? (
                       <motion.div
                         key="cv-dropzone"
                         ref={cvDropRef}
@@ -4551,10 +5126,10 @@ export default function Home() {
                           <FileText className="w-6 h-6" />
                         </div>
                         <p className="text-xs font-semibold">
-                          Drop your CV here, or <span className="text-[#C86432] underline">browse</span>
+                          {t.cvDropTitle}
                         </p>
                         <p className={`text-[10px] mt-1 ${isDarkMode ? "text-stone-400" : "text-stone-500"}`}>
-                          PDF, DOC, DOCX, PNG, JPG (Max 10MB)
+                          {t.cvDropSub}
                         </p>
                       </motion.div>
                     ) : (
@@ -4589,7 +5164,7 @@ export default function Home() {
                 }`}>
                   <h3 className="text-xs font-bold uppercase tracking-widest text-[#C86432] flex items-center gap-2">
                     <Palette className="w-4 h-4" />
-                    Template Style
+                    {t.cvTemplateStyle}
                   </h3>
                   <div className="flex flex-col gap-2">
                     {CV_TEMPLATES.map((template) => (
@@ -4619,12 +5194,12 @@ export default function Home() {
                 }`}>
                   <h3 className="text-xs font-bold uppercase tracking-widest text-[#C86432] flex items-center gap-2">
                     <Sparkles className="w-4 h-4" />
-                    Optimization Settings
+                    {t.cvOptimizationSettings}
                   </h3>
 
                   {/* Tone */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">Tone</label>
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">{t.cvTone}</label>
                     <select
                       value={cvTone}
                       onChange={(e) => setCvTone(e.target.value)}
@@ -4643,7 +5218,7 @@ export default function Home() {
 
                   {/* Seniority Level */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">Seniority Level</label>
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">{t.cvSeniority}</label>
                     <select
                       value={cvSeniority}
                       onChange={(e) => setCvSeniority(e.target.value)}
@@ -4663,7 +5238,7 @@ export default function Home() {
                   <div className="flex flex-col gap-2 border-t border-[#eeded5] dark:border-[#332822] pt-3">
                     <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400 flex items-center gap-2">
                       <Target className="w-3.5 h-3.5" />
-                      Focus Areas
+                      {t.cvFocusAreas}
                     </label>
                     <div className="grid grid-cols-2 gap-2">
                       {CV_FOCUS_AREAS.map((area) => (
@@ -4689,11 +5264,11 @@ export default function Home() {
 
                   {/* Custom Request */}
                   <div className="flex flex-col gap-1.5 border-t border-[#eeded5] dark:border-[#332822] pt-3">
-                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">Additional Notes</label>
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">{t.cvAdditionalNotes}</label>
                     <textarea
                       value={cvCustomRequest}
                       onChange={(e) => setCvCustomRequest(e.target.value)}
-                      placeholder="E.g., 'Add missing degrees', 'Emphasize remote work', 'Add metrics'"
+                      placeholder={t.cvAdditionalPlaceholder}
                       maxLength={500}
                       className={`w-full p-2.5 rounded-xl border text-xs resize-none h-20 focus:outline-hidden focus:ring-1 focus:ring-[#C86432] ${
                         isDarkMode ? "border-stone-800 bg-[#14100e] text-white placeholder-stone-600" : "border-stone-200 bg-white text-stone-800 placeholder-stone-400"
@@ -4714,19 +5289,19 @@ export default function Home() {
                   <div className="flex items-center justify-between">
                     <h3 className="text-xs font-bold uppercase tracking-widest text-[#C86432] flex items-center gap-2">
                       <Briefcase className="w-4 h-4" />
-                      Target Positions
+                      {t.cvTargetPositions}
                     </h3>
                     <div className="flex items-center gap-2">
                       <span className={`text-[10px] font-bold px-2 py-1 rounded-full ${
                         cvSelectedPositions.length > 0 ? "bg-emerald-500/20 text-emerald-600" : "bg-amber-500/20 text-amber-600"
                       }`}>
-                        {cvSelectedPositions.length} selected
+                        {cvSelectedPositions.length} {t.cvSelected}
                       </span>
                       <button
                         onClick={() => setCvSelectedPositions([])}
                         className="text-[11px] font-bold text-stone-500 hover:text-stone-800 border border-stone-200 px-2 py-1 rounded-lg transition-all"
                       >
-                        Clear
+                        {t.cvClear}
                       </button>
                     </div>
                   </div>
@@ -4771,17 +5346,17 @@ export default function Home() {
                       }`}>
                         <Award className="w-5 h-5" />
                       </div>
-                      <h3 className="text-sm font-bold">Optimized CV Ready</h3>
+                      <h3 className="text-sm font-bold">{t.cvOptimizedReady}</h3>
                       <p className={`text-xs max-w-sm mt-1.5 leading-relaxed ${isDarkMode ? "text-stone-400" : "text-stone-500"}`}>
-                        Upload your CV, select target positions, and generate an AI-optimized version tailored to your desired roles.
+                        {t.cvReadySub}
                       </p>
                       <button
                         onClick={handleGenerateCv}
-                        disabled={!cvFilePreview || cvSelectedPositions.length === 0 || cvIsGenerating}
+                        disabled={!hasValidCvInput || cvSelectedPositions.length === 0 || cvIsGenerating}
                         className="mt-6 px-6 py-3 rounded-xl font-bold text-sm bg-[#C86432] hover:bg-[#aa5328] disabled:bg-stone-300 disabled:text-stone-500 text-white transition-all shadow-lg shadow-[#C86432]/10 hover:shadow-[#C86432]/20 hover:scale-[1.01] flex items-center gap-2 cursor-pointer"
                       >
                         <Sparkles className="w-4 h-4" />
-                        {cvIsGenerating ? "Optimizing..." : "Generate Optimized CV"}
+                        {cvIsGenerating ? t.cvOptimizing : t.cvGenerate}
                       </button>
                     </div>
                   ) : cvIsGenerating ? (
@@ -4791,11 +5366,11 @@ export default function Home() {
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-full border-4 border-transparent border-t-[#C86432] animate-spin" />
                             <div>
-                              <div className="text-sm font-bold">Optimizing your CV</div>
-                              <div className="text-[11px] text-stone-500">AI is tailoring your resume for the selected positions...</div>
+                              <div className="text-sm font-bold">{t.cvOptimizingTitle}</div>
+                              <div className="text-[11px] text-stone-500">{t.cvOptimizingSub}</div>
                             </div>
                           </div>
-                          <div className="text-[11px] text-stone-400">{cvSelectedPositions.length} positions</div>
+                          <div className="text-[11px] text-stone-400">{cvSelectedPositions.length} {t.cvPositions}</div>
                         </div>
 
                         <div className="w-full bg-stone-200 h-3 rounded-full overflow-hidden mb-2">
@@ -4814,14 +5389,14 @@ export default function Home() {
                         isDarkMode ? "border-[#332822] bg-[#1c1411]" : "border-[#eeded5] bg-[#FAF6F0]"
                       }`}>
                         <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10px] text-stone-500 font-bold uppercase">
-                          <span className="bg-emerald-500/10 text-emerald-600 px-2 py-1 rounded-lg">✓ Generated</span>
-                          <span className="bg-[#C86432]/10 text-[#C86432] px-2 py-1 rounded-lg">{cvSelectedPositions.length} Positions</span>
+                          <span className="bg-emerald-500/10 text-emerald-600 px-2 py-1 rounded-lg">{t.cvGenerated}</span>
+                          <span className="bg-[#C86432]/10 text-[#C86432] px-2 py-1 rounded-lg">{cvSelectedPositions.length} {t.cvPositions}</span>
                         </div>
                         <button
                           onClick={() => setCvGeneratedText("")}
                           className="text-[11px] font-bold text-[#C86432] hover:text-white border border-[#C86432]/20 bg-[#C86432]/10 hover:bg-[#C86432] px-2.5 py-1 rounded-lg transition-all cursor-pointer"
                         >
-                          Start Over
+                          {t.cvStartOver}
                         </button>
                       </div>
 
@@ -4833,16 +5408,16 @@ export default function Home() {
                               onClick={() => setCvPreviewMode("preview")}
                               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${cvPreviewMode === "preview" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-900/20 text-stone-300" : "bg-white text-stone-700"}`}
                             >
-                              Preview
+                              {t.cvPreview}
                             </button>
                             <button
                               onClick={() => setCvPreviewMode("text")}
                               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${cvPreviewMode === "text" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-900/20 text-stone-300" : "bg-white text-stone-700"}`}
                             >
-                              Text
+                              {t.cvText}
                             </button>
                           </div>
-                          <div className="text-[10px] text-stone-400">Template: <span className="font-bold">{CV_TEMPLATES.find((t)=>t.id===cvTemplate)?.name}</span></div>
+                          <div className="text-[10px] text-stone-400">{t.cvTemplate}: <span className="font-bold">{CV_TEMPLATES.find((t)=>t.id===cvTemplate)?.name}</span></div>
                         </div>
 
                         {cvPreviewMode === "preview" ? (
@@ -4870,7 +5445,7 @@ export default function Home() {
                           onClick={copyCvText}
                           className="px-3 py-1.5 border border-[#eeded5] dark:border-[#332822] text-xs font-bold rounded-xl hover:bg-stone-50 dark:hover:bg-stone-900 cursor-pointer text-[#C86432] transition-all"
                         >
-                          {cvCopyFeedback ? "✓ Copied!" : "Copy Text"}
+                          {cvCopyFeedback ? `✓ ${t.copied}` : t.cvCopyText}
                         </button>
 
                         <div className="flex items-center gap-2">
@@ -4879,14 +5454,14 @@ export default function Home() {
                             className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition-all flex items-center gap-1.5 cursor-pointer"
                           >
                             <Download className="w-3.5 h-3.5" />
-                            Export .DOC
+                            {t.cvExportDoc}
                           </button>
                           <button
                             onClick={exportCvPdf}
                             className="px-3.5 py-1.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-lg transition-all flex items-center gap-1.5 cursor-pointer"
                           >
                             <Download className="w-3.5 h-3.5" />
-                            Export .PDF
+                            {t.cvExportPdf}
                           </button>
                         </div>
                       </div>
