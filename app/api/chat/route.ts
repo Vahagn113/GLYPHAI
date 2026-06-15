@@ -11,9 +11,9 @@ const ai = new GoogleGenAI({
 });
 
 const MODELS_TO_TRY = [
+  "gemini-3.1-flash-lite",
   "gemini-3.5-flash",
   "gemini-flash-latest",
-  "gemini-3.1-flash-lite"
 ];
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

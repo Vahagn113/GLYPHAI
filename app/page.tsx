@@ -298,7 +298,7 @@ const TRANSLATIONS: Record<Language, any> = {
     assistant: "Document Assistant",
     chatLoading: "Fusing file context...",
     chatPlaceholder: "Ask anything about the document...",
-    copyright: "© 2026 GLYPH AI OCR Engine. Constructed with Gemini & Antigravity.",
+    copyright: "© 2026 GLYPH AI OCR Engine.",
     statelessSandbox: "Stateless Sandbox",
     securitySafe: "Security Safe",
     jsonOutput: "JSON Output",
@@ -428,7 +428,7 @@ const TRANSLATIONS: Record<Language, any> = {
     assistant: "Ассистент документа",
     chatLoading: "Объединение контекста файла...",
     chatPlaceholder: "Спросите что-нибудь о документе...",
-    copyright: "© 2026 GLYPH AI. Разработано на базе Gemini и Antigravity.",
+    copyright: "© 2026 GLYPH AI.",
     statelessSandbox: "Песочница",
     securitySafe: "Безопасно",
     jsonOutput: "Формат JSON",
@@ -694,6 +694,48 @@ Object.assign(TRANSLATIONS.en, {
   cvFeatureCard2Desc: "Optimize for specific job titles with keyword alignment and achievements.",
   cvFeatureCard3Title: "Export & Share",
   cvFeatureCard3Desc: "Export polished DOC/PDF, copy Markdown, or preview templates instantly.",
+  resultUi: {
+    beforeAfterTitle: "Before vs After Document Processing",
+    beforeAfterSub: "Side-by-side verification and synchronized layout alignment workspace.",
+    parameterSettings: "Parameter Settings",
+    clearDocument: "Clear Document",
+    beforeRawSource: "Before: Raw Original Source",
+    zoomOut: "Zoom Out",
+    zoomIn: "Zoom In",
+    previewUnavailable: "Preview unavailable.",
+    syncMapActive: "Synchronized map active. Click raw preview bounding grids to select, or click output fields to focus boundaries.",
+    result: "Result",
+    summary: "Summary",
+    accuracy: "Accuracy",
+    assistant: "Assistant",
+    editRawOutline: "Edit Raw Outline",
+    ocrSync: "OCR transcription fully synchronized. Selected field bounds light up instantly.",
+    structuredFormat: "Structured Format",
+    visual: "Visual",
+    rawJson: "Raw JSON",
+    textExtracted: "Text successfully extracted. Showing raw transcription.",
+    customTextRepresentation: "Showing customized text representation.",
+    digestTitle: "Executive Intelligence Digest",
+    digestDesc: "This analyzed file has been verified as type {type}. It is translated into structured JSON nodes with corresponding spatial coordinates of raw outlines.",
+    invoiceTitle: "Invoice Verification Parameters",
+    invoiceItems: ["Identified Billing: Document points to recorded recipient matches. Address is structurally aligned.", "Due Terms Checking: Payment is requested via stated invoice dates. Watch boundaries.", "Integrity Check: Subtotal sums align perfectly with parsed line matrices."],
+    contractTitle: "Legal Risk Diagnostics",
+    contractItems: ["Contracting Outlines: Agreement terms matched. Verify identified parties thoroughly.", "Deadlines & Milestones: Contract triggers clear timelines in chronological outlines.", "Clause Indexing: Business parameters parsed. High integrity matched on key indemnity blocks."],
+    resumeTitle: "Performance & Strengths Index",
+    resumeItems: ["Core Competency Matched: Skills categories list complete technical strengths.", "Experience Continuity: Professional histories validated with timeline matrices.", "Interview Triage: Route parameters directly to talent pipeline directories."],
+    receiptTitle: "Receipt Expense Analysis",
+    receiptItems: ["Merchant Triage: Slips register commercial locations. Matches corporate guidelines.", "Expense Audit: Clean item sums. Highly verified for immediate reimbursement loops.", "Details: Standard transaction channels checked with full VAT outlines."],
+    ocrTitle: "OCR Spatial Findings",
+    ocrDesc: "Characters are mapped on dense layers. Hover over document parts to isolate values.",
+    averageQuality: "Average Extraction Quality",
+    qualityDesc: "OCR metrics benchmarked from spatial coordinates, dictionary validation, and neural parsing models.",
+    highConfidence: "High Confidence Verified",
+    mediumRisk: "Medium Risk Extremum",
+    fieldsIntegrity: "Calculated Fields Integrity",
+    interactiveContext: "Interactive Context Prompting",
+    interactiveContextDesc: "Verify deadlines, translate terms, or calculate tax variables dynamically over the active document.",
+    chatLoadingMetrics: "Fusing context metrics...",
+  },
 });
 
 Object.assign(TRANSLATIONS.ru, {
@@ -887,6 +929,51 @@ Object.assign(TRANSLATIONS.ru, {
   cvFeatureCard3Desc: "Экспортируйте аккуратный DOC/PDF, копируйте Markdown или сразу смотрите предпросмотр.",
 });
 
+Object.assign(TRANSLATIONS.ru, {
+  resultUi: {
+    beforeAfterTitle: "Документ до и после обработки",
+    beforeAfterSub: "Рабочая область для параллельной проверки и синхронизации разметки.",
+    parameterSettings: "Параметры",
+    clearDocument: "Очистить документ",
+    beforeRawSource: "До: исходный документ",
+    zoomOut: "Уменьшить",
+    zoomIn: "Увеличить",
+    previewUnavailable: "Предпросмотр недоступен.",
+    syncMapActive: "Синхронизированная карта активна. Нажмите на области исходного просмотра или на поля результата, чтобы сфокусировать границы.",
+    result: "Результат",
+    summary: "Сводка",
+    accuracy: "Точность",
+    assistant: "Ассистент",
+    editRawOutline: "Редактировать исходный контур",
+    ocrSync: "OCR-транскрипция полностью синхронизирована. Границы выбранного поля подсвечиваются сразу.",
+    structuredFormat: "Структурированный формат",
+    visual: "Визуально",
+    rawJson: "Raw JSON",
+    textExtracted: "Текст успешно извлечен. Показана исходная транскрипция.",
+    customTextRepresentation: "Показано настроенное текстовое представление.",
+    digestTitle: "Интеллектуальная сводка",
+    digestDesc: "Этот файл определен как тип {type}. Он преобразован в структурированные JSON-узлы с координатами исходных контуров.",
+    invoiceTitle: "Параметры проверки счета",
+    invoiceItems: ["Проверка получателя: найденные данные получателя совпадают, адрес структурно выровнен.", "Проверка сроков оплаты: платеж запрошен по указанным датам счета.", "Проверка целостности: промежуточные суммы согласованы со строками таблицы."],
+    contractTitle: "Диагностика юридических рисков",
+    contractItems: ["Контуры договора: условия соглашения сопоставлены, стороны нужно проверить внимательно.", "Сроки и этапы: договор содержит понятные хронологические триггеры.", "Индексация пунктов: ключевые бизнес-параметры и блоки ответственности распознаны."],
+    resumeTitle: "Индекс сильных сторон",
+    resumeItems: ["Ключевые компетенции: категории навыков отражают основные технические сильные стороны.", "Непрерывность опыта: профессиональная история проверена по временной структуре.", "Отбор для интервью: параметры можно передать в процесс подбора кандидатов."],
+    receiptTitle: "Анализ расходов по чеку",
+    receiptItems: ["Проверка продавца: чек фиксирует торговую точку и соответствует стандартной структуре.", "Аудит расходов: суммы по позициям чисто распознаны для возмещения.", "Детали: каналы транзакции проверены вместе с налоговыми полями."],
+    ocrTitle: "Пространственные OCR-находки",
+    ocrDesc: "Символы сопоставлены с плотными слоями. Наведите или выберите части документа, чтобы изолировать значения.",
+    averageQuality: "Среднее качество извлечения",
+    qualityDesc: "OCR-метрики рассчитаны по координатам, словарной проверке и нейронному разбору.",
+    highConfidence: "Высокая уверенность подтверждена",
+    mediumRisk: "Средний уровень риска",
+    fieldsIntegrity: "Целостность рассчитанных полей",
+    interactiveContext: "Интерактивный контекстный помощник",
+    interactiveContextDesc: "Проверяйте сроки, переводите условия или рассчитывайте налоговые значения по активному документу.",
+    chatLoadingMetrics: "Объединяю контекстные данные...",
+  },
+});
+
 Object.assign(TRANSLATIONS.am, {
   title: "GLYPH",
   techEngine: "Gemini 3.5 շարժիչ",
@@ -944,7 +1031,7 @@ Object.assign(TRANSLATIONS.am, {
   assistant: "Փաստաթղթերի օգնական",
   chatLoading: "Միացվում է ֆայլի համատեքստը...",
   chatPlaceholder: "Հարցրեք փաստաթղթի մասին...",
-  copyright: "© 2026 GLYPH AI OCR Engine. Ստեղծված է Gemini-ի և Antigravity-ի միջոցով։",
+  copyright: "© 2026 GLYPH AI OCR Engine.",
   statelessSandbox: "Առանց տվյալների պահպանում",
   securitySafe: "Անվտանգ",
   jsonOutput: "JSON արդյունք",
@@ -1078,6 +1165,51 @@ Object.assign(TRANSLATIONS.am, {
   cvFeatureCard3Desc: "Արտահանեք DOC/PDF, պատճենեք Markdown կամ անմիջապես դիտեք նախադիտումը։",
 });
 
+Object.assign(TRANSLATIONS.am, {
+  resultUi: {
+    beforeAfterTitle: "Փաստաթուղթը մշակելուց առաջ և հետո",
+    beforeAfterSub: "Կողք կողքի ստուգման և դասավորության համաժամեցման աշխատանքային տարածք։",
+    parameterSettings: "Պարամետրեր",
+    clearDocument: "Մաքրել փաստաթուղթը",
+    beforeRawSource: "Առաջ՝ սկզբնական փաստաթուղթ",
+    zoomOut: "Փոքրացնել",
+    zoomIn: "Մեծացնել",
+    previewUnavailable: "Նախադիտումը հասանելի չէ։",
+    syncMapActive: "Համաժամեցված քարտեզը ակտիվ է։ Սեղմեք սկզբնական տեսքի սահմաններին կամ արդյունքի դաշտերին՝ սահմանները կենտրոնացնելու համար։",
+    result: "Արդյունք",
+    summary: "Ամփոփում",
+    accuracy: "Ճշգրտություն",
+    assistant: "Օգնական",
+    editRawOutline: "Խմբագրել սկզբնական ուրվագիծը",
+    ocrSync: "OCR տեքստը ամբողջությամբ համաժամեցված է։ Ընտրված դաշտի սահմանները միանգամից լուսավորվում են։",
+    structuredFormat: "Կառուցվածքային ձևաչափ",
+    visual: "Տեսողական",
+    rawJson: "Raw JSON",
+    textExtracted: "Տեքստը հաջողությամբ դուրս է բերվել։ Ցուցադրվում է սկզբնական տառադարձումը։",
+    customTextRepresentation: "Ցուցադրվում է հարմարեցված տեքստային ներկայացումը։",
+    digestTitle: "Խելացի ամփոփում",
+    digestDesc: "Այս ֆայլը ճանաչվել է որպես {type} տեսակ։ Այն վերածվել է կառուցվածքային JSON հանգույցների՝ սկզբնական ուրվագծերի կոորդինատներով։",
+    invoiceTitle: "Հաշվի ստուգման պարամետրեր",
+    invoiceItems: ["Վճարողի ստուգում՝ ստացողի տվյալները համընկնում են, հասցեն կառուցվածքային է։", "Վճարման ժամկետների ստուգում՝ վճարումը կապված է նշված հաշվի ամսաթվերի հետ։", "Ամբողջականության ստուգում՝ միջանկյալ գումարները համապատասխանում են աղյուսակի տողերին։"],
+    contractTitle: "Իրավական ռիսկերի ախտորոշում",
+    contractItems: ["Պայմանագրի կառուցվածք՝ պայմանները համընկեցված են, կողմերը պետք է մանրակրկիտ ստուգվեն։", "Ժամկետներ և փուլեր՝ պայմանագիրը ցույց է տալիս հստակ ժամանակագրական քայլեր։", "Կետերի ինդեքսավորում՝ հիմնական բիզնես պարամետրերը և պատասխանատվության բլոկները ճանաչվել են։"],
+    resumeTitle: "Ուժեղ կողմերի ինդեքս",
+    resumeItems: ["Հիմնական հմտություններ՝ հմտությունների բաժինները ցույց են տալիս տեխնիկական ուժեղ կողմերը։", "Փորձի շարունակականություն՝ աշխատանքային պատմությունը ստուգվել է ժամանակագրությամբ։", "Հարցազրույցի պատրաստում՝ տվյալները կարելի է փոխանցել թեկնածուների ընտրության հոսքին։"],
+    receiptTitle: "Կտրոնի ծախսերի վերլուծություն",
+    receiptItems: ["Վաճառողի ստուգում՝ կտրոնը ցույց է տալիս առևտրային կետը և ստանդարտ կառուցվածքը։", "Ծախսերի աուդիտ՝ տողերի գումարները հստակ ճանաչվել են փոխհատուցման համար։", "Մանրամասներ՝ գործարքի ալիքները ստուգվել են հարկային դաշտերի հետ։"],
+    ocrTitle: "OCR տարածական արդյունքներ",
+    ocrDesc: "Նիշերը քարտեզագրված են խիտ շերտերի վրա։ Ընտրեք փաստաթղթի մասերը՝ արժեքները առանձնացնելու համար։",
+    averageQuality: "Դուրսբերման միջին որակ",
+    qualityDesc: "OCR չափումները հաշվարկված են կոորդինատներով, բառարանային ստուգմամբ և նեյրոնային վերլուծությամբ։",
+    highConfidence: "Բարձր վստահությունը հաստատված է",
+    mediumRisk: "Միջին ռիսկի մակարդակ",
+    fieldsIntegrity: "Հաշվարկված դաշտերի ամբողջականություն",
+    interactiveContext: "Ինտերակտիվ համատեքստային օգնական",
+    interactiveContextDesc: "Ստուգեք ժամկետները, թարգմանեք պայմանները կամ հաշվարկեք հարկային արժեքները ակտիվ փաստաթղթի հիման վրա։",
+    chatLoadingMetrics: "Միավորում եմ համատեքստային տվյալները...",
+  },
+});
+
 interface DemoPreset {
   name: string;
   illustration: string;
@@ -1136,9 +1268,9 @@ const SR = {
   surfaceInset: "bg-stone-100 dark:bg-[#252018]",
   border: "border-stone-200 dark:border-stone-700",
   textPrimary: "text-stone-800 dark:text-stone-100",
-  textSecondary: "text-stone-600 dark:text-stone-400",
-  textMuted: "text-stone-500 dark:text-stone-400",
-  textLabel: "text-stone-400 dark:text-stone-500",
+  textSecondary: "text-stone-600 dark:text-stone-300",
+  textMuted: "text-stone-500 dark:text-stone-300",
+  textLabel: "text-stone-500 dark:text-stone-400",
   hoverRow: "hover:bg-stone-50 dark:hover:bg-[#252018]",
 };
 
@@ -2136,7 +2268,8 @@ const renderVisualStructuredResult = (
   extractedText: string, 
   resultDocumentType: string,
   activeField: string | null = null,
-  onFieldClick: (field: string) => void = () => {}
+  onFieldClick: (field: string) => void = () => {},
+  t: any = TRANSLATIONS.en
 ) => {
   try {
     const parsed = JSON.parse(extractedText);
@@ -2160,7 +2293,7 @@ const renderVisualStructuredResult = (
       <div className="flex flex-col gap-3 animate-fade-in">
         <div className="bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 p-2.5 rounded-2xl border border-emerald-500/10 flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-          <span className="text-xs font-semibold">Showing customized text representation.</span>
+          <span className="text-xs font-semibold">{t.resultUi?.customTextRepresentation || "Showing customized text representation."}</span>
         </div>
         <div className="p-4 rounded-2xl border whitespace-pre-wrap font-sans text-xs leading-relaxed selection:bg-[#C86432] border-stone-200 bg-stone-50 text-stone-800 dark:border-stone-800 dark:bg-stone-950 dark:text-stone-200">
           {extractedText}
@@ -2260,6 +2393,22 @@ const BeforeVsAfterWorkspace = ({
 
   const avgConfidence = calculateAverageConfidence(extractedText);
   const boxes = DOCUMENT_HIGHLIGHT_MAP[resultDocumentType] || [];
+  const r = t.resultUi || TRANSLATIONS.en.resultUi;
+  const docTypeLabel =
+    resultDocumentType === "invoice" ? t.docTypeInvoice :
+    resultDocumentType === "contract" ? t.docTypeContract :
+    resultDocumentType === "resume" ? t.docTypeResume :
+    resultDocumentType === "receipt" ? t.docTypeReceipt :
+    resultDocumentType === "table" ? t.docTypeTable :
+    t.docTypeGeneral;
+  const summaryMap: Record<string, { title: string; items?: string[]; desc?: string }> = {
+    invoice: { title: r.invoiceTitle, items: r.invoiceItems },
+    contract: { title: r.contractTitle, items: r.contractItems },
+    resume: { title: r.resumeTitle, items: r.resumeItems },
+    receipt: { title: r.receiptTitle, items: r.receiptItems },
+    default: { title: r.ocrTitle, desc: r.ocrDesc },
+  };
+  const summaryBlock = summaryMap[resultDocumentType] || summaryMap.default;
 
   return (
     <div className="col-span-12 flex flex-col gap-6" id="before-after-workbench-parent">
@@ -2273,13 +2422,13 @@ const BeforeVsAfterWorkspace = ({
           </div>
           <div className="text-left">
             <h3 className="font-extrabold text-sm text-stone-800 dark:text-white flex items-center flex-wrap gap-2">
-              Before vs After Document Processing
+              {r.beforeAfterTitle}
               <span className="text-[10px] font-mono font-bold bg-[#C86432]/10 text-[#C86432] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                 {resultDocumentType.replace("_", " ")}
               </span>
             </h3>
-            <p className="text-xs text-stone-500 dark:text-stone-400">
-              Side-by-side verification and synchronized layout alignment workspace.
+            <p className="text-xs text-stone-500 dark:text-stone-300">
+              {r.beforeAfterSub}
             </p>
           </div>
         </div>
@@ -2290,14 +2439,14 @@ const BeforeVsAfterWorkspace = ({
             className={`text-xs font-bold px-3 py-1.5 rounded-xl border ${SR.border} ${SR.surfaceMuted} hover:opacity-90 transition-all flex items-center gap-1.5 cursor-pointer ${SR.textSecondary}`}
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            Parameter Settings
+            {r.parameterSettings}
           </button>
           <button
             onClick={clearFile}
             className="text-xs font-bold text-rose-500 hover:text-white border border-rose-500/20 bg-rose-500/10 hover:bg-rose-600 px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <Trash2 className="w-3.5 h-3.5" />
-            Clear Document
+            {r.clearDocument}
           </button>
         </div>
       </div>
@@ -2314,7 +2463,7 @@ const BeforeVsAfterWorkspace = ({
             <div className="flex items-center justify-between border-b dark:border-stone-800 pb-3 flex-wrap gap-2">
               <span className="text-xs font-bold tracking-wider text-stone-400 font-sans flex items-center gap-1.5">
                 <Eye className="w-4 h-4 text-[#C86432]" />
-                BEFORE: RAW ORIGINAL SOURCE
+                {r.beforeRawSource}
               </span>
 
               {/* Sizing Magnifier Scale */}
@@ -2322,7 +2471,7 @@ const BeforeVsAfterWorkspace = ({
                 <button
                   onClick={() => setZoomScale(z => Math.max(0.5, z - 0.15))}
                   className="p-1 rounded-lg hover:bg-[#C86432]/10 hover:text-[#C86432] cursor-pointer"
-                  title="Zoom Out"
+                  title={r.zoomOut}
                 >
                   <ZoomOut className="w-4 h-4" />
                 </button>
@@ -2332,7 +2481,7 @@ const BeforeVsAfterWorkspace = ({
                 <button
                   onClick={() => setZoomScale(z => Math.min(2.5, z + 0.15))}
                   className="p-1 rounded-lg hover:bg-[#C86432]/10 hover:text-[#C86432] cursor-pointer"
-                  title="Zoom In"
+                  title={r.zoomIn}
                 >
                   <ZoomIn className="w-4 h-4" />
                 </button>
@@ -2357,7 +2506,7 @@ const BeforeVsAfterWorkspace = ({
                   ) : (
                     <div className="text-center text-stone-400 p-6">
                       <FileText className="w-10 h-10 text-[#C86432] mx-auto opacity-30 mb-2" />
-                      <p className="text-xs">Preview unavailable.</p>
+                      <p className="text-xs">{r.previewUnavailable}</p>
                     </div>
                   )}
 
@@ -2389,7 +2538,7 @@ const BeforeVsAfterWorkspace = ({
               {/* Adaptive visual sync instruction banner */}
               <div className="absolute bottom-2 left-2 right-2 bg-stone-50/95 dark:bg-stone-900/95 text-stone-500 dark:text-stone-300 p-2 border border-stone-200/50 dark:border-stone-800 rounded-xl text-[10px] font-sans flex items-center gap-1.5 shadow-sm">
                 <Sparkles className="w-3.5 h-3.5 text-[#C86432]" />
-                <span>Synchronized map active. Click raw preview bounding grids to select, or click output fields to focus boundaries.</span>
+                <span>{r.syncMapActive}</span>
               </div>
             </div>
 
@@ -2413,7 +2562,7 @@ const BeforeVsAfterWorkspace = ({
                 }`}
               >
                 <Zap className="w-3.5 h-3.5" />
-                RESULT
+                {r.result}
               </button>
               <button
                 onClick={() => { setActiveTab("summary"); setIsEditing(false); }}
@@ -2424,7 +2573,7 @@ const BeforeVsAfterWorkspace = ({
                 }`}
               >
                 <FileCheck className="w-3.5 h-3.5" />
-                SUMMARY
+                {r.summary}
               </button>
               <button
                 onClick={() => { setActiveTab("confidence"); setIsEditing(false); }}
@@ -2435,7 +2584,7 @@ const BeforeVsAfterWorkspace = ({
                 }`}
               >
                 <Gauge className="w-3.5 h-3.5" />
-                ACCURACY
+                {r.accuracy}
               </button>
               <button
                 onClick={() => { setActiveTab("chat"); setIsEditing(false); }}
@@ -2446,7 +2595,7 @@ const BeforeVsAfterWorkspace = ({
                 }`}
               >
                 <MessageSquare className="w-3.5 h-3.5" />
-                ASSISTANT
+                {r.assistant}
               </button>
             </div>
 
@@ -2454,7 +2603,7 @@ const BeforeVsAfterWorkspace = ({
             <div className="flex-1 mt-4 overflow-y-auto pr-1">
               {isEditing ? (
                 <div className="flex flex-col gap-2 h-full p-1 animate-fade text-xs">
-                  <span className="text-[10px] font-bold text-[#C86432] uppercase tracking-wider">EDIT RAW OUTLINE</span>
+                  <span className="text-[10px] font-bold text-[#C86432] uppercase tracking-wider">{r.editRawOutline}</span>
                   <textarea
                     value={editedText}
                     onChange={(e) => setEditedText(e.target.value)}
@@ -2479,7 +2628,7 @@ const BeforeVsAfterWorkspace = ({
                         <>
                           <div className="bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 p-2.5 rounded-2xl border border-emerald-500/10 flex items-center gap-2">
                             <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-                            <span>OCR transcription fully synchronized. Selected field bounds lit up instantly.</span>
+                            <span>{r.ocrSync}</span>
                           </div>
 
                           <div className="flex items-center justify-between border-b dark:border-stone-800 pb-2">
@@ -2490,27 +2639,27 @@ const BeforeVsAfterWorkspace = ({
                                 className={`px-2.5 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                   isJsonVisualMode
                                     ? "bg-[#C86432] text-white"
-                                    : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
+                                    : "text-stone-500 dark:text-stone-300 hover:text-stone-700 dark:hover:text-stone-100"
                                 }`}
                               >
-                                Visual
+                                {r.visual}
                               </button>
                               <button
                                 onClick={() => setIsJsonVisualMode(false)}
                                 className={`px-2.5 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                   !isJsonVisualMode
                                     ? "bg-[#C86432] text-white"
-                                    : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
+                                    : "text-stone-500 dark:text-stone-300 hover:text-stone-700 dark:hover:text-stone-100"
                                 }`}
                               >
-                                Raw JSON
+                                {r.rawJson}
                               </button>
                             </div>
                           </div>
 
                           <div className="p-1">
                             {isJsonVisualMode ? (
-                              renderVisualStructuredResult(extractedText, resultDocumentType, activeField, setActiveField)
+                              renderVisualStructuredResult(extractedText, resultDocumentType, activeField, setActiveField, t)
                             ) : (
                               <pre className={`p-4 rounded-xl border whitespace-pre-wrap font-mono text-[10.5px] leading-relaxed selection:bg-[#C86432] ${SR.border} ${isDarkMode ? "bg-[#14100e] text-stone-200" : "bg-stone-50 text-stone-800"}`}>
                                 {extractedText}
@@ -2522,7 +2671,7 @@ const BeforeVsAfterWorkspace = ({
                         <div className="flex flex-col gap-3">
                           <div className="bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 p-2.5 rounded-2xl border border-emerald-500/10 flex items-center gap-2">
                             <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-                            <span>Text successfully extracted. Showing raw transcription.</span>
+                            <span>{r.textExtracted}</span>
                           </div>
                           <div className={`p-4 rounded-2xl border whitespace-pre-wrap font-sans text-xs leading-relaxed selection:bg-[#C86432] ${
                             isDarkMode ? "border-stone-800 bg-stone-950 text-stone-200" : "border-stone-200 bg-stone-50 text-stone-800"
@@ -2548,65 +2697,27 @@ const BeforeVsAfterWorkspace = ({
                       }`}>
                         <div className="flex items-center gap-2 text-[#C86432] font-black uppercase text-[10px] tracking-wider">
                           <Sparkles className="w-4 h-4 animate-pulse shrink-0" />
-                          Executive Intelligence Digest
+                          {r.digestTitle}
                         </div>
                         
                         <p className="text-stone-700 dark:text-stone-300 leading-relaxed font-sans">
-                          This analyzed file has been verified as type <strong>{resultDocumentType.toUpperCase()}</strong>. It is translated into structured JSON nodes with corresponding spatial coordinates of raw outlines.
+                          {r.digestDesc.replace("{type}", docTypeLabel)}
                         </p>
 
-                        {resultDocumentType === "invoice" && (
-                          <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1 underline-none">
-                            <h4 className="font-bold text-[#C86432]">Invoice Verification Parameters</h4>
-                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-600 dark:text-stone-400 leading-normal">
-                              <li><strong>Identified Billing:</strong> Document points to recorded recipient matches. Address is structurally aligned.</li>
-                              <li><strong>Due Terms Checking:</strong> Payment is requested via stated invoice dates. Watch boundaries.</li>
-                              <li><strong>Integrity Check:</strong> Subtotal sums align perfectly with parsed line matrices.</li>
+                        <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
+                          <h4 className="font-bold text-[#C86432]">{summaryBlock.title}</h4>
+                          {summaryBlock.items ? (
+                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-600 dark:text-stone-300 leading-normal">
+                              {summaryBlock.items.map((item: string) => (
+                                <li key={item}>{item}</li>
+                              ))}
                             </ul>
-                          </div>
-                        )}
-
-                        {resultDocumentType === "contract" && (
-                          <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
-                            <h4 className="font-bold text-[#C86432]">Legal Risk Diagnostics</h4>
-                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-600 dark:text-stone-400 leading-normal">
-                              <li><strong>Contracting Outlines:</strong> Agreement terms matched. Verify identified parties thoroughly.</li>
-                              <li><strong>Deadlines & Milestones:</strong> Contract triggers clear timelines in chronological outlines.</li>
-                              <li><strong>Clause Indexing:</strong> Business parameters parsed. High integrity matched on key indemnity blocks.</li>
-                            </ul>
-                          </div>
-                        )}
-
-                        {resultDocumentType === "resume" && (
-                          <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
-                            <h4 className="font-bold text-[#C86432]">Performance & Strengths Index</h4>
-                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-600 dark:text-stone-400 leading-normal">
-                              <li><strong>Core Competency Matched:</strong> Skills categories list complete technical strengths.</li>
-                              <li><strong>Experience Continuity:</strong> Professional histories validated with timeline matrices.</li>
-                              <li><strong>Interview Triage:</strong> Route parameters directly to talent pipeline directories.</li>
-                            </ul>
-                          </div>
-                        )}
-
-                        {resultDocumentType === "receipt" && (
-                          <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
-                            <h4 className="font-bold text-[#C86432]">Receipt Expense Analysis</h4>
-                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-600 dark:text-stone-400 leading-normal">
-                              <li><strong>Merchant Triage:</strong> Slips register commercial locations. Matches corporate guidelines.</li>
-                              <li><strong>Expense Audit:</strong> Clean item sums. Highly verified for immediate reimbursement loops.</li>
-                              <li><strong>Details:</strong> Standard transaction channels checked with full vat outlines.</li>
-                            </ul>
-                          </div>
-                        )}
-
-                        {!["invoice", "contract", "resume", "receipt"].includes(resultDocumentType) && (
-                          <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
-                            <h4 className="font-bold text-[#C86432]">OCR Spatial Findings</h4>
-                            <p className="text-[11px] text-stone-600 dark:text-stone-400 leading-relaxed">
-                              Characters are mapped on dense layers. Hover over document parts to isolate values.
+                          ) : (
+                            <p className="text-[11px] text-stone-600 dark:text-stone-300 leading-relaxed">
+                              {summaryBlock.desc}
                             </p>
-                          </div>
-                        )}
+                          )}
+                        </div>
                       </div>
                     </motion.div>
                   )}
@@ -2635,17 +2746,17 @@ const BeforeVsAfterWorkspace = ({
                           </svg>
                           <div className="absolute text-center flex flex-col items-center">
                             <span className="text-lg font-black font-mono text-[#C86432]">{avgConfidence}%</span>
-                            <span className="text-[8px] uppercase tracking-wider text-stone-400 font-bold">Accuracy</span>
+                            <span className="text-[8px] uppercase tracking-wider text-stone-400 font-bold">{r.accuracy}</span>
                           </div>
                         </div>
 
                         <div className="flex-1 flex flex-col gap-1 text-left">
                           <h4 className="font-extrabold text-xs text-stone-800 dark:text-white flex items-center gap-1.5">
                             <TrendingUp className="w-3.5 h-3.5 text-[#C86432]" />
-                            Average Extraction Quality
+                            {r.averageQuality}
                           </h4>
-                          <p className="text-stone-500 dark:text-stone-400 leading-normal text-[11px]">
-                            OCR metrics benchmarked from spatial coordinates, dictionary validation, and neural parsing models.
+                          <p className="text-stone-500 dark:text-stone-300 leading-normal text-[11px]">
+                            {r.qualityDesc}
                           </p>
                           <div className="mt-1">
                             {avgConfidence >= 90 ? (
@@ -2663,7 +2774,7 @@ const BeforeVsAfterWorkspace = ({
 
                       {/* Breakdown bars */}
                       <div className="flex flex-col gap-2.5">
-                        <h5 className="font-extrabold text-stone-400 uppercase tracking-widest text-[9px]">Calculated Fields Integrity</h5>
+                        <h5 className="font-extrabold text-stone-400 uppercase tracking-widest text-[9px]">{r.fieldsIntegrity}</h5>
                         <div className="space-y-3">
                           {boxes.map((box) => {
                             const seed = box.field.charCodeAt(0) + box.field.charCodeAt(box.field.length - 1);
@@ -2709,9 +2820,9 @@ const BeforeVsAfterWorkspace = ({
                         <div className={`p-3 text-[11px] ${isDarkMode ? "bg-[#301c13]/30 text-stone-300" : "bg-[#eeded5]/20 text-stone-700"}`}>
                           <h3 className="font-bold text-[#C86432] flex items-center gap-1.5">
                             <MessageSquare className="w-4 h-4" />
-                            <span>Interactive Context prompting</span>
+                            <span>{r.interactiveContext}</span>
                           </h3>
-                          <p className="mt-0.5 opacity-95">Verify deadlines, translate terms or calculate tax variables dynamically over the active document.</p>
+                          <p className="mt-0.5 opacity-95">{r.interactiveContextDesc}</p>
                         </div>
                       )}
 
@@ -2731,7 +2842,7 @@ const BeforeVsAfterWorkspace = ({
                               }`}
                             >
                               <span className="text-[8px] font-bold uppercase select-none opacity-60">
-                                {isUser ? "You" : "Document Assistant"}
+                                {isUser ? t.you : t.assistant}
                               </span>
                               <p className="whitespace-pre-wrap">{msg.content}</p>
                             </div>
@@ -2741,7 +2852,7 @@ const BeforeVsAfterWorkspace = ({
                         {isChatting && (
                           <div className={`self-start ${SR.surfaceMuted} p-3 rounded-2xl rounded-tl-none flex items-center gap-2 text-[10.5px] ${SR.textSecondary}`}>
                             <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#C86432]" />
-                            <span>Fusing context metrics...</span>
+                            <span>{r.chatLoadingMetrics}</span>
                           </div>
                         )}
 
@@ -2762,7 +2873,7 @@ const BeforeVsAfterWorkspace = ({
                           type="text"
                           value={chatInput}
                           onChange={(e) => setChatInput(e.target.value)}
-                          placeholder="Ask anything about this document..."
+                          placeholder={t.chatPlaceholder}
                           disabled={isChatting}
                           className={`flex-1 text-xs p-2.5 rounded-xl border focus:outline-hidden focus:ring-1 focus:ring-[#C86432] ${
                             isDarkMode ? "border-stone-800 bg-[#14100e] text-white" : "border-stone-205 bg-white text-stone-800"
@@ -3607,7 +3718,7 @@ export default function Home() {
               className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 activeView === "home"
                   ? "bg-[#C86432]/10 text-[#C86432]"
-                  : "text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
+                  : "text-stone-500 hover:text-stone-800 dark:text-stone-300 dark:hover:text-white"
               }`}
             >
               {t.navOverview}
@@ -3617,7 +3728,7 @@ export default function Home() {
               className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 activeView === "workspace"
                   ? "bg-[#C86432]/10 text-[#C86432]"
-                  : "text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
+                  : "text-stone-500 hover:text-stone-800 dark:text-stone-300 dark:hover:text-white"
               }`}
             >
               {t.navWorkspace}
@@ -3627,7 +3738,7 @@ export default function Home() {
               className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 activeView === "cv"
                   ? "bg-[#C86432]/10 text-[#C86432]"
-                  : "text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
+                  : "text-stone-500 hover:text-stone-800 dark:text-stone-300 dark:hover:text-white"
               }`}
             >
               {t.featureCvTitle}
@@ -4077,7 +4188,7 @@ export default function Home() {
                                 <div className="bg-[#eeded5]/40 dark:bg-stone-800 p-1.5 rounded-xl shrink-0" dangerouslySetInnerHTML={{ __html: preset.illustration }} />
                                 <div className="truncate">
                                   <span className="text-xs font-bold block">{preset.name}</span>
-                                  <span className="text-[10px] text-stone-500 dark:text-stone-400">Preset Interactive Simulation File</span>
+                                  <span className="text-[10px] text-stone-500 dark:text-stone-300">Preset Interactive Simulation File</span>
                                 </div>
                               </button>
                             ))}
@@ -4132,7 +4243,7 @@ export default function Home() {
                                 <div className="bg-[#eeded5]/40 dark:bg-stone-800 p-1.5 rounded-xl shrink-0" dangerouslySetInnerHTML={{ __html: preset.illustration }} />
                                 <div className="truncate">
                                   <span className="text-xs font-bold block">{preset.name}</span>
-                                  <span className="text-[10px] text-stone-500 dark:text-stone-400">{t.cvSampleSubtitle}</span>
+                                  <span className="text-[10px] text-stone-500 dark:text-stone-300">{t.cvSampleSubtitle}</span>
                                 </div>
                               </button>
                             ))}
@@ -4413,7 +4524,7 @@ export default function Home() {
                         <p className="text-xs font-semibold">
                           Drop your file here, or <span className="text-[#C86432] underline">browse</span>
                         </p>
-                        <p className={`text-[10px] mt-1 ${isDarkMode ? "text-stone-400" : "text-stone-500"}`}>
+                        <p className={`text-[10px] mt-1 ${isDarkMode ? "text-stone-300" : "text-stone-500"}`}>
                           {t.dropZoneSubText}
                         </p>
                       </motion.div>
@@ -4497,7 +4608,7 @@ export default function Home() {
 
                   {/* Document Type Selector */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">{t.documentTypeLabel}</label>
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-500 dark:text-stone-300">{t.documentTypeLabel}</label>
                     <select
                       value={documentType}
                       onChange={(e) => setDocumentType(e.target.value)}
@@ -4515,7 +4626,7 @@ export default function Home() {
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">{t.extractionModeLabel}</label>
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-500 dark:text-stone-300">{t.extractionModeLabel}</label>
                     {documentType === "general_ocr" ? (
                       <div className="flex flex-col gap-1.5">
                         {["raw", "layout", "transcript", "summary", "key-value"].map((mode) => (
@@ -4531,7 +4642,7 @@ export default function Home() {
                             }`}
                           >
                             <span>{t.modes[mode]}</span>
-                            <span className={`text-[9px] font-mono opacity-80 ${extractionMode === mode ? "text-[#C86432]" : "text-stone-400"}`}>
+                            <span className={`text-[9px] font-mono opacity-80 ${extractionMode === mode ? "text-[#C86432]" : "text-stone-500 dark:text-stone-300"}`}>
                               {mode.toUpperCase()}
                             </span>
                           </button>
@@ -4539,7 +4650,7 @@ export default function Home() {
                       </div>
                     ) : (
                       <div className={`p-3.5 rounded-xl border text-[11px] leading-relaxed transition-all ${
-                        isDarkMode ? "bg-stone-900/40 border-stone-800 text-stone-400" : "bg-stone-50/60 border-stone-100 text-stone-600"
+                        isDarkMode ? "bg-stone-900/40 border-stone-800 text-stone-300" : "bg-stone-50/60 border-stone-100 text-stone-600"
                       }`}>
                         ✨ <span className="font-bold text-[#C86432]">
                           {documentType === "invoice" && t.docTypeInvoice}
@@ -4554,7 +4665,7 @@ export default function Home() {
 
                   {/* Publishing template selection */}
                   <div className="border-t border-[#eeded5] dark:border-[#332822] pt-3 flex flex-col gap-1.5">
-                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">{t.publishingMethod}</label>
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-500 dark:text-stone-300">{t.publishingMethod}</label>
                     <select
                       value={publishingMethod}
                       onChange={(e) => setPublishingMethod(e.target.value)}
@@ -4572,7 +4683,7 @@ export default function Home() {
 
                   {/* Additional parameters prompt input */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">{t.additionalDirectives}</label>
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-500 dark:text-stone-300">{t.additionalDirectives}</label>
                     <textarea
                       value={customPrompt}
                       onChange={(e) => setCustomPrompt(e.target.value)}
@@ -4635,7 +4746,7 @@ export default function Home() {
                         <Layers className="w-5 h-5" />
                       </div>
                       <h3 className="text-sm font-bold">{t.noContentTitle}</h3>
-                      <p className={`text-xs max-w-sm mt-1.5 leading-relaxed ${isDarkMode ? "text-stone-400" : "text-stone-500"}`}>
+                      <p className={`text-xs max-w-sm mt-1.5 leading-relaxed ${isDarkMode ? "text-stone-300" : "text-stone-500"}`}>
                         {t.noContentSubText}
                       </p>
 
@@ -4643,17 +4754,17 @@ export default function Home() {
                         <div className={`p-4 rounded-2xl border ${isDarkMode ? "bg-[#1d1714]/30 border-stone-800" : "bg-stone-50 border-stone-200"}`}>
                           <span className="text-[10px] font-bold text-[#C86432] uppercase">STEP 1</span>
                           <h4 className="text-xs font-bold mt-1">{t.step1Title}</h4>
-                          <p className="text-[10px] text-stone-500 mt-1">{t.step1Sub}</p>
+                          <p className="text-[10px] text-stone-500 dark:text-stone-300 mt-1">{t.step1Sub}</p>
                         </div>
                         <div className={`p-4 rounded-2xl border ${isDarkMode ? "bg-[#1d1714]/30 border-stone-800" : "bg-stone-50 border-stone-200"}`}>
                           <span className="text-[10px] font-bold text-[#C86432] uppercase">STEP 2</span>
                           <h4 className="text-xs font-bold mt-1">{t.step2Title}</h4>
-                          <p className="text-[10px] text-stone-500 mt-1">{t.step2Sub}</p>
+                          <p className="text-[10px] text-stone-500 dark:text-stone-300 mt-1">{t.step2Sub}</p>
                         </div>
                         <div className={`p-4 rounded-2xl border ${isDarkMode ? "bg-[#1d1714]/30 border-stone-800" : "bg-stone-50 border-stone-200"}`}>
                           <span className="text-[10px] font-bold text-[#C86432] uppercase">STEP 3</span>
                           <h4 className="text-xs font-bold mt-1">{t.step3Title}</h4>
-                          <p className="text-[10px] text-stone-500 mt-1">{t.step3Sub}</p>
+                          <p className="text-[10px] text-stone-500 dark:text-stone-300 mt-1">{t.step3Sub}</p>
                         </div>
                       </div>
                     </div>
@@ -4670,7 +4781,7 @@ export default function Home() {
 
                       <div className="w-full mb-8">
                         <div className="flex justify-between items-baseline mb-2">
-                          <span className={`text-[10px] font-mono font-bold uppercase ${isDarkMode ? "text-stone-400" : "text-stone-500"}`}>
+                          <span className={`text-[10px] font-mono font-bold uppercase ${isDarkMode ? "text-stone-300" : "text-stone-500"}`}>
                             {t.loadingEngine}
                           </span>
                           <span className="text-sm font-extrabold text-[#C86432] font-mono">
@@ -4756,7 +4867,7 @@ export default function Home() {
                         isDarkMode ? "border-[#332822] bg-[#1c1411]" : "border-[#eeded5] bg-[#FAF6F0]"
                       }`}>
                         {/* Word counter attributes */}
-                        <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10px] text-stone-500 font-bold uppercase">
+                        <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10px] text-stone-500 dark:text-stone-300 font-bold uppercase">
                           <span className="bg-[#C86432]/10 text-[#C86432] px-2 py-1 rounded-lg">{wordCount} {t.words}</span>
                           <span className="bg-[#C86432]/10 text-[#C86432] px-2 py-1 rounded-lg">{charCount} {t.chars}</span>
                           <span className="bg-[#C86432] text-white px-2 py-1 rounded-lg">{extractionMode.toUpperCase()}</span>
@@ -4767,7 +4878,7 @@ export default function Home() {
                           <button
                             onClick={() => setActiveTab("result")}
                             className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1 cursor-pointer ${
-                              activeTab === "result" ? "bg-[#C86432] text-white" : "text-stone-500"
+                              activeTab === "result" ? "bg-[#C86432] text-white" : "text-stone-500 dark:text-stone-300"
                             }`}
                           >
                             <FileCheck className="w-3.5 h-3.5" />
@@ -4776,7 +4887,7 @@ export default function Home() {
                           <button
                             onClick={() => setActiveTab("chat")}
                             className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1 cursor-pointer ${
-                              activeTab === "chat" ? "bg-[#C86432] text-white" : "text-stone-500"
+                              activeTab === "chat" ? "bg-[#C86432] text-white" : "text-stone-500 dark:text-stone-300"
                             }`}
                           >
                             <MessageSquare className="w-3.5 h-3.5" />
@@ -4792,14 +4903,14 @@ export default function Home() {
                             {/* Visual vs Raw JSON Toggler for Specialized Extractions */}
                             {isSpecializedResult && !isEditing && (
                               <div className="px-5 pt-3.5 pb-2 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between bg-stone-100 dark:bg-stone-900/10">
-                                <span className="text-[10.5px] font-bold uppercase tracking-wider text-stone-400">⚡ Structured Mode</span>
+                                <span className="text-[10.5px] font-bold uppercase tracking-wider text-stone-500 dark:text-stone-300">⚡ Structured Mode</span>
                                 <div className="flex items-center gap-1 bg-stone-100 dark:bg-stone-900 border dark:border-stone-800 p-0.5 rounded-xl text-[10px]">
                                   <button
                                     onClick={() => setIsJsonVisualMode(true)}
                                     className={`px-3 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                       isJsonVisualMode
                                         ? "bg-[#C86432] text-white"
-                                        : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
+                                        : "text-stone-500 dark:text-stone-300 hover:text-stone-700 dark:hover:text-stone-100"
                                     }`}
                                   >
                                     Visual Report
@@ -4809,7 +4920,7 @@ export default function Home() {
                                     className={`px-3 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                       !isJsonVisualMode
                                         ? "bg-[#C86432] text-white"
-                                        : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
+                                        : "text-stone-500 dark:text-stone-300 hover:text-stone-700 dark:hover:text-stone-100"
                                     }`}
                                   >
                                     Raw JSON Code
@@ -5089,10 +5200,10 @@ export default function Home() {
                           }`}
                         />
                         <div className="flex items-center justify-between gap-3 text-[10px]">
-                          <span className={cvRawNotesTrimmed.length > 0 && cvRawNotesTrimmed.length < cvRawNotesMinLength ? "text-amber-600 font-bold" : "text-stone-400"}>
+                          <span className={cvRawNotesTrimmed.length > 0 && cvRawNotesTrimmed.length < cvRawNotesMinLength ? "text-amber-600 dark:text-amber-300 font-bold" : "text-stone-500 dark:text-stone-300"}>
                             {t.cvRawNotesMin} {cvRawNotesMinLength} {t.chars}
                           </span>
-                          <span className="text-stone-400 font-mono">
+                          <span className="text-stone-500 dark:text-stone-300 font-mono">
                             {cvRawNotes.length}/{cvRawNotesMaxLength}
                           </span>
                         </div>
@@ -5128,7 +5239,7 @@ export default function Home() {
                         <p className="text-xs font-semibold">
                           {t.cvDropTitle}
                         </p>
-                        <p className={`text-[10px] mt-1 ${isDarkMode ? "text-stone-400" : "text-stone-500"}`}>
+                        <p className={`text-[10px] mt-1 ${isDarkMode ? "text-stone-300" : "text-stone-500"}`}>
                           {t.cvDropSub}
                         </p>
                       </motion.div>
@@ -5144,7 +5255,7 @@ export default function Home() {
                         }`}>
                           <div className="flex-1 min-w-0">
                             <p className="text-xs font-bold truncate">{cvFileName}</p>
-                            <p className={`text-[10px] ${isDarkMode ? "text-stone-400" : "text-stone-500"}`}>{cvFileSize}</p>
+                            <p className={`text-[10px] ${isDarkMode ? "text-stone-300" : "text-stone-500"}`}>{cvFileSize}</p>
                           </div>
                           <Check className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
                         </div>
@@ -5182,7 +5293,7 @@ export default function Home() {
                         <span className={`text-xs font-bold block ${cvTemplate === template.id ? "text-[#C86432]" : ""}`}>
                           {template.name}
                         </span>
-                        <span className="text-[10px] text-stone-500 block mt-1 leading-tight">{template.desc}</span>
+                        <span className="text-[10px] text-stone-500 dark:text-stone-300 block mt-1 leading-tight">{template.desc}</span>
                       </button>
                     ))}
                   </div>
@@ -5199,7 +5310,7 @@ export default function Home() {
 
                   {/* Tone */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">{t.cvTone}</label>
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-500 dark:text-stone-300">{t.cvTone}</label>
                     <select
                       value={cvTone}
                       onChange={(e) => setCvTone(e.target.value)}
@@ -5218,7 +5329,7 @@ export default function Home() {
 
                   {/* Seniority Level */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">{t.cvSeniority}</label>
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-500 dark:text-stone-300">{t.cvSeniority}</label>
                     <select
                       value={cvSeniority}
                       onChange={(e) => setCvSeniority(e.target.value)}
@@ -5236,7 +5347,7 @@ export default function Home() {
 
                   {/* Focus Areas - Multi-select */}
                   <div className="flex flex-col gap-2 border-t border-[#eeded5] dark:border-[#332822] pt-3">
-                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400 flex items-center gap-2">
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-500 dark:text-stone-300 flex items-center gap-2">
                       <Target className="w-3.5 h-3.5" />
                       {t.cvFocusAreas}
                     </label>
@@ -5249,7 +5360,7 @@ export default function Home() {
                             cvFocusAreas.includes(area)
                               ? "border-[#C86432] bg-[#C86432]/10 text-[#C86432]"
                               : isDarkMode
-                              ? "border-transparent bg-[#1d1714]/30 text-stone-400 hover:bg-[#1d1714]/50"
+                              ? "border-transparent bg-[#1d1714]/30 text-stone-300 hover:bg-[#1d1714]/50"
                               : "border-transparent bg-white text-stone-600 shadow-xs hover:bg-stone-50"
                           }`}
                         >
@@ -5264,7 +5375,7 @@ export default function Home() {
 
                   {/* Custom Request */}
                   <div className="flex flex-col gap-1.5 border-t border-[#eeded5] dark:border-[#332822] pt-3">
-                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-400">{t.cvAdditionalNotes}</label>
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-500 dark:text-stone-300">{t.cvAdditionalNotes}</label>
                     <textarea
                       value={cvCustomRequest}
                       onChange={(e) => setCvCustomRequest(e.target.value)}
@@ -5274,7 +5385,7 @@ export default function Home() {
                         isDarkMode ? "border-stone-800 bg-[#14100e] text-white placeholder-stone-600" : "border-stone-200 bg-white text-stone-800 placeholder-stone-400"
                       }`}
                     />
-                    <span className="text-[9px] text-stone-400">{cvCustomRequest.length}/500</span>
+                    <span className="text-[9px] text-stone-500 dark:text-stone-300">{cvCustomRequest.length}/500</span>
                   </div>
                 </div>
               </section>
@@ -5299,7 +5410,7 @@ export default function Home() {
                       </span>
                       <button
                         onClick={() => setCvSelectedPositions([])}
-                        className="text-[11px] font-bold text-stone-500 hover:text-stone-800 border border-stone-200 px-2 py-1 rounded-lg transition-all"
+                        className="text-[11px] font-bold text-stone-500 hover:text-stone-800 dark:text-stone-300 dark:hover:text-white border border-stone-200 dark:border-stone-800 dark:bg-stone-900/30 px-2 py-1 rounded-lg transition-all"
                       >
                         {t.cvClear}
                       </button>
@@ -5315,7 +5426,7 @@ export default function Home() {
                           cvSelectedPositions.includes(position)
                             ? "border-[#C86432] bg-[#C86432]/10 text-[#C86432]"
                             : isDarkMode
-                            ? "border-transparent bg-[#1d1714]/30 text-stone-400 hover:bg-[#1d1714]/50"
+                            ? "border-transparent bg-[#1d1714]/30 text-stone-300 hover:bg-[#1d1714]/50"
                             : "border-transparent bg-white text-stone-600 shadow-xs hover:bg-stone-50"
                         }`}
                       >
@@ -5347,7 +5458,7 @@ export default function Home() {
                         <Award className="w-5 h-5" />
                       </div>
                       <h3 className="text-sm font-bold">{t.cvOptimizedReady}</h3>
-                      <p className={`text-xs max-w-sm mt-1.5 leading-relaxed ${isDarkMode ? "text-stone-400" : "text-stone-500"}`}>
+                      <p className={`text-xs max-w-sm mt-1.5 leading-relaxed ${isDarkMode ? "text-stone-300" : "text-stone-500"}`}>
                         {t.cvReadySub}
                       </p>
                       <button
@@ -5367,16 +5478,16 @@ export default function Home() {
                             <div className="w-10 h-10 rounded-full border-4 border-transparent border-t-[#C86432] animate-spin" />
                             <div>
                               <div className="text-sm font-bold">{t.cvOptimizingTitle}</div>
-                              <div className="text-[11px] text-stone-500">{t.cvOptimizingSub}</div>
+                              <div className="text-[11px] text-stone-500 dark:text-stone-300">{t.cvOptimizingSub}</div>
                             </div>
                           </div>
-                          <div className="text-[11px] text-stone-400">{cvSelectedPositions.length} {t.cvPositions}</div>
+                          <div className="text-[11px] text-stone-500 dark:text-stone-300">{cvSelectedPositions.length} {t.cvPositions}</div>
                         </div>
 
-                        <div className="w-full bg-stone-200 h-3 rounded-full overflow-hidden mb-2">
+                        <div className="w-full bg-stone-200 dark:bg-stone-800 h-3 rounded-full overflow-hidden mb-2">
                           <div className="h-full bg-[#C86432]" style={{ width: `${Math.min(100, Math.round(((cvTrackerStep + 1) / 5) * 100))}%` }} />
                         </div>
-                        <div className="flex justify-between text-[11px] text-stone-500">
+                        <div className="flex justify-between text-[11px] text-stone-500 dark:text-stone-300">
                           <div>{Math.min(100, Math.round(((cvTrackerStep + 1) / 5) * 100))}%</div>
                           <div className="uppercase text-[10px]">{(t.trackerSteps || [])[cvTrackerStep] || "Finishing"}</div>
                         </div>
@@ -5388,8 +5499,8 @@ export default function Home() {
                       <div className={`p-4 border-b flex items-center justify-between gap-3 ${
                         isDarkMode ? "border-[#332822] bg-[#1c1411]" : "border-[#eeded5] bg-[#FAF6F0]"
                       }`}>
-                        <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10px] text-stone-500 font-bold uppercase">
-                          <span className="bg-emerald-500/10 text-emerald-600 px-2 py-1 rounded-lg">{t.cvGenerated}</span>
+                        <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10px] text-stone-500 dark:text-stone-300 font-bold uppercase">
+                          <span className="bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 px-2 py-1 rounded-lg">{t.cvGenerated}</span>
                           <span className="bg-[#C86432]/10 text-[#C86432] px-2 py-1 rounded-lg">{cvSelectedPositions.length} {t.cvPositions}</span>
                         </div>
                         <button
@@ -5406,18 +5517,18 @@ export default function Home() {
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() => setCvPreviewMode("preview")}
-                              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${cvPreviewMode === "preview" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-900/20 text-stone-300" : "bg-white text-stone-700"}`}
+                              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${cvPreviewMode === "preview" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-900/80 text-stone-200 border border-stone-800" : "bg-white text-stone-700"}`}
                             >
                               {t.cvPreview}
                             </button>
                             <button
                               onClick={() => setCvPreviewMode("text")}
-                              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${cvPreviewMode === "text" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-900/20 text-stone-300" : "bg-white text-stone-700"}`}
+                              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${cvPreviewMode === "text" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-900/80 text-stone-200 border border-stone-800" : "bg-white text-stone-700"}`}
                             >
                               {t.cvText}
                             </button>
                           </div>
-                          <div className="text-[10px] text-stone-400">{t.cvTemplate}: <span className="font-bold">{CV_TEMPLATES.find((t)=>t.id===cvTemplate)?.name}</span></div>
+                          <div className="text-[10px] text-stone-500 dark:text-stone-300">{t.cvTemplate}: <span className="font-bold">{CV_TEMPLATES.find((t)=>t.id===cvTemplate)?.name}</span></div>
                         </div>
 
                         {cvPreviewMode === "preview" ? (
@@ -5443,7 +5554,7 @@ export default function Home() {
                       }`}>
                         <button
                           onClick={copyCvText}
-                          className="px-3 py-1.5 border border-[#eeded5] dark:border-[#332822] text-xs font-bold rounded-xl hover:bg-stone-50 dark:hover:bg-stone-900 cursor-pointer text-[#C86432] transition-all"
+                          className="px-3 py-1.5 border border-[#eeded5] dark:border-[#4a3329] text-xs font-bold rounded-xl hover:bg-stone-50 dark:hover:bg-stone-900 cursor-pointer text-[#C86432] dark:text-[#f09a62] transition-all"
                         >
                           {cvCopyFeedback ? `✓ ${t.copied}` : t.cvCopyText}
                         </button>
@@ -5484,7 +5595,7 @@ export default function Home() {
 
       {/* Footer Segment */}
       <footer className={`border-t py-6 px-12 text-center text-xs transition-all duration-300 ${
-        isDarkMode ? "border-[#332822]/40 bg-[#14100e] text-stone-400" : "border-[#eeded5]/60 bg-white/30 text-stone-500"
+        isDarkMode ? "border-[#332822]/40 bg-[#14100e] text-stone-300" : "border-[#eeded5]/60 bg-white/30 text-stone-500"
       }`}>
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 font-sans">
           <p>{t.copyright}</p>

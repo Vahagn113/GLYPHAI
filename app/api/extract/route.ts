@@ -14,9 +14,9 @@ const ai = new GoogleGenAI({
 });
 
 const MODELS_TO_TRY = [
+  "gemini-3.1-flash-lite",
   "gemini-3.5-flash",
   "gemini-flash-latest",
-  "gemini-3.1-flash-lite"
 ];
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
 
     if (documentType === "auto") {
       try {
-        console.log("[Auto-Detect] Analyzing document using Gemini 3.5 to classify type...");
+        console.log(`[Auto-Detect] Analyzing document using ${MODELS_TO_TRY[0]} to classify type...`);
         const classificationPrompt = `Analyze this document and classify its type into EXACTLY one of the following string categories. Do not include any other text, quotes, or markdown. Output only the category name:
 - "invoice" (for invoices, utility bills, billing sheets)
 - "resume" (for human resource resumes, curriculums vitae (CVs), professional profiles)
@@ -115,7 +115,7 @@ export async function POST(req: NextRequest) {
 Output category:`;
 
         const classificationResponse = await ai.models.generateContent({
-          model: "gemini-3.5-flash",
+          model: MODELS_TO_TRY[0],
           contents: {
             parts: [
               { inlineData: { data: cleanBase64, mimeType: mimeType } },
