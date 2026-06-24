@@ -1,6 +1,11 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { BeforeVsAfterWorkspace, getDisplayableOrDownloadableText, renderVisualStructuredResult } from "@/components/extraction/ResultViewer";
+import { translations as TRANSLATIONS } from "@/lib/translations";
+import { ALLOWED_CV_FILE_TYPES, validateFile } from "@/lib/fileValidation";
+import { copyToClipboard, downloadAsTxt, downloadBlob } from "@/lib/exportUtils";
+import type { ChatMessage, SampleDocument, HighlightBox, Language, DemoPreset, CvDemoPreset } from "@/lib/types";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Upload,
@@ -23,6 +28,7 @@ import {
   Sun,
   Moon,
   Globe,
+  Instagram,
   ChevronDown,
   ArrowRight,
   ShieldCheck,
@@ -43,21 +49,6 @@ import {
   Palette,
   Award
 } from "lucide-react";
-
-interface ChatMessage {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-}
-
-interface SampleDocument {
-  name: string;
-  type: string;
-  mimeType: string;
-  size: string;
-  mockData: string;
-  initialExtract: string;
-}
 
 const CV_POSITION_CATEGORIES = [
   "Data Analyst",
@@ -144,6 +135,23 @@ const CV_FOCUS_AREAS = [
   "International format",
 ];
 
+const CV_TONES = [
+  "Confident professional",
+  "Bold leadership",
+  "Technical expert",
+  "Creative innovator",
+  "Strategic thinker",
+  "Collaborative team player",
+];
+
+const CV_SENIORITY_LEVELS = [
+  "Adaptive",
+  "Junior (0-3 years)",
+  "Mid-level (3-6 years)",
+  "Senior (6-10 years)",
+  "Executive (10+ years)",
+];
+
 const SAMPLES: SampleDocument[] = [
   {
     name: "Handwritten Meeting Notes.png",
@@ -174,15 +182,6 @@ const SAMPLES: SampleDocument[] = [
 *   **Merchant:** ACOUSTIC TAVERNA, 102 Cozy Way, Boston`
   }
 ];
-
-interface HighlightBox {
-  field: string;
-  label: string;
-  top: number; // percentage
-  left: number; // percentage
-  width: number; // percentage
-  height: number; // percentage
-}
 
 const DOCUMENT_HIGHLIGHT_MAP: Record<string, HighlightBox[]> = {
   invoice: [
@@ -238,988 +237,6 @@ const DOCUMENT_HIGHLIGHT_MAP: Record<string, HighlightBox[]> = {
   ]
 };
 
-type Language = "en" | "ru" | "am";
-
-const TRANSLATIONS: Record<Language, any> = {
-  en: {
-    title: "GLYPH",
-    techEngine: "Gemini 3.5 Engine",
-    connected: "Connected",
-    tagline: "Extract & Chat with Document Intel",
-    clearFile: "Clear File",
-    dropZoneTitle: "Drop your file here, or browse",
-    dropZoneSubText: "PNG, JPG, WEBP, or PDF (Max 10MB)",
-    samplesTitle: "Preset interactive samples:",
-    cursiveNotes: "Supports handwritten scripts, layouts, receipts, and dense pdf reports.",
-    processingSettings: "Processing Settings",
-    extractionModeLabel: "Extraction Mode",
-    additionalDirectives: "Additional Extraction Directives",
-    directivesPlaceholder: "Examples: 'Translate to German', 'Search for price tags', etc...",
-    startExtraction: "Start Extraction",
-    parsingImage: "Parsing Image Context...",
-    extractionFailed: "Extraction Failed",
-    noContentTitle: "No content extracted yet",
-    noContentSubText: "Provide notes on the adjacent column, choose an extraction formula, and hit 'Start Extraction' to query Gemini.",
-    step1Title: "Select Input",
-    step1Sub: "Image format or multi-page PDF files processed instantly.",
-    step2Title: "Extraction Mode",
-    step2Sub: "Align output with summaries, Markdown tables, or corrected prose.",
-    step3Title: "Document Chat",
-    step3Sub: "Ask contextual questions, extract points or audit records instantly.",
-    loadingEngine: "Running OCR & Extraction Engine",
-    loadingSubText: "parsing layout structures, transcribing lines, and translating text variables...",
-    awaitingResponse: "PROCESSING (WAITING FOR RESPONSE)",
-    trackerSteps: [
-      "Initializing engine & secure workspace buffers",
-      "Scanning document outline structure & typography grid",
-      "Translating dense layouts & transcribing coordinates",
-      "Correcting syntax elements & building Markdown markup",
-      "Assembling final high-fidelity publishing formatting"
-    ],
-    words: "words",
-    chars: "chars",
-    formula: "formula",
-    extractedText: "Extracted Text",
-    chatWithDoc: "Chat with Document",
-    saveBtn: "Save Changes",
-    cancelBtn: "Cancel",
-    editBtn: "Edit Output",
-    copyText: "Copy Text",
-    copied: "Copied!",
-    exportLabel: "Export",
-    chatHintTitle: "Contextual Prompting Engine",
-    chatHintDesc: "Ask calculation tasks, identify signatures, translate languages, or draft formal emails out of this data.",
-    chatPromptIntro: "What would you like to ask?",
-    chatPromptDates: "Summarize key deadlines",
-    chatPromptInvoice: "Find pricing and costs",
-    chatSample1: "Summarize deadlines",
-    chatSample2: "Find prices & costs",
-    you: "You",
-    assistant: "Document Assistant",
-    chatLoading: "Fusing file context...",
-    chatPlaceholder: "Ask anything about the document...",
-    copyright: "© 2026 GLYPH AI OCR Engine.",
-    statelessSandbox: "Stateless Sandbox",
-    securitySafe: "Security Safe",
-    jsonOutput: "JSON Output",
-    publishingMethod: "Publishing Template Mode",
-    publishingDesc: {
-      raw: "Original Plain Output",
-      email: "Professional Email Draft",
-      wiki: "Technical Documentation Page",
-      blog: "Editorial Blog Post/Article",
-      json: "Structured JSON Object"
-    },
-    documentTypeLabel: "Document Type",
-    docTypeGeneral: "General OCR",
-    docTypeInvoice: "Invoice Extraction",
-    docTypeContract: "Contract Analysis",
-    docTypeResume: "CV / Resume Parsing",
-    docTypeReceipt: "Receipt Processing",
-    docTypeTable: "Table Extraction",
-    modes: {
-      raw: "Verbatim Text",
-      rawDesc: "Extract clean, verbatim text directly from the document.",
-      layout: "Tables & Lists",
-      layoutDesc: "Organize menus, grids, tables, and structured lists.",
-      transcript: "Handwritten Script",
-      transcriptDesc: "Read handwriting, cursive notes, and scribble pages.",
-      summary: "Executive Summary",
-      summaryDesc: "Create a helpful summary of priority points & action items.",
-      "key-value": "Key Attributes",
-      "key-valueDesc": "Extract labels, totals, dates, and amounts into tables."
-    },
-    homeHeroTitle: "Multimodal Document Intelligence Desk",
-    homeHeroSub: "Turn messy papers, receipts, invoice scans, and handwritten scripts into clean database records, documents, or custom briefs using Gemini 3.5.",
-    homeBtnLaunch: "Open Extraction Desk",
-    homeBtnDemo: "Explore Feature Sandbox",
-    homeSection2Header: "How Glyph Transforms Your Files",
-    homeSection2Sub: "Three simple states between raw physical paper and editable, queryable digital intelligence.",
-    homeDemoHeader: "Interactive Feature Simulator",
-    homeDemoSub: "Choose a physical scan template below, then toggle the target extraction formula to witness how GLYPH recreates the data instantly.",
-    homeDemoLoad: "Launch Interactive File inside Workspace",
-    homeDemoSimulating: "Aligning OCR Layers...",
-    bentoHeader: "Engine Specifications & Intelligence Safeguards",
-    bentoSub: "Highly secure, multilingual, and extremely precise.",
-    bentoCard1Title: "Cursive Translation",
-    bentoCard1Desc: "Decodes complex handwriting, scribble fonts, notes, and shorthand abbreviations smoothly.",
-    bentoCard2Title: "No Database Persistence",
-    bentoCard2Desc: "Operates as a completely stateless sandbox. Decoded metadata is parsed purely in-memory.",
-    bentoCard3Title: "Export-Ready Worksheets",
-    bentoCard3Desc: "Build and download .MD text, aligned markdown files, or structured .DOC files easily.",
-    bentoCard4Title: "Specialized Object Schemas",
-    bentoCard4Desc: "Extract structures with schema compliance and confidence meters for Invoices, Contracts, Resumes, and Tables.",
-    bentoCard5Title: "Conversational Document Chat",
-    bentoCard5Desc: "Interact directly with your parsed documents to calculate values, draft summaries, or audit terms safely.",
-    bentoCard6Title: "Five Powerful General Modes",
-    bentoCard6Desc: "Choose Verbatim Text, Tables & Lists, Handwritten Script, Executive Summaries, or Custom Key Attributes.",
-    navOverview: "Overview",
-    navWorkspace: "Extraction Desk",
-    navNavigation: "NAVIGATION",
-    navLanguage: "LANGUAGE",
-    engineBadge: "Multimodal Document Engine",
-    selectDocTemplate: "1. Select Document Template",
-    presetFileSubtitle: "Preset Interactive Simulation File",
-    chooseFormulaMode: "2. Choose Formula Mode",
-    viewLabel: "VIEW",
-    lblImage: "IMAGE",
-    lblPdf: "PDF DOCUMENT",
-    stepLabel: "STEP",
-    editModeLabel: "EDIT MODE",
-    presetBakery: "Cozy Bakery Invoice #429",
-    presetArcheology: "Lecture Notes on Archeology",
-    sampleHandwritten: "Handwritten Meeting Notes.png",
-    sampleInvoice: "Acoustic Tavern Invoice.jpg"
-  },
-  ru: {
-    title: "GLYPH",
-    techEngine: "Движок Gemini 3.5",
-    connected: "Подключено",
-    tagline: "Извлечение текста и чат с документами",
-    clearFile: "Очистить файл",
-    dropZoneTitle: "Перетащите файл сюда или выберите",
-    dropZoneSubText: "PNG, JPG, WEBP или PDF (макс. 10 МБ)",
-    samplesTitle: "Интерактивные примеры:",
-    cursiveNotes: "Поддерживает распознавание рукописного текста, таблиц, счетов и отчетов.",
-    processingSettings: "Настройки обработки",
-    extractionModeLabel: "Режим извлечения",
-    additionalDirectives: "Дополнительные директивы",
-    directivesPlaceholder: "Например: 'Переведи на немецкий', 'Найди цены'...",
-    startExtraction: "Начать извлечение",
-    parsingImage: "Анализ изображения...",
-    extractionFailed: "Ошибка извлечения",
-    noContentTitle: "Текст еще не извлечен",
-    noContentSubText: "Загрузите файл, выберите режим и нажмите «Начать извлечение», чтобы запустить распознавание.",
-    step1Title: "Выбор файла",
-    step1Sub: "Мгновенная обработка изображений и многостраничных PDF-файлов.",
-    step2Title: "Режим работы",
-    step2Sub: "Форматируйте вывод: от простых таблиц до кратких резюме.",
-    step3Title: "Чат с документом",
-    step3Sub: "Задавайте вопросы контексту, извлекайте данные или делайте аудит записей.",
-    loadingEngine: "Запущен ИИ-анализ и распознавание",
-    loadingSubText: "анализ разметки документа, транскрибирование строк и форматирование результата...",
-    awaitingResponse: "ОБРАБОТКА (ОЖИДАНИЕ ОТВЕТА)",
-    trackerSteps: [
-      "Инициализация движка и безопасных буферов вывода",
-      "Сканирование структуры документа и текстовой сетки",
-      "Распознавание табличных полей и координат разметки",
-      "Синтаксическая коррекция и оформление разметки Markdown",
-      "Генерация финального высокоточного форматирования"
-    ],
-    words: "слов",
-    chars: "симв.",
-    formula: "режим",
-    extractedText: "Извлеченный текст",
-    chatWithDoc: "Чат с документом",
-    saveBtn: "Сохранить изменения",
-    cancelBtn: "Отмена",
-    editBtn: "Редактировать",
-    copyText: "Копировать",
-    copied: "Скопировано!",
-    exportLabel: "Экспорт",
-    chatHintTitle: "Контекстный чат-помощник",
-    chatHintDesc: "Задавайте вопросы по расчетам, подписям, переводам или пишите деловые письма по этим данным.",
-    chatPromptIntro: "Что бы вы хотели спросить?",
-    chatPromptDates: "Выдели важные дедлайны",
-    chatPromptInvoice: "Найди цены и стоимость",
-    chatSample1: "Выдели дедлайны",
-    chatSample2: "Стоимость и цены",
-    you: "Вы",
-    assistant: "Ассистент документа",
-    chatLoading: "Объединение контекста файла...",
-    chatPlaceholder: "Спросите что-нибудь о документе...",
-    copyright: "© 2026 GLYPH AI.",
-    statelessSandbox: "Песочница",
-    securitySafe: "Безопасно",
-    jsonOutput: "Формат JSON",
-    publishingMethod: "Шаблон публикации",
-    publishingDesc: {
-      raw: "Оригинальный чистый текст",
-      email: "Черновик делового письма",
-      wiki: "Техническая статья/вики",
-      blog: "Пост для блога/статья",
-      json: "Structured JSON объект"
-    },
-    documentTypeLabel: "Тип документа",
-    docTypeGeneral: "Общий OCR",
-    docTypeInvoice: "Извлечение счетов",
-    docTypeContract: "Анализ контракта",
-    docTypeResume: "Парсинг резюме",
-    docTypeReceipt: "Обработка чеков",
-    docTypeTable: "Извлечение таблиц",
-    modes: {
-      raw: "Точный текст",
-      rawDesc: "Построчное извлечение чистого текста без изменений.",
-      layout: "Таблицы и списки",
-      layoutDesc: "Форматирование списков, каталогов, таблиц и структуры.",
-      transcript: "Рукописный текст",
-      transcriptDesc: "Распознавание сложного почерка, курсива и неразборчивых сканов.",
-      summary: "Основные выводы",
-      summaryDesc: "Краткий список главного, важных задач и ключевых моментов.",
-      "key-value": "Ключевые данные",
-      "key-valueDesc": "Сбор реквизитов, дат, контактов и денежных сумм в таблицу."
-    },
-    homeHeroTitle: "Мультимодальная система интеллектуального анализа",
-    homeHeroSub: "Превращайте неразборчивые заметки, чеки, счета и рукописные сканы в чистые упорядоченные данные с помощью ИИ Gemini 3.5.",
-    homeBtnLaunch: "Открыть Панель извлечения",
-    homeBtnDemo: "Интерактивная демо-песочница",
-    homeSection2Header: "Как Glyph анализирует ваши файлы",
-    homeSection2Sub: "Три простых шага от физического листа бумаги до структурированных цифровых знаний.",
-    homeDemoHeader: "Интерактивный симулятор функций",
-    homeDemoSub: "Выберите шаблон скана ниже и переключайте режим формулы, чтобы воочию увидеть процесс извлечения данных.",
-    homeDemoLoad: "Загрузить этот файл на панель работы",
-    homeDemoSimulating: "Анализируем слои распознавания...",
-    bentoHeader: "Спецификации движка и гарантии безопасности",
-    bentoSub: "Безопасный, многоязычный и точный.",
-    bentoCard1Title: "Распознавание курсива",
-    bentoCard1Desc: "Успешно распознает сложный почерк, беглые заметки и сокращения.",
-    bentoCard2Title: "Конфиденциальность данных",
-    bentoCard2Desc: "Работает как полностью изолированная песочница. Никакая информация не сохраняется.",
-    bentoCard3Title: "Экспорт готовых документов",
-    bentoCard3Desc: "Скачивайте структурированные результаты в форматах .MD, .TXT или файлах .DOC.",
-    bentoCard4Title: "Специализированные схемы данных",
-    bentoCard4Desc: "Извлекайте информацию по строгим схемам с оценкой уверенности для счетов, договоров, резюме и таблиц.",
-    bentoCard5Title: "Контекстный чат-ассистент",
-    bentoCard5Desc: "Общайтесь напрямую со своими файлами для расчетов, составления резюме или финансового аудита.",
-    bentoCard6Title: "Пять универсальных OCR-режимов",
-    bentoCard6Desc: "Выбирайте построчный текст, таблицы, рукописные транскрипты, краткие саммари или пары ключ-значение.",
-    navOverview: "Обзор",
-    navWorkspace: "Панель извлечения",
-    navNavigation: "НАВИГАЦИЯ",
-    navLanguage: "ЯЗЫК",
-    engineBadge: "Мультимодальный движок документов",
-    selectDocTemplate: "1. Выберите шаблон документа",
-    presetFileSubtitle: "Предварительно подготовленный симуляционный файл",
-    chooseFormulaMode: "2. Выберите режим формулы",
-    viewLabel: "РЕЖИМ",
-    lblImage: "ИЗОБРАЖЕНИЕ",
-    lblPdf: "PDF ДОКУМЕНТ",
-    stepLabel: "ШАГ",
-    editModeLabel: "РЕЖИМ РЕДАКТИРОВАНИЯ",
-    presetBakery: "Счет уютной пекарни #429",
-    presetArcheology: "Заметки по археологии",
-    sampleHandwritten: "Рукописные заметки.png",
-    sampleInvoice: "Счет из таверны.jpg"
-  },
-  am: {
-    title: "GLYPH",
-    techEngine: "Gemini 3.5 Շարժիչ",
-    connected: "Միացված է",
-    tagline: "Փաստաթղթերի տեքստի արտահանում և զրույց",
-    clearFile: "Մաքրել ֆայլը",
-    dropZoneTitle: "Քաշեք ֆայլը այստեղ կամ սեղմեք՝ ընտրելու",
-    dropZoneSubText: "PNG, JPG, WEBP կամ PDF (առավելագույնը 10 ՄԲ)",
-    samplesTitle: "Ինտերակտիվ նմուշներ.",
-    cursiveNotes: "Աջակցում է ձեռագիր տեքստի թարգմանությանը, աղյուսակներին, հաշիվներին և զեկույցներին։",
-    processingSettings: "Մշակման կարգավորումներ",
-    extractionModeLabel: "Արտահանման եղանակ",
-    additionalDirectives: "Լրացուցիչ ցուցումներ",
-    directivesPlaceholder: "Օրինակ՝ 'Թարգմանիր գերմաներեն', 'Գտիր գնապիտակները'...",
-    startExtraction: "Սկսել արտահանումը",
-    parsingImage: "Պատկերի վերլուծություն...",
-    extractionFailed: "Արտահանումը ձախողվեց",
-    noContentTitle: "Արտահանված բովանդակություն դեռ չկա",
-    noContentSubText: "Ներբեռնեք ֆայլը ձախ սյունակում, ընտրեք արտահանման եղանակը և սեղմեք «Սկսել արտահանումը»:",
-    step1Title: "Ընտրել ֆայլը",
-    step1Sub: "Պատկերների կամ բազմաէջ PDF ֆայլերի ակնթարթային մշակում:",
-    step2Title: "Արտահանման ռեժիմ",
-    step2Sub: "Ստացեք տեքստը աղյուսակների, ամփոփագրի կամ մաքուր շարադրանքի տեսքով:",
-    step3Title: "Զրույց տեքստի հետ",
-    step3Sub: "Տվեք հարցեր փաստաթղթի բովանդակության վերաբերյալ և ստացեք ճշգրիտ պատասխաններ:",
-    loadingEngine: "Արտահանման շարժիչը աշխատում է ...",
-    loadingSubText: "վերլուծում է փաստաթղթի կառուցվածքը, տողերը և ձևաչափում տեքստը...",
-    awaitingResponse: "ՄՇԱԿՈՒՄ (ՍՊԱՍՈՒՄ ԵՆՔ ՊԱՏԱՍԽԱՆԻՆ)",
-    trackerSteps: [
-      "Շարժիչի նախապատրաստում և տվյալների անվտանգ բուֆերացում",
-      "Փաստաթղթի կառուցվածքի և տեքստային ցանցի սկանավորում",
-      "Աղյուսակային տիրույթների և կոորդինատների արտահանում",
-      "Սինտաքսի ուղղում և Markdown կառուցվածքի ձևավորում",
-      "Վերջնական բարձրորակ հրապարակման տեսքի պատրաստում"
-    ],
-    words: "բառ",
-    chars: "նիշ",
-    formula: "եղանակ",
-    extractedText: "Արտահանված տեքստ",
-    chatWithDoc: "Զրույց փաստաթղթի հետ",
-    saveBtn: "Պահպանել",
-    cancelBtn: "Չեղարկել",
-    editBtn: "Խմբագրել",
-    copyText: "Պատճենել տեքստը",
-    copied: "Պատճենվեց!",
-    exportLabel: "Ներբեռնել",
-    chatHintTitle: "Կոնտեքստային հարցումների համակարգ",
-    chatHintDesc: "Այս զրույցը օգտագործում է Gemini մուլտիմոդալ համակարգը՝ պատասխանելու փաստաթղթի տողերին:",
-    chatPromptIntro: "Ի՞նչ կցանկանայիք հարցնել:",
-    chatPromptDates: "Ամփոփիր վերջնաժամկետները",
-    chatPromptInvoice: "Գտիր գները և ծախսերը",
-    chatSample1: "Ամփոփել ժամկետները",
-    chatSample2: "Գտնել գները և ծախսերը",
-    you: "Դուք",
-    assistant: "Փաստաթղթի օգնական",
-    chatLoading: "Փաստաթղթի կոնտեքստի միավորում...",
-    chatPlaceholder: "Հարցրեք ցանկացած բան փաստաթղթի մասին...",
-    copyright: "© 2026 GLYPH AI. Ստեղծված է Google Gemini և Antigravity տեխնոլոգիաներով:",
-    statelessSandbox: "Անվտանգ միջավայր",
-    securitySafe: "Ապահով",
-    jsonOutput: "JSON Ֆորմատ",
-    publishingMethod: "Հրապարակման ձևաչափ",
-    publishingDesc: {
-      raw: "Օրիգինալ արտահանված տեքստ",
-      email: "Պրոֆեսիոնալ էլ. նամակ",
-      wiki: "Տեխնիկական փաստաթուղթ",
-      blog: "Բլոգի հոդված/նյութ",
-      json: "Structured JSON օբյեկտ"
-    },
-    documentTypeLabel: "Փաստաթղթի տիպ",
-    docTypeGeneral: "Ընդհանուր OCR",
-    docTypeInvoice: "Հաշիվների արտահանում",
-    docTypeContract: "Պայմանագրի վերլուծություն",
-    docTypeResume: "Ինքնակենսագրականի վերլուծություն",
-    docTypeReceipt: "Անդորրագրերի մշակում",
-    docTypeTable: "Աղյուսակի արտահանում",
-    modes: {
-      raw: "Ճշգրիտ տեքստ",
-      rawDesc: "Արտահանել մաքուր տեքստը՝ բառացի պահպանելով տողերը.",
-      layout: "Աղյուսակներ և ցուցակներ",
-      layoutDesc: "Կազմակերպել աղյուսակները, ցանկերը և հաջորդական վերնագրերը:",
-      transcript: "Ձեռագիր տեքստ",
-      transcriptDesc: "Վերծանել բարդ ձեռագրերը, արագ նշումները և խիտ տեքստերը:",
-      summary: "Ամփոփում",
-      summaryDesc: "Ստանալ կարևոր կետերի և առաջադրանքների հակիրճ ամփոփում:",
-      "key-value": "Կարևոր տվյալներ",
-      "key-valueDesc": "Հավաքագրել գումարները, ամսաթվերը կամ հաշիվները կոկիկ աղյուսակում:"
-    },
-    homeHeroTitle: "Բազմամոդալ Փաստաթղթերի Ինտելեկտուալ Համակարգ",
-    homeHeroSub: "Վերափոխեք խառը գրառումները, անդորրագրերը, հաշիվները և ձեռագիր տեքստերը մաքուր տվյալների՝ օգտագործելով Gemini 3.5-ը:",
-    homeBtnLaunch: "Բացել Աշխատանքային Սեղանը",
-    homeBtnDemo: "Ուսումնասիրել Դեմո Սենդբոքսը",
-    homeSection2Header: "Ինչպես է GLYPH-ը վերափոխում ֆայլերը",
-    homeSection2Sub: "Երեք պարզ քայլ՝ թղթային տարբերակից մինչև թվային կառուցվածքային ինտելեկտ:",
-    homeDemoHeader: "Ինտերակտիվ Նմուշների Սիմուլյատոր",
-    homeDemoSub: "Ընտրեք ձախ կողմից որևէ փաստաթուղթ, այնուհետև փոխեք արտահանման եղանակը՝ տեսնելու համար, թե ինչպես է GLYPH-ը ակնթարթորեն մշակում այն:",
-    homeDemoLoad: "Բեռնել այս ֆայլը Աշխատանքային Սեղանում",
-    homeDemoSimulating: "Կարգավորում ենք OCR շերտերը...",
-    bentoHeader: "Շարժիչի Հնարավորությունները և Անվտանգությունը",
-    bentoSub: "Բազմալեզու, գերճշգրիտ և լիովին ապահով:",
-    bentoCard1Title: "Ձեռագիր Տեքստի Ճանաչում",
-    bentoCard1Desc: "Հեշտությամբ վերծանում է բարդ ձեռագրերը, արագ նշումները և հապավումները:",
-    bentoCard2Title: "Առանց Տվյալների Պահպանման",
-    bentoCard2Desc: "Աշխատում է լիովին անձնական ռեժիմով: Ոչ մի ֆայլ կամ արդյունք չի պահպանվում սերվերում:",
-    bentoCard3Title: "Արտահանման Պատրաստ Ֆայլեր",
-    bentoCard3Desc: "Ներբեռնեք արդյունքները .MD, .TXT կամ .DOC (MS Word) ֆորմատներով ընդամենը մեկ սեղմումով:",
-    bentoCard4Title: "Մասնագիտացված հաշվետվություններ",
-    bentoCard4Desc: "Արտահանեք կառուցվածքային տվյալներ հաշիվների, պայմանագրերի, ռեզյումեների և աղյուսակների համար՝ ճշգրտության ցուցանիշով:",
-    bentoCard5Title: "Ինտերակտիվ զրույց փաստաթղթի հետ",
-    bentoCard5Desc: "Զրուցեք անմիջապես ձեր ֆայլերի հետ՝ հաշվարկներ կատարելու, ամփոփագրեր պատրաստելու կամ աուդիտ իրականացնելու համար:",
-    bentoCard6Title: "Հինգ հզոր ընդհանուր ռեժիմներ",
-    bentoCard6Desc: "Ընտրեք ճշգրիտ տեքստ, աղյուսակներ, ձեռագիր տարբերակ, գործադիր ամփոփում կամ հիմնական հատկանիշներ:",
-    navOverview: "Գլխավոր",
-    navWorkspace: "Արտահանման Սեղան",
-    navNavigation: "ՆԱՎԻԳԱՑԻԱ",
-    navLanguage: "ԼԵԶՈՒ",
-    engineBadge: "Բազմամոդալ Փաստաթղթերի Շարժիչ",
-    selectDocTemplate: "1. Ընտրել Փաստաթղթի Նմուշը",
-    presetFileSubtitle: "Պատրաստի ինտերակտիվ սիմուլյացիոն ֆայլ",
-    chooseFormulaMode: "2. Ընտրել Ֆորմուլայի Եղանակը",
-    viewLabel: "ՏԵՍՔ",
-    lblImage: "ՊԱՏԿԵՐ",
-    lblPdf: "PDF ՓԱՍՏԱԹՈՒՂԹ",
-    stepLabel: "ՔԱՅԼ",
-    editModeLabel: "ԽՄԲԱԳՐՄԱՆ ՌԵԺԻՄ",
-    presetBakery: "Հացաբուլկեղենի Հաշիվ #429",
-    presetArcheology: "Դասախոսության Նշումներ",
-    sampleHandwritten: "Ձեռագիր Գրառումներ.png",
-    sampleInvoice: "Ակուստիկ Պանդոկի Հաշիվ.jpg"
-  }
-};
-
-Object.assign(TRANSLATIONS.en, {
-  featureExtractionTitle: "Extraction Desk",
-  featureExtractionDesc: "OCR, structured data, and document chat",
-  featureCvTitle: "CV Builder",
-  featureCvDesc: "Resumes, raw notes, roles, and export",
-  cvHeroTitle: "Build & Optimize Resumes",
-  cvHeroSub: "Convert messy CVs, raw bios, and work notes into recruiter-ready resumes tailored to target roles and ATS-friendly templates.",
-  cvOpenBuilder: "Open CV Builder",
-  cvTryDemo: "Try CV Demo",
-  cvHowHeader: "How CV Builder Helps You Land Roles",
-  cvHowSub: "Upload your CV or write raw work notes, pick target roles and templates, and let AI optimize for keywords, metrics, and clarity.",
-  cvStep1Title: "Add Source",
-  cvStep1Sub: "Upload a CV file or write raw notes with experience, education, skills, and goals.",
-  cvStep2Title: "Select Targets",
-  cvStep2Sub: "Choose roles and templates so AI can prioritize relevant keywords and achievements.",
-  cvStep3Title: "Generate & Export",
-  cvStep3Sub: "Download in PDF/DOC or copy optimized Markdown for ATS-friendly applications.",
-  cvSelectSample: "1. Select CV Sample",
-  cvSampleSubtitle: "Sample CV markdown",
-  cvTemplatePreview: "2. Template Preview",
-  cvLoadBuilder: "Load to CV Builder",
-  cvSource: "CV Source",
-  cvFileUpload: "File Upload",
-  cvRawNotes: "Raw Notes",
-  cvClear: "Clear",
-  cvDropTitle: "Drop your CV here, or browse",
-  cvDropSub: "PDF, DOC, DOCX, PNG, JPG (Max 10MB)",
-  cvRawNotesPlaceholder: "Write or paste raw bio/work notes here: name, contact details, target background, job history, responsibilities, achievements, education, skills, tools, languages, certifications, projects, and career goals.",
-  cvRawNotesMin: "Minimum",
-  cvTemplateStyle: "Template Style",
-  cvOptimizationSettings: "Optimization Settings",
-  cvTone: "Tone",
-  cvSeniority: "Seniority Level",
-  cvFocusAreas: "Focus Areas",
-  cvAdditionalNotes: "Additional Notes",
-  cvAdditionalPlaceholder: "E.g., 'Add missing degrees', 'Emphasize remote work', 'Add metrics'",
-  cvTargetPositions: "Target Positions",
-  cvSelected: "selected",
-  cvOptimizedReady: "Optimized CV Ready",
-  cvReadySub: "Upload your CV or add raw work notes, select target positions, and generate an AI-optimized version tailored to your desired roles.",
-  cvGenerate: "Generate Optimized CV",
-  cvOptimizing: "Optimizing...",
-  cvOptimizingTitle: "Optimizing your CV",
-  cvOptimizingSub: "AI is tailoring your resume for the selected positions...",
-  cvPositions: "positions",
-  cvGenerated: "Generated",
-  cvStartOver: "Start Over",
-  cvPreview: "Preview",
-  cvText: "Text",
-  cvTemplate: "Template",
-  cvCopyText: "Copy Text",
-  cvExportDoc: "Export .DOC",
-  cvExportPdf: "Export .PDF",
-  cvFeaturesHeader: "CV Builder Features",
-  cvFeaturesSub: "Smart resume reconstruction, ATS alignment, template styling, and role-specific optimization.",
-  cvFeatureCard1Title: "Template Styling",
-  cvFeatureCard1Desc: "Choose ATS-friendly templates and visual themes for recruiters.",
-  cvFeatureCard2Title: "Role Targeting",
-  cvFeatureCard2Desc: "Optimize for specific job titles with keyword alignment and achievements.",
-  cvFeatureCard3Title: "Export & Share",
-  cvFeatureCard3Desc: "Export polished DOC/PDF, copy Markdown, or preview templates instantly.",
-  resultUi: {
-    beforeAfterTitle: "Before vs After Document Processing",
-    beforeAfterSub: "Side-by-side verification and synchronized layout alignment workspace.",
-    parameterSettings: "Parameter Settings",
-    clearDocument: "Clear Document",
-    beforeRawSource: "Before: Raw Original Source",
-    zoomOut: "Zoom Out",
-    zoomIn: "Zoom In",
-    previewUnavailable: "Preview unavailable.",
-    syncMapActive: "Synchronized map active. Click raw preview bounding grids to select, or click output fields to focus boundaries.",
-    result: "Result",
-    summary: "Summary",
-    accuracy: "Accuracy",
-    assistant: "Assistant",
-    editRawOutline: "Edit Raw Outline",
-    ocrSync: "OCR transcription fully synchronized. Selected field bounds light up instantly.",
-    structuredFormat: "Structured Format",
-    visual: "Visual",
-    rawJson: "Raw JSON",
-    textExtracted: "Text successfully extracted. Showing raw transcription.",
-    customTextRepresentation: "Showing customized text representation.",
-    digestTitle: "Executive Intelligence Digest",
-    digestDesc: "This analyzed file has been verified as type {type}. It is translated into structured JSON nodes with corresponding spatial coordinates of raw outlines.",
-    invoiceTitle: "Invoice Verification Parameters",
-    invoiceItems: ["Identified Billing: Document points to recorded recipient matches. Address is structurally aligned.", "Due Terms Checking: Payment is requested via stated invoice dates. Watch boundaries.", "Integrity Check: Subtotal sums align perfectly with parsed line matrices."],
-    contractTitle: "Legal Risk Diagnostics",
-    contractItems: ["Contracting Outlines: Agreement terms matched. Verify identified parties thoroughly.", "Deadlines & Milestones: Contract triggers clear timelines in chronological outlines.", "Clause Indexing: Business parameters parsed. High integrity matched on key indemnity blocks."],
-    resumeTitle: "Performance & Strengths Index",
-    resumeItems: ["Core Competency Matched: Skills categories list complete technical strengths.", "Experience Continuity: Professional histories validated with timeline matrices.", "Interview Triage: Route parameters directly to talent pipeline directories."],
-    receiptTitle: "Receipt Expense Analysis",
-    receiptItems: ["Merchant Triage: Slips register commercial locations. Matches corporate guidelines.", "Expense Audit: Clean item sums. Highly verified for immediate reimbursement loops.", "Details: Standard transaction channels checked with full VAT outlines."],
-    ocrTitle: "OCR Spatial Findings",
-    ocrDesc: "Characters are mapped on dense layers. Hover over document parts to isolate values.",
-    averageQuality: "Average Extraction Quality",
-    qualityDesc: "OCR metrics benchmarked from spatial coordinates, dictionary validation, and neural parsing models.",
-    highConfidence: "High Confidence Verified",
-    mediumRisk: "Medium Risk Extremum",
-    fieldsIntegrity: "Calculated Fields Integrity",
-    interactiveContext: "Interactive Context Prompting",
-    interactiveContextDesc: "Verify deadlines, translate terms, or calculate tax variables dynamically over the active document.",
-    chatLoadingMetrics: "Fusing context metrics...",
-  },
-});
-
-Object.assign(TRANSLATIONS.ru, {
-  title: "GLYPH",
-  techEngine: "Движок Gemini 3.5",
-  connected: "Подключено",
-  tagline: "Извлечение и чат с документами",
-  clearFile: "Очистить файл",
-  dropZoneTitle: "Перетащите файл сюда или выберите",
-  dropZoneSubText: "PNG, JPG, WEBP или PDF (до 10 МБ)",
-  samplesTitle: "Интерактивные примеры:",
-  cursiveNotes: "Поддерживает рукописный текст, макеты, чеки и плотные PDF-отчеты.",
-  processingSettings: "Настройки обработки",
-  extractionModeLabel: "Режим извлечения",
-  additionalDirectives: "Дополнительные инструкции",
-  directivesPlaceholder: "Например: «Переведи на немецкий», «Найди цены»...",
-  startExtraction: "Начать извлечение",
-  parsingImage: "Анализ контекста изображения...",
-  extractionFailed: "Ошибка извлечения",
-  noContentTitle: "Контент пока не извлечен",
-  noContentSubText: "Добавьте файл слева, выберите режим извлечения и нажмите «Начать извлечение», чтобы запустить Gemini.",
-  step1Title: "Выберите источник",
-  step1Sub: "Изображения и многостраничные PDF обрабатываются быстро.",
-  step2Title: "Режим извлечения",
-  step2Sub: "Настройте вывод: резюме, Markdown-таблицы или очищенный текст.",
-  step3Title: "Чат с документом",
-  step3Sub: "Задавайте вопросы, извлекайте данные или проверяйте записи.",
-  loadingEngine: "Запущен OCR и движок извлечения",
-  loadingSubText: "анализ структуры, распознавание строк и форматирование результата...",
-  awaitingResponse: "ОБРАБОТКА (ОЖИДАНИЕ ОТВЕТА)",
-  trackerSteps: [
-    "Инициализация движка и защищенного рабочего буфера",
-    "Сканирование структуры документа и типографики",
-    "Распознавание макета, строк и координат",
-    "Исправление синтаксиса и сборка Markdown",
-    "Формирование финального форматированного результата",
-  ],
-  words: "слов",
-  chars: "символов",
-  formula: "режим",
-  extractedText: "Извлеченный текст",
-  chatWithDoc: "Чат с документом",
-  saveBtn: "Сохранить",
-  cancelBtn: "Отмена",
-  editBtn: "Редактировать",
-  copyText: "Копировать",
-  copied: "Скопировано!",
-  exportLabel: "Экспорт",
-  chatHintTitle: "Контекстный помощник",
-  chatHintDesc: "Попросите посчитать суммы, найти подписи, перевести текст или подготовить письмо по документу.",
-  chatPromptIntro: "Что вы хотите спросить?",
-  chatPromptDates: "Кратко опиши ключевые сроки",
-  chatPromptInvoice: "Найди цены и расходы",
-  chatSample1: "Суммировать сроки",
-  chatSample2: "Найти цены и расходы",
-  you: "Вы",
-  assistant: "Помощник по документам",
-  chatLoading: "Соединяю контекст файла...",
-  chatPlaceholder: "Спросите что-нибудь о документе...",
-  copyright: "© 2026 GLYPH AI OCR Engine. Создано с Gemini и Antigravity.",
-  statelessSandbox: "Без сохранения данных",
-  securitySafe: "Безопасно",
-  jsonOutput: "JSON-вывод",
-  publishingMethod: "Шаблон публикации",
-  publishingDesc: {
-    raw: "Исходный простой вывод",
-    email: "Профессиональное письмо",
-    wiki: "Техническая документация",
-    blog: "Редакционная статья/пост",
-    json: "Структурированный JSON-объект",
-  },
-  documentTypeLabel: "Тип документа",
-  docTypeGeneral: "Общий OCR",
-  docTypeInvoice: "Извлечение счета",
-  docTypeContract: "Анализ договора",
-  docTypeResume: "Разбор CV / резюме",
-  docTypeReceipt: "Обработка чека",
-  docTypeTable: "Извлечение таблицы",
-  modes: {
-    raw: "Точный текст",
-    rawDesc: "Извлечь чистый текст документа без дополнительных пояснений.",
-    layout: "Таблицы и списки",
-    layoutDesc: "Сохранить структуру таблиц, списков и визуальных блоков.",
-    transcript: "Рукописный текст",
-    transcriptDesc: "Распознать рукописные заметки и привести их к читаемому виду.",
-    summary: "Краткое резюме",
-    summaryDesc: "Сформировать структурированное резюме с важными пунктами.",
-    "key-value": "Ключевые поля",
-    "key-valueDesc": "Извлечь даты, суммы, метки и значения в таблицу.",
-  },
-  homeHeroTitle: "Мультимодальный центр анализа документов",
-  homeHeroSub: "Превращайте бумаги, чеки, сканы счетов и рукописные заметки в чистые записи, документы и краткие отчеты с Gemini 3.5.",
-  homeBtnLaunch: "Открыть Extraction Desk",
-  homeBtnDemo: "Открыть демо",
-  homeSection2Header: "Как Glyph преобразует файлы",
-  homeSection2Sub: "Три простых шага от бумажного документа к редактируемым цифровым данным.",
-  homeDemoHeader: "Интерактивный симулятор функций",
-  homeDemoSub: "Выберите пример и режим обработки, чтобы увидеть, как GLYPH восстанавливает данные.",
-  homeDemoLoad: "Открыть пример в рабочей области",
-  homeDemoSimulating: "Выравниваю OCR-слои...",
-  bentoHeader: "Возможности движка и защита данных",
-  bentoSub: "Безопасно, многоязычно и точно.",
-  bentoCard1Title: "Распознавание рукописного текста",
-  bentoCard1Desc: "Понимает сложный почерк, быстрые заметки и сокращения.",
-  bentoCard2Title: "Без сохранения в базе",
-  bentoCard2Desc: "Работает как stateless-среда: результат обрабатывается в памяти.",
-  bentoCard3Title: "Готовые к экспорту файлы",
-  bentoCard3Desc: "Скачивайте Markdown, TXT или DOC-файлы одним действием.",
-  bentoCard4Title: "Специализированные схемы",
-  bentoCard4Desc: "Извлекает структурированные данные из счетов, договоров, резюме, чеков и таблиц.",
-  bentoCard5Title: "Диалог с документом",
-  bentoCard5Desc: "Задавайте вопросы по извлеченному документу, считайте суммы и проверяйте условия.",
-  bentoCard6Title: "Пять общих режимов",
-  bentoCard6Desc: "Точный текст, таблицы, рукопись, резюме и ключевые поля.",
-  navOverview: "Обзор",
-  navWorkspace: "Extraction Desk",
-  navNavigation: "Навигация",
-  navLanguage: "Язык",
-  engineBadge: "Мультимодальный движок документов",
-  selectDocTemplate: "1. Выберите шаблон документа",
-  presetFileSubtitle: "Готовый интерактивный пример",
-  chooseFormulaMode: "2. Выберите режим",
-  viewLabel: "Вид",
-  lblImage: "Изображение",
-  lblPdf: "PDF-документ",
-  stepLabel: "Шаг",
-  editModeLabel: "Режим редактирования",
-  presetBakery: "Счет уютной пекарни #429",
-  presetArcheology: "Лекционные заметки по археологии",
-  sampleHandwritten: "Рукописные заметки встречи.png",
-  sampleInvoice: "Счет Acoustic Tavern.jpg",
-  featureExtractionTitle: "Extraction Desk",
-  featureExtractionDesc: "OCR, структурированные данные и чат",
-  featureCvTitle: "CV Builder",
-  featureCvDesc: "Резюме, заметки, роли и экспорт",
-  cvHeroTitle: "Создавайте и улучшайте резюме",
-  cvHeroSub: "Превращайте CV, биографию и рабочие заметки в резюме для рекрутеров, адаптированные под роли и ATS-шаблоны.",
-  cvOpenBuilder: "Открыть CV Builder",
-  cvTryDemo: "Попробовать демо CV",
-  cvHowHeader: "Как CV Builder помогает получить роль",
-  cvHowSub: "Загрузите CV или напишите рабочие заметки, выберите роли и шаблон, а AI усилит ключевые слова, метрики и ясность.",
-  cvStep1Title: "Добавьте источник",
-  cvStep1Sub: "Загрузите CV или внесите заметки об опыте, образовании, навыках и целях.",
-  cvStep2Title: "Выберите цели",
-  cvStep2Sub: "Выберите роли и шаблоны, чтобы AI выделил релевантные навыки и достижения.",
-  cvStep3Title: "Создайте и экспортируйте",
-  cvStep3Sub: "Скачайте PDF/DOC или скопируйте оптимизированный Markdown для ATS.",
-  cvSelectSample: "1. Выберите пример CV",
-  cvSampleSubtitle: "Пример Markdown-резюме",
-  cvTemplatePreview: "2. Предпросмотр шаблона",
-  cvLoadBuilder: "Загрузить в CV Builder",
-  cvSource: "Источник CV",
-  cvFileUpload: "Загрузка файла",
-  cvRawNotes: "Сырые заметки",
-  cvClear: "Очистить",
-  cvDropTitle: "Перетащите CV сюда или выберите файл",
-  cvDropSub: "PDF, DOC, DOCX, PNG, JPG (до 10 МБ)",
-  cvRawNotesPlaceholder: "Напишите или вставьте биографию/рабочие заметки: имя, контакты, опыт, обязанности, достижения, образование, навыки, инструменты, языки, сертификаты, проекты и карьерные цели.",
-  cvRawNotesMin: "Минимум",
-  cvTemplateStyle: "Стиль шаблона",
-  cvOptimizationSettings: "Настройки оптимизации",
-  cvTone: "Тон",
-  cvSeniority: "Уровень опыта",
-  cvFocusAreas: "Фокус",
-  cvAdditionalNotes: "Дополнительные заметки",
-  cvAdditionalPlaceholder: "Например: «Добавить образование», «Подчеркнуть удаленную работу», «Добавить метрики»",
-  cvTargetPositions: "Целевые должности",
-  cvSelected: "выбрано",
-  cvOptimizedReady: "Оптимизированное CV готово",
-  cvReadySub: "Загрузите CV или добавьте рабочие заметки, выберите целевые роли и создайте AI-оптимизированную версию.",
-  cvGenerate: "Создать оптимизированное CV",
-  cvOptimizing: "Оптимизация...",
-  cvOptimizingTitle: "Оптимизирую CV",
-  cvOptimizingSub: "AI адаптирует резюме под выбранные должности...",
-  cvPositions: "должностей",
-  cvGenerated: "Создано",
-  cvStartOver: "Начать заново",
-  cvPreview: "Предпросмотр",
-  cvText: "Текст",
-  cvTemplate: "Шаблон",
-  cvCopyText: "Копировать текст",
-  cvExportDoc: "Экспорт .DOC",
-  cvExportPdf: "Экспорт .PDF",
-  cvFeaturesHeader: "Возможности CV Builder",
-  cvFeaturesSub: "Умная реконструкция резюме, ATS-адаптация, стили шаблонов и оптимизация под роль.",
-  cvFeatureCard1Title: "Стиль шаблона",
-  cvFeatureCard1Desc: "Выбирайте ATS-дружелюбные шаблоны и визуальные темы для рекрутеров.",
-  cvFeatureCard2Title: "Фокус на роли",
-  cvFeatureCard2Desc: "Оптимизируйте резюме под конкретные должности, ключевые слова и достижения.",
-  cvFeatureCard3Title: "Экспорт и отправка",
-  cvFeatureCard3Desc: "Экспортируйте аккуратный DOC/PDF, копируйте Markdown или сразу смотрите предпросмотр.",
-});
-
-Object.assign(TRANSLATIONS.ru, {
-  resultUi: {
-    beforeAfterTitle: "Документ до и после обработки",
-    beforeAfterSub: "Рабочая область для параллельной проверки и синхронизации разметки.",
-    parameterSettings: "Параметры",
-    clearDocument: "Очистить документ",
-    beforeRawSource: "До: исходный документ",
-    zoomOut: "Уменьшить",
-    zoomIn: "Увеличить",
-    previewUnavailable: "Предпросмотр недоступен.",
-    syncMapActive: "Синхронизированная карта активна. Нажмите на области исходного просмотра или на поля результата, чтобы сфокусировать границы.",
-    result: "Результат",
-    summary: "Сводка",
-    accuracy: "Точность",
-    assistant: "Ассистент",
-    editRawOutline: "Редактировать исходный контур",
-    ocrSync: "OCR-транскрипция полностью синхронизирована. Границы выбранного поля подсвечиваются сразу.",
-    structuredFormat: "Структурированный формат",
-    visual: "Визуально",
-    rawJson: "Raw JSON",
-    textExtracted: "Текст успешно извлечен. Показана исходная транскрипция.",
-    customTextRepresentation: "Показано настроенное текстовое представление.",
-    digestTitle: "Интеллектуальная сводка",
-    digestDesc: "Этот файл определен как тип {type}. Он преобразован в структурированные JSON-узлы с координатами исходных контуров.",
-    invoiceTitle: "Параметры проверки счета",
-    invoiceItems: ["Проверка получателя: найденные данные получателя совпадают, адрес структурно выровнен.", "Проверка сроков оплаты: платеж запрошен по указанным датам счета.", "Проверка целостности: промежуточные суммы согласованы со строками таблицы."],
-    contractTitle: "Диагностика юридических рисков",
-    contractItems: ["Контуры договора: условия соглашения сопоставлены, стороны нужно проверить внимательно.", "Сроки и этапы: договор содержит понятные хронологические триггеры.", "Индексация пунктов: ключевые бизнес-параметры и блоки ответственности распознаны."],
-    resumeTitle: "Индекс сильных сторон",
-    resumeItems: ["Ключевые компетенции: категории навыков отражают основные технические сильные стороны.", "Непрерывность опыта: профессиональная история проверена по временной структуре.", "Отбор для интервью: параметры можно передать в процесс подбора кандидатов."],
-    receiptTitle: "Анализ расходов по чеку",
-    receiptItems: ["Проверка продавца: чек фиксирует торговую точку и соответствует стандартной структуре.", "Аудит расходов: суммы по позициям чисто распознаны для возмещения.", "Детали: каналы транзакции проверены вместе с налоговыми полями."],
-    ocrTitle: "Пространственные OCR-находки",
-    ocrDesc: "Символы сопоставлены с плотными слоями. Наведите или выберите части документа, чтобы изолировать значения.",
-    averageQuality: "Среднее качество извлечения",
-    qualityDesc: "OCR-метрики рассчитаны по координатам, словарной проверке и нейронному разбору.",
-    highConfidence: "Высокая уверенность подтверждена",
-    mediumRisk: "Средний уровень риска",
-    fieldsIntegrity: "Целостность рассчитанных полей",
-    interactiveContext: "Интерактивный контекстный помощник",
-    interactiveContextDesc: "Проверяйте сроки, переводите условия или рассчитывайте налоговые значения по активному документу.",
-    chatLoadingMetrics: "Объединяю контекстные данные...",
-  },
-});
-
-Object.assign(TRANSLATIONS.am, {
-  title: "GLYPH",
-  techEngine: "Gemini 3.5 շարժիչ",
-  connected: "Միացված է",
-  tagline: "Փաստաթղթերի տեքստի դուրսբերում և զրույց",
-  clearFile: "Մաքրել ֆայլը",
-  dropZoneTitle: "Քաշեք ֆայլը այստեղ կամ ընտրեք",
-  dropZoneSubText: "PNG, JPG, WEBP կամ PDF (մինչև 10 ՄԲ)",
-  samplesTitle: "Ինտերակտիվ օրինակներ՝",
-  cursiveNotes: "Աջակցում է ձեռագիր տեքստին, դասավորություններին, կտրոններին և խիտ PDF հաշվետվություններին։",
-  processingSettings: "Մշակման կարգավորումներ",
-  extractionModeLabel: "Դուրսբերման ռեժիմ",
-  additionalDirectives: "Լրացուցիչ հրահանգներ",
-  directivesPlaceholder: "Օրինակ՝ «Թարգմանիր գերմաներեն», «Գտիր գները»...",
-  startExtraction: "Սկսել դուրսբերումը",
-  parsingImage: "Վերլուծվում է պատկերի համատեքստը...",
-  extractionFailed: "Դուրսբերման սխալ",
-  noContentTitle: "Տեքստը դեռ դուրս չի բերվել",
-  noContentSubText: "Ավելացրեք ֆայլը ձախում, ընտրեք ռեժիմը և սեղմեք «Սկսել դուրսբերումը»՝ Gemini-ն գործարկելու համար։",
-  step1Title: "Ընտրեք աղբյուրը",
-  step1Sub: "Պատկերներն ու բազմաէջ PDF-ները մշակվում են արագ։",
-  step2Title: "Դուրսբերման ռեժիմ",
-  step2Sub: "Ձևավորեք արդյունքը՝ ամփոփում, Markdown աղյուսակ կամ մաքրված տեքստ։",
-  step3Title: "Զրույց փաստաթղթի հետ",
-  step3Sub: "Տվեք հարցեր, դուրս բերեք տվյալներ կամ ստուգեք գրառումները։",
-  loadingEngine: "Գործարկվում է OCR և դուրսբերման շարժիչը",
-  loadingSubText: "վերլուծվում է կառուցվածքը, ճանաչվում են տողերը և ձևավորվում արդյունքը...",
-  awaitingResponse: "ՄՇԱԿՈՒՄ (ՍՊԱՍՈՒՄ Է ՊԱՏԱՍԽԱՆԻ)",
-  trackerSteps: [
-    "Շարժիչի և անվտանգ աշխատանքային բուֆերի նախապատրաստում",
-    "Փաստաթղթի կառուցվածքի և տիպոգրաֆիայի սկանավորում",
-    "Դասավորության, տողերի և կոորդինատների ճանաչում",
-    "Շարահյուսության ուղղում և Markdown-ի հավաքում",
-    "Վերջնական ձևաչափված արդյունքի պատրաստում",
-  ],
-  words: "բառ",
-  chars: "նիշ",
-  formula: "ռեժիմ",
-  extractedText: "Դուրս բերված տեքստ",
-  chatWithDoc: "Զրույց փաստաթղթի հետ",
-  saveBtn: "Պահպանել",
-  cancelBtn: "Չեղարկել",
-  editBtn: "Խմբագրել",
-  copyText: "Պատճենել",
-  copied: "Պատճենվեց",
-  exportLabel: "Արտահանում",
-  chatHintTitle: "Համատեքստային օգնական",
-  chatHintDesc: "Խնդրեք հաշվել գումարները, գտնել ստորագրությունները, թարգմանել կամ պատրաստել նամակ փաստաթղթի հիման վրա։",
-  chatPromptIntro: "Ի՞նչ եք ուզում հարցնել։",
-  chatPromptDates: "Ամփոփիր կարևոր ժամկետները",
-  chatPromptInvoice: "Գտիր գներն ու ծախսերը",
-  chatSample1: "Ամփոփել ժամկետները",
-  chatSample2: "Գտնել գներն ու ծախսերը",
-  you: "Դուք",
-  assistant: "Փաստաթղթերի օգնական",
-  chatLoading: "Միացվում է ֆայլի համատեքստը...",
-  chatPlaceholder: "Հարցրեք փաստաթղթի մասին...",
-  copyright: "© 2026 GLYPH AI OCR Engine.",
-  statelessSandbox: "Առանց տվյալների պահպանում",
-  securitySafe: "Անվտանգ",
-  jsonOutput: "JSON արդյունք",
-  publishingMethod: "Հրապարակման ձևաչափ",
-  publishingDesc: {
-    raw: "Սկզբնական պարզ արդյունք",
-    email: "Մասնագիտական նամակ",
-    wiki: "Տեխնիկական փաստաթուղթ",
-    blog: "Խմբագրական հոդված/բլոգ",
-    json: "Կառուցվածքային JSON օբյեկտ",
-  },
-  documentTypeLabel: "Փաստաթղթի տեսակ",
-  docTypeGeneral: "Ընդհանուր OCR",
-  docTypeInvoice: "Հաշվի դուրսբերում",
-  docTypeContract: "Պայմանագրի վերլուծություն",
-  docTypeResume: "CV / ռեզյումեի վերլուծություն",
-  docTypeReceipt: "Կտրոնի մշակում",
-  docTypeTable: "Աղյուսակի դուրսբերում",
-  modes: {
-    raw: "Ճշգրիտ տեքստ",
-    rawDesc: "Դուրս բերել մաքուր տեքստը առանց հավելյալ մեկնաբանության։",
-    layout: "Աղյուսակներ և ցուցակներ",
-    layoutDesc: "Պահպանել աղյուսակների, ցուցակների և տեսողական բլոկների կառուցվածքը։",
-    transcript: "Ձեռագիր տեքստ",
-    transcriptDesc: "Ճանաչել ձեռագիր նշումները և դարձնել ընթեռնելի։",
-    summary: "Կարճ ամփոփում",
-    summaryDesc: "Ստեղծել կառուցվածքային ամփոփում կարևոր կետերով։",
-    "key-value": "Կարևոր դաշտեր",
-    "key-valueDesc": "Դուրս բերել ամսաթվեր, գումարներ, պիտակներ և արժեքներ աղյուսակով։",
-  },
-  homeHeroTitle: "Բազմամոդալ փաստաթղթերի վերլուծության կենտրոն",
-  homeHeroSub: "Թղթերը, կտրոնները, հաշիվների սկանները և ձեռագիր նշումները վերածեք մաքուր գրառումների, փաստաթղթերի և ամփոփագրերի՝ Gemini 3.5-ի միջոցով։",
-  homeBtnLaunch: "Բացել Extraction Desk-ը",
-  homeBtnDemo: "Բացել դեմոն",
-  homeSection2Header: "Ինչպես է Glyph-ը փոխակերպում ֆայլերը",
-  homeSection2Sub: "Երեք պարզ քայլ՝ թղթային փաստաթղթից մինչև խմբագրվող թվային տվյալներ։",
-  homeDemoHeader: "Ինտերակտիվ գործառույթների սիմուլյատոր",
-  homeDemoSub: "Ընտրեք օրինակն ու մշակման ռեժիմը՝ տեսնելու համար, թե ինչպես է GLYPH-ը վերականգնում տվյալները։",
-  homeDemoLoad: "Բացել օրինակը աշխատանքային տարածքում",
-  homeDemoSimulating: "Համադրվում են OCR շերտերը...",
-  bentoHeader: "Շարժիչի հնարավորություններ և տվյալների պաշտպանություն",
-  bentoSub: "Անվտանգ, բազմալեզու և ճշգրիտ։",
-  bentoCard1Title: "Ձեռագիր տեքստի ճանաչում",
-  bentoCard1Desc: "Կարդում է բարդ ձեռագիր, արագ նշումներ և կրճատումներ։",
-  bentoCard2Title: "Առանց տվյալների պահպանում",
-  bentoCard2Desc: "Աշխատում է stateless միջավայրում․ արդյունքը մշակվում է հիշողության մեջ։",
-  bentoCard3Title: "Արտահանման պատրաստ ֆայլեր",
-  bentoCard3Desc: "Ներբեռնեք Markdown, TXT կամ DOC ֆայլեր մեկ գործողությամբ։",
-  bentoCard4Title: "Մասնագիտացված սխեմաներ",
-  bentoCard4Desc: "Դուրս է բերում կառուցվածքային տվյալներ հաշիվներից, պայմանագրերից, ռեզյումեներից, կտրոններից և աղյուսակներից։",
-  bentoCard5Title: "Զրույց փաստաթղթի հետ",
-  bentoCard5Desc: "Հարցեր տվեք փաստաթղթի մասին, հաշվեք գումարներ և ստուգեք պայմանները։",
-  bentoCard6Title: "Հինգ ընդհանուր ռեժիմ",
-  bentoCard6Desc: "Ճշգրիտ տեքստ, աղյուսակներ, ձեռագիր, ամփոփում և կարևոր դաշտեր։",
-  navOverview: "Ընդհանուր",
-  navWorkspace: "Extraction Desk",
-  navNavigation: "Նավիգացիա",
-  navLanguage: "Լեզու",
-  engineBadge: "Բազմամոդալ փաստաթղթերի շարժիչ",
-  selectDocTemplate: "1. Ընտրեք փաստաթղթի օրինակը",
-  presetFileSubtitle: "Պատրաստ ինտերակտիվ օրինակ",
-  chooseFormulaMode: "2. Ընտրեք ռեժիմը",
-  viewLabel: "Տեսք",
-  lblImage: "Պատկեր",
-  lblPdf: "PDF փաստաթուղթ",
-  stepLabel: "Քայլ",
-  editModeLabel: "Խմբագրման ռեժիմ",
-  presetBakery: "Հարմարավետ փուռի հաշիվ #429",
-  presetArcheology: "Հնագիտության դասախոսության նշումներ",
-  sampleHandwritten: "Ձեռագիր հանդիպման նշումներ.png",
-  sampleInvoice: "Acoustic Tavern հաշիվ.jpg",
-  featureExtractionTitle: "Extraction Desk",
-  featureExtractionDesc: "OCR, կառուցվածքային տվյալներ և զրույց",
-  featureCvTitle: "CV Builder",
-  featureCvDesc: "Ռեզյումեներ, նշումներ, դերեր և արտահանում",
-  cvHeroTitle: "Ստեղծեք և օպտիմալացրեք ռեզյումեներ",
-  cvHeroSub: "CV-ները, կենսագրական տեքստերը և աշխատանքային նշումները վերածեք ռեկրուտերների համար պատրաստ ռեզյումեների՝ հարմարեցված դերերին և ATS ձևաչափերին։",
-  cvOpenBuilder: "Բացել CV Builder-ը",
-  cvTryDemo: "Փորձել CV դեմոն",
-  cvHowHeader: "Ինչպես է CV Builder-ը օգնում ստանալ աշխատանք",
-  cvHowSub: "Վերբեռնեք CV կամ գրեք աշխատանքային նշումներ, ընտրեք դերերն ու ձևաչափը, իսկ AI-ը կուժեղացնի բանալի բառերը, չափելի արդյունքները և հստակությունը։",
-  cvStep1Title: "Ավելացրեք աղբյուրը",
-  cvStep1Sub: "Վերբեռնեք CV կամ գրեք փորձի, կրթության, հմտությունների և նպատակների մասին նշումներ։",
-  cvStep2Title: "Ընտրեք թիրախները",
-  cvStep2Sub: "Ընտրեք դերեր և ձևաչափեր, որպեսզի AI-ը կարևորի համապատասխան հմտություններն ու ձեռքբերումները։",
-  cvStep3Title: "Ստեղծեք և արտահանեք",
-  cvStep3Sub: "Ներբեռնեք PDF/DOC կամ պատճենեք ATS-ի համար օպտիմալացված Markdown-ը։",
-  cvSelectSample: "1. Ընտրեք CV օրինակ",
-  cvSampleSubtitle: "Markdown ռեզյումեի օրինակ",
-  cvTemplatePreview: "2. Ձևաչափի նախադիտում",
-  cvLoadBuilder: "Բեռնել CV Builder-ում",
-  cvSource: "CV աղբյուր",
-  cvFileUpload: "Ֆայլի վերբեռնում",
-  cvRawNotes: "Սևագիր նշումներ",
-  cvClear: "Մաքրել",
-  cvDropTitle: "Քաշեք CV-ն այստեղ կամ ընտրեք ֆայլ",
-  cvDropSub: "PDF, DOC, DOCX, PNG, JPG (մինչև 10 ՄԲ)",
-  cvRawNotesPlaceholder: "Գրեք կամ տեղադրեք կենսագրական/աշխատանքային նշումներ՝ անուն, կոնտակտներ, փորձ, պարտականություններ, ձեռքբերումներ, կրթություն, հմտություններ, գործիքներ, լեզուներ, սերտիֆիկատներ, նախագծեր և կարիերայի նպատակներ։",
-  cvRawNotesMin: "Նվազագույնը",
-  cvTemplateStyle: "Ձևաչափի ոճ",
-  cvOptimizationSettings: "Օպտիմալացման կարգավորումներ",
-  cvTone: "Տոնայնություն",
-  cvSeniority: "Փորձի մակարդակ",
-  cvFocusAreas: "Կենտրոնացում",
-  cvAdditionalNotes: "Լրացուցիչ նշումներ",
-  cvAdditionalPlaceholder: "Օրինակ՝ «Ավելացնել կրթություն», «Շեշտել հեռավար աշխատանքը», «Ավելացնել չափումներ»",
-  cvTargetPositions: "Թիրախային պաշտոններ",
-  cvSelected: "ընտրված",
-  cvOptimizedReady: "Օպտիմալացված CV-ն պատրաստ է",
-  cvReadySub: "Վերբեռնեք CV կամ ավելացրեք աշխատանքային նշումներ, ընտրեք թիրախային դերերը և ստեղծեք AI-ով օպտիմալացված տարբերակ։",
-  cvGenerate: "Ստեղծել օպտիմալացված CV",
-  cvOptimizing: "Օպտիմալացվում է...",
-  cvOptimizingTitle: "Օպտիմալացվում է ձեր CV-ն",
-  cvOptimizingSub: "AI-ը հարմարեցնում է ռեզյումեն ընտրված պաշտոններին...",
-  cvPositions: "պաշտոն",
-  cvGenerated: "Ստեղծված է",
-  cvStartOver: "Սկսել նորից",
-  cvPreview: "Նախադիտում",
-  cvText: "Տեքստ",
-  cvTemplate: "Ձևաչափ",
-  cvCopyText: "Պատճենել տեքստը",
-  cvExportDoc: "Արտահանել .DOC",
-  cvExportPdf: "Արտահանել .PDF",
-  cvFeaturesHeader: "CV Builder-ի հնարավորություններ",
-  cvFeaturesSub: "Խելացի ռեզյումեի վերակառուցում, ATS համապատասխանեցում, ձևաչափի ոճավորում և օպտիմալացում ըստ դերի։",
-  cvFeatureCard1Title: "Ձևաչափի ոճավորում",
-  cvFeatureCard1Desc: "Ընտրեք ATS-ին հարմար ձևաչափեր և տեսողական ոճեր ռեկրուտերների համար։",
-  cvFeatureCard2Title: "Դերի թիրախավորում",
-  cvFeatureCard2Desc: "Օպտիմալացրեք կոնկրետ պաշտոնների համար՝ բանալի բառերով և ձեռքբերումներով։",
-  cvFeatureCard3Title: "Արտահանում և կիսում",
-  cvFeatureCard3Desc: "Արտահանեք DOC/PDF, պատճենեք Markdown կամ անմիջապես դիտեք նախադիտումը։",
-});
-
-Object.assign(TRANSLATIONS.am, {
-  resultUi: {
-    beforeAfterTitle: "Փաստաթուղթը մշակելուց առաջ և հետո",
-    beforeAfterSub: "Կողք կողքի ստուգման և դասավորության համաժամեցման աշխատանքային տարածք։",
-    parameterSettings: "Պարամետրեր",
-    clearDocument: "Մաքրել փաստաթուղթը",
-    beforeRawSource: "Առաջ՝ սկզբնական փաստաթուղթ",
-    zoomOut: "Փոքրացնել",
-    zoomIn: "Մեծացնել",
-    previewUnavailable: "Նախադիտումը հասանելի չէ։",
-    syncMapActive: "Համաժամեցված քարտեզը ակտիվ է։ Սեղմեք սկզբնական տեսքի սահմաններին կամ արդյունքի դաշտերին՝ սահմանները կենտրոնացնելու համար։",
-    result: "Արդյունք",
-    summary: "Ամփոփում",
-    accuracy: "Ճշգրտություն",
-    assistant: "Օգնական",
-    editRawOutline: "Խմբագրել սկզբնական ուրվագիծը",
-    ocrSync: "OCR տեքստը ամբողջությամբ համաժամեցված է։ Ընտրված դաշտի սահմանները միանգամից լուսավորվում են։",
-    structuredFormat: "Կառուցվածքային ձևաչափ",
-    visual: "Տեսողական",
-    rawJson: "Raw JSON",
-    textExtracted: "Տեքստը հաջողությամբ դուրս է բերվել։ Ցուցադրվում է սկզբնական տառադարձումը։",
-    customTextRepresentation: "Ցուցադրվում է հարմարեցված տեքստային ներկայացումը։",
-    digestTitle: "Խելացի ամփոփում",
-    digestDesc: "Այս ֆայլը ճանաչվել է որպես {type} տեսակ։ Այն վերածվել է կառուցվածքային JSON հանգույցների՝ սկզբնական ուրվագծերի կոորդինատներով։",
-    invoiceTitle: "Հաշվի ստուգման պարամետրեր",
-    invoiceItems: ["Վճարողի ստուգում՝ ստացողի տվյալները համընկնում են, հասցեն կառուցվածքային է։", "Վճարման ժամկետների ստուգում՝ վճարումը կապված է նշված հաշվի ամսաթվերի հետ։", "Ամբողջականության ստուգում՝ միջանկյալ գումարները համապատասխանում են աղյուսակի տողերին։"],
-    contractTitle: "Իրավական ռիսկերի ախտորոշում",
-    contractItems: ["Պայմանագրի կառուցվածք՝ պայմանները համընկեցված են, կողմերը պետք է մանրակրկիտ ստուգվեն։", "Ժամկետներ և փուլեր՝ պայմանագիրը ցույց է տալիս հստակ ժամանակագրական քայլեր։", "Կետերի ինդեքսավորում՝ հիմնական բիզնես պարամետրերը և պատասխանատվության բլոկները ճանաչվել են։"],
-    resumeTitle: "Ուժեղ կողմերի ինդեքս",
-    resumeItems: ["Հիմնական հմտություններ՝ հմտությունների բաժինները ցույց են տալիս տեխնիկական ուժեղ կողմերը։", "Փորձի շարունակականություն՝ աշխատանքային պատմությունը ստուգվել է ժամանակագրությամբ։", "Հարցազրույցի պատրաստում՝ տվյալները կարելի է փոխանցել թեկնածուների ընտրության հոսքին։"],
-    receiptTitle: "Կտրոնի ծախսերի վերլուծություն",
-    receiptItems: ["Վաճառողի ստուգում՝ կտրոնը ցույց է տալիս առևտրային կետը և ստանդարտ կառուցվածքը։", "Ծախսերի աուդիտ՝ տողերի գումարները հստակ ճանաչվել են փոխհատուցման համար։", "Մանրամասներ՝ գործարքի ալիքները ստուգվել են հարկային դաշտերի հետ։"],
-    ocrTitle: "OCR տարածական արդյունքներ",
-    ocrDesc: "Նիշերը քարտեզագրված են խիտ շերտերի վրա։ Ընտրեք փաստաթղթի մասերը՝ արժեքները առանձնացնելու համար։",
-    averageQuality: "Դուրսբերման միջին որակ",
-    qualityDesc: "OCR չափումները հաշվարկված են կոորդինատներով, բառարանային ստուգմամբ և նեյրոնային վերլուծությամբ։",
-    highConfidence: "Բարձր վստահությունը հաստատված է",
-    mediumRisk: "Միջին ռիսկի մակարդակ",
-    fieldsIntegrity: "Հաշվարկված դաշտերի ամբողջականություն",
-    interactiveContext: "Ինտերակտիվ համատեքստային օգնական",
-    interactiveContextDesc: "Ստուգեք ժամկետները, թարգմանեք պայմանները կամ հաշվարկեք հարկային արժեքները ակտիվ փաստաթղթի հիման վրա։",
-    chatLoadingMetrics: "Միավորում եմ համատեքստային տվյալները...",
-  },
-});
-
-interface DemoPreset {
-  name: string;
-  illustration: string;
-  raw: string;
-  layout: string;
-  transcript: string;
-  summary: string;
-  "key-value": string;
-}
-
 const DEMO_PRESETS: DemoPreset[] = [
   {
     name: "Cozy Bakery Invoice #429",
@@ -1242,12 +259,6 @@ const DEMO_PRESETS: DemoPreset[] = [
 ];
 
 // Small set of CV demo presets used for the homepage CV Builder simulator
-interface CvDemoPreset {
-  name: string;
-  illustration: string;
-  markdown: string;
-}
-
 const CV_DEMO_PRESETS: CvDemoPreset[] = [
   {
     name: "Data Analyst - Sample CV",
@@ -1262,1696 +273,6 @@ const CV_DEMO_PRESETS: CvDemoPreset[] = [
 ];
 
 // Theme-aware tokens for structured result cards (light + dark must always pair)
-const SR = {
-  surface: "bg-white dark:bg-[#1a1412]",
-  surfaceMuted: "bg-stone-50 dark:bg-[#1f1815]",
-  surfaceInset: "bg-stone-100 dark:bg-[#252018]",
-  border: "border-stone-200 dark:border-stone-700",
-  textPrimary: "text-stone-800 dark:text-stone-100",
-  textSecondary: "text-stone-600 dark:text-stone-300",
-  textMuted: "text-stone-500 dark:text-stone-300",
-  textLabel: "text-stone-500 dark:text-stone-400",
-  hoverRow: "hover:bg-stone-50 dark:hover:bg-[#252018]",
-};
-
-// Sub-components for confidence scoring and visual results
-const ConfidenceMeter = ({ value }: { value: number }) => {
-  const percentage = Math.round(value * 100);
-  let barColor = "bg-orange-500";
-  let textColor = "text-orange-600 bg-orange-50 dark:bg-orange-950/20";
-  if (value >= 0.85) {
-    barColor = "bg-emerald-600";
-    textColor = "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/20";
-  } else if (value < 0.60) {
-    barColor = "bg-rose-600";
-    textColor = "text-rose-600 bg-rose-50 dark:bg-rose-950/20";
-  }
-
-  return (
-    <div className="flex items-center gap-2" title={`OCR confidence: ${percentage}%`}>
-      <div className="w-14 h-1.5 bg-stone-200 dark:bg-stone-800 rounded-full overflow-hidden">
-        <div className={`h-full ${barColor}`} style={{ width: `${percentage}%` }} />
-      </div>
-      <span className={`text-[9.5px] px-1.5 py-0.5 rounded-md font-mono font-bold ${textColor}`}>
-        {percentage}%
-      </span>
-    </div>
-  );
-};
-
-const CopyFieldButton = ({ value }: { value: string }) => {
-  const [copied, setCopied] = useState(false);
-  const handleCopy = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!value) return;
-    navigator.clipboard.writeText(value);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  return (
-    <button
-      onClick={handleCopy}
-      title="Copy field value"
-      className="p-1 hover:bg-[#C86432]/10 dark:hover:bg-[#C86432]/20 rounded-md text-stone-400 hover:text-[#C86432] transition-colors cursor-pointer inline-flex items-center justify-center scale-90"
-    >
-      {copied ? (
-        <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" />
-      ) : (
-        <Copy className="w-3.5 h-3.5" />
-      )}
-    </button>
-  );
-};
-
-const convertSpecializedJsonToMarkdown = (jsonText: string, docType: string): string => {
-  if (!jsonText) return "";
-  try {
-    const data = JSON.parse(jsonText);
-    let md = "";
-
-    switch (docType) {
-      case "invoice": {
-        const vendor = data.vendorName?.value || "N/A";
-        const vendorAddr = data.vendorAddress?.value || "";
-        const billing = data.billingName?.value || "N/A";
-        const billingAddr = data.billingAddress?.value || "";
-        const invNum = data.invoiceNumber?.value || "N/A";
-        const invDate = data.invoiceDate?.value || "N/A";
-        const subtotal = data.subtotal?.value || "0.00";
-        const tax = data.tax?.value || "0.00";
-        const total = data.totalAmount?.value || "0.00";
-        const currency = data.currency?.value || "USD";
-
-        md = `# INVOICE SUMMARY\n\n`;
-        md += `* **Vendor/Company:** ${vendor}\n`;
-        if (vendorAddr) md += `  Address: ${vendorAddr}\n`;
-        md += `* **Billed To:** ${billing}\n`;
-        if (billingAddr) md += `  Address: ${billingAddr}\n`;
-        md += `* **Invoice Number:** ${invNum}\n`;
-        md += `* **Billing Date:** ${invDate}\n`;
-        md += `* **Currency:** ${currency}\n\n`;
-
-        md += `## LINE ITEMS\n\n`;
-        md += `| Item Description | Qty | Unit Price | Total |\n`;
-        md += `| :--- | :---: | :---: | :---: |\n`;
-        const items = Array.isArray(data.lineItems) ? data.lineItems : [];
-        if (items.length > 0) {
-          items.forEach((it: any) => {
-            const desc = it.description?.value || "Item";
-            const qty = it.quantity?.value !== undefined ? it.quantity.value : "1";
-            const unit = it.unitPrice?.value !== undefined ? it.unitPrice.value : "N/A";
-            const lineTotal = it.total?.value !== undefined ? it.total.value : "N/A";
-            md += `| ${desc} | ${qty} | ${unit} | ${lineTotal} |\n`;
-          });
-        } else {
-          md += `| (No items listed) | - | - | - |\n`;
-        }
-        md += `\n`;
-        md += `## FINANCIAL TOTALS\n\n`;
-        md += `* **Subtotal:** ${subtotal} ${currency}\n`;
-        md += `* **VAT/Tax:** ${tax} ${currency}\n`;
-        md += `* **Grand Total Paid:** **${total} ${currency}**\n`;
-        break;
-      }
-      case "contract": {
-        const title = data.contractTitle?.value || "Legal Agreement";
-        const summary = data.summary?.value || "No agreement summary parsed.";
-        const effDate = data.effectiveDate?.value || "N/A";
-        const expDate = data.expirationDate?.value || "N/A";
-        const govLaw = data.governingLaw?.value || "N/A";
-        const termPeriod = data.terminationNoticePeriod?.value || "N/A";
-        const liability = data.liabilityCap?.value || "N/A";
-
-        md = `# CONTRACT BRIEF: ${title}\n\n`;
-        md += `## Executive Summary\n${summary}\n\n`;
-        md += `## Key Information\n\n`;
-        md += `* **Effective Date:** ${effDate}\n`;
-        md += `* **Expiration Date:** ${expDate}\n`;
-        md += `* **Governing Law:** ${govLaw}\n`;
-        md += `* **Termination Notice Period:** ${termPeriod}\n`;
-        md += `* **Liability Cap:** ${liability}\n\n`;
-
-        md += `## Important Dates & Deadlines\n\n`;
-        const dates = Array.isArray(data.importantDates) ? data.importantDates : [];
-        if (dates.length > 0) {
-          dates.forEach((d: any) => {
-            const event = d.event?.value || d.event || "Deadline";
-            const val = d.dateValue?.value || d.dateValue || "Date";
-            md += `* **${event}:** ${val}\n`;
-          });
-        } else {
-          md += `* (No additional dates listed)\n`;
-        }
-        md += `\n`;
-
-        md += `## Risk Diagnostics\n\n`;
-        const risks = Array.isArray(data.risks) ? data.risks : [];
-        if (risks.length > 0) {
-          risks.forEach((r: any) => {
-            const factor = r.riskFactor?.value || "Risk Factor";
-            const severity = r.severity?.value || "Medium";
-            const detail = r.detail?.value || "";
-            md += `* **[${severity.toUpperCase()}] ${factor}:** ${detail}\n`;
-          });
-        } else {
-          md += `* (No critical risk factors identified)\n`;
-        }
-        md += `\n`;
-
-        md += `## Provisions & Key Clauses\n\n`;
-        const clauses = Array.isArray(data.keyClauses) ? data.keyClauses : [];
-        if (clauses.length > 0) {
-          clauses.forEach((c: any) => {
-            const heading = c.title?.value || c.title || "Section Clause";
-            const content = c.content?.value || c.content || "";
-            md += `### ${heading}\n${content}\n\n`;
-          });
-        } else {
-          md += `* (No specialized clauses indexed)\n`;
-        }
-        break;
-      }
-      case "resume": {
-        const name = data.candidateName?.value || "Candidate";
-        const email = data.email?.value || "N/A";
-        const phone = data.phone?.value || "N/A";
-        const loc = data.location?.value || "N/A";
-        const summary = data.summary?.value || "";
-
-        md = `# RESUME PROFILE: ${name}\n\n`;
-        md += `* **Email:** ${email}\n`;
-        md += `* **Phone:** ${phone}\n`;
-        md += `* **Location:** ${loc}\n\n`;
-        if (summary) {
-          md += `## Professional Summary\n${summary}\n\n`;
-        }
-
-        md += `## Technical Skillset\n\n`;
-        const skills = Array.isArray(data.skills) ? data.skills : [];
-        if (skills.length > 0) {
-          skills.forEach((sk: any) => {
-            const cat = sk.category?.value || "Skills";
-            const list = Array.isArray(sk.skillsList) ? sk.skillsList.join(", ") : String(sk.skillsList || "");
-            md += `* **${cat}:** ${list}\n`;
-          });
-        } else {
-          md += `* (No targeted skills listed)\n`;
-        }
-        md += `\n`;
-
-        md += `## Professional Experience\n\n`;
-        const exp = Array.isArray(data.experience) ? data.experience : [];
-        if (exp.length > 0) {
-          exp.forEach((work: any) => {
-            const role = work.role?.value || "Role";
-            const comp = work.company?.value || "Company";
-            const start = work.startDate?.value || "";
-            const end = work.endDate?.value || "";
-            const desc = work.description?.value || "";
-            md += `### ${role} at ${comp} (${start} - ${end})\n`;
-            if (desc) md += `${desc}\n\n`;
-          });
-        } else {
-          md += `* (No historical experience listed)\n`;
-        }
-
-        md += `## Academic History\n\n`;
-        const edu = Array.isArray(data.education) ? data.education : [];
-        if (edu.length > 0) {
-          edu.forEach((school: any) => {
-            const deg = school.degree?.value || "Degree";
-            const inst = school.institution?.value || "Institution";
-            const grad = school.graduationYear?.value || "";
-            md += `* **${deg}** - ${inst} (${grad})\n`;
-          });
-        } else {
-          md += `* (No academic metrics listed)\n`;
-        }
-        break;
-      }
-      case "receipt": {
-        const merchant = data.merchantName?.value || "Merchant";
-        const address = data.merchantAddress?.value || "";
-        const phone = data.merchantPhone?.value || "";
-        const date = data.transactionDate?.value || "N/A";
-        const time = data.transactionTime?.value || "N/A";
-        const pay = data.paymentMethod?.value || "Card";
-        const subtotal = data.subtotal?.value || "";
-        const tax = data.tax?.value || "0.00";
-        const tip = data.tip?.value || "0.00";
-        const total = data.totalAmount?.value || "0.00";
-
-        md = `# RETAIL SLIP: ${merchant}\n\n`;
-        if (address) md += `* **Address:** ${address}\n`;
-        if (phone) md += `* **Phone:** ${phone}\n`;
-        md += `* **Transaction Date:** ${date} ${time}\n`;
-        md += `* **Payment Channel:** ${pay}\n\n`;
-
-        md += `## PURCHASED ITEMS\n\n`;
-        md += `| Description | Qty | Total Price |\n`;
-        md += `| :--- | :---: | :---: |\n`;
-        const items = Array.isArray(data.items) ? data.items : [];
-        if (items.length > 0) {
-          items.forEach((it: any) => {
-            const desc = it.description?.value || "Item";
-            const qty = it.quantity?.value !== undefined ? it.quantity.value : "1";
-            const price = it.totalPrice?.value !== undefined ? it.totalPrice.value : "N/A";
-            md += `| ${desc} | ${qty} | ${price} |\n`;
-          });
-        } else {
-          md += `| (No items listed) | - | - |\n`;
-        }
-        md += `\n`;
-
-        md += `## TRANSACTION TOTALS\n\n`;
-        if (subtotal) md += `* **Subtotal:** ${subtotal}\n`;
-        md += `* **VAT/Taxes:** ${tax}\n`;
-        md += `* **Tip:** ${tip}\n`;
-        md += `* **Grand Total Paid:** **${total}**\n`;
-        break;
-      }
-      case "table": {
-        const tableName = data.tableName?.value || "Tabular Grid Result";
-        md = `# TABLE STRUCTURE: ${tableName}\n\n`;
-        const headers = Array.isArray(data.headers) ? data.headers : [];
-        const rows = Array.isArray(data.rows) ? data.rows : [];
-
-        if (headers.length === 0) {
-          md += `*(No structured columns found)*\n`;
-        } else {
-          md += `| ${headers.map((h: any) => h.value || "").join(" | ")} |\n`;
-          md += `| ${headers.map(() => ":---").join(" | ")} |\n`;
-          rows.forEach((row: any) => {
-            const cells = Array.isArray(row.cells) ? row.cells : [];
-            md += `| ${cells.map((c: any) => c.value || "").join(" | ")} |\n`;
-          });
-        }
-        break;
-      }
-      default:
-        md = jsonText;
-    }
-    return md;
-  } catch (error) {
-    console.error("Error parsing specialized JSON:", error);
-    return jsonText; // fallback to raw string
-  }
-};
-
-const getDisplayableOrDownloadableText = (textVal: string, docType: string): string => {
-  if (!docType || docType === "general_ocr") {
-    return textVal;
-  }
-  try {
-    JSON.parse(textVal);
-    return convertSpecializedJsonToMarkdown(textVal, docType);
-  } catch (e) {
-    return textVal;
-  }
-};
-
-const renderInvoiceNode = (data: any, activeField: string | null = null, onFieldClick: (field: string) => void = () => {}) => {
-  const lineItems = Array.isArray(data.lineItems) ? data.lineItems : [];
-  return (
-    <div className={`flex flex-col gap-4 ${SR.textSecondary} animate-fade-in font-sans`}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-        <div 
-          onClick={() => onFieldClick("vendorName")}
-          className={`p-3.5 rounded-xl border transition-all flex flex-col gap-1.5 shadow-3xs cursor-pointer hover:border-[#C86432]/50 ${
-            activeField === "vendorName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
-          }`}
-        >
-          <div className="flex items-center justify-between font-sans">
-            <span className={`text-[9.5px] font-bold uppercase tracking-wider ${SR.textLabel}`}>Company (Vendor Name)</span>
-            <div className="flex items-center gap-1.5 font-sans">
-              {data.vendorName?.confidence !== undefined && <ConfidenceMeter value={data.vendorName?.confidence} />}
-              <CopyFieldButton value={data.vendorName?.value || ""} />
-            </div>
-          </div>
-          <p className={`text-xs font-black ${SR.textPrimary} font-sans`}>{data.vendorName?.value || "N/A"}</p>
-          <p className={`text-[10px] ${SR.textMuted} font-sans`}>{data.vendorAddress?.value || "N/A"}</p>
-        </div>
-
-        <div 
-          onClick={() => onFieldClick("billingName")}
-          className={`p-3.5 rounded-xl border transition-all flex flex-col gap-1.5 shadow-3xs cursor-pointer hover:border-[#C86432]/50 ${
-            activeField === "billingName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
-          }`}
-        >
-          <div className="flex items-center justify-between font-sans">
-            <span className={`text-[9.5px] font-bold uppercase tracking-wider ${SR.textLabel}`}>Customer (Billed To)</span>
-            <div className="flex items-center gap-1.5 font-sans">
-              {data.billingName?.confidence !== undefined && <ConfidenceMeter value={data.billingName?.confidence} />}
-              <CopyFieldButton value={data.billingName?.value || ""} />
-            </div>
-          </div>
-          <p className={`text-xs font-semibold ${SR.textPrimary} font-sans`}>{data.billingName?.value || "N/A"}</p>
-          <p className={`text-[10px] ${SR.textMuted} font-sans`}>{data.billingAddress?.value || "N/A"}</p>
-        </div>
-      </div>
-
-      <div className={`p-3.5 rounded-2xl border ${SR.border} ${SR.surfaceMuted} grid grid-cols-2 md:grid-cols-5 gap-3 shadow-3xs font-sans`}>
-        <div onClick={() => onFieldClick("invoiceNumber")} className={`p-2 rounded-xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${activeField === "invoiceNumber" ? "bg-[#C86432]/5 ring-1 ring-[#C86432]" : ""}`}>
-          <span className="text-[9.5px] font-bold uppercase tracking-wider text-stone-400 block mb-0.5 font-sans">Invoice Number</span>
-          <div className="flex items-center gap-1.5 font-sans">
-            <p className="text-xs font-bold text-stone-800 dark:text-white font-mono">{data.invoiceNumber?.value || "N/A"}</p>
-            <CopyFieldButton value={data.invoiceNumber?.value || ""} />
-          </div>
-          {data.invoiceNumber?.confidence !== undefined && <div className="mt-1"><ConfidenceMeter value={data.invoiceNumber?.confidence} /></div>}
-        </div>
-        <div onClick={() => onFieldClick("invoiceDate")} className={`p-2 rounded-xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${activeField === "invoiceDate" ? "bg-[#C86432]/5 ring-1 ring-[#C86432]" : ""}`}>
-          <span className="text-[9.5px] font-bold uppercase tracking-wider text-stone-400 block mb-0.5 font-sans">Date (Issue)</span>
-          <div className="flex items-center gap-1.5 font-sans">
-            <p className="text-xs font-semibold text-stone-800 dark:text-white font-mono">{data.invoiceDate?.value || "N/A"}</p>
-            <CopyFieldButton value={data.invoiceDate?.value || ""} />
-          </div>
-          {data.invoiceDate?.confidence !== undefined && <div className="mt-1"><ConfidenceMeter value={data.invoiceDate?.confidence} /></div>}
-        </div>
-        <div onClick={() => onFieldClick("tax")} className={`p-2 rounded-xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${activeField === "tax" ? "bg-[#C86432]/5 ring-1 ring-[#C86432]" : ""}`}>
-          <span className="text-[9.5px] font-bold uppercase tracking-wider text-stone-400 block mb-0.5 font-sans">VAT / Tax Amount</span>
-          <div className="flex items-center gap-1.5 animate-fade-in font-sans">
-            <p className="text-xs font-semibold text-stone-800 dark:text-white font-mono">{data.tax?.value || "0.00"}</p>
-            <CopyFieldButton value={data.tax?.value || ""} />
-          </div>
-          {data.tax?.confidence !== undefined && <div className="mt-1"><ConfidenceMeter value={data.tax?.confidence} /></div>}
-        </div>
-        <div onClick={() => onFieldClick("currency")} className={`p-2 rounded-xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${activeField === "currency" ? "bg-[#C86432]/5 ring-1 ring-[#C86432]" : ""}`}>
-          <span className="text-[9.5px] font-bold uppercase tracking-wider text-stone-400 block mb-0.5 font-sans">Currency</span>
-          <div className="flex items-center gap-1.5 font-mono text-[#C86432] font-bold">
-            <p className="text-xs font-semibold text-[#C86432] uppercase font-mono font-bold">{data.currency?.value || "N/A"}</p>
-            <CopyFieldButton value={data.currency?.value || ""} />
-          </div>
-          {data.currency?.confidence !== undefined && <div className="mt-1"><ConfidenceMeter value={data.currency?.confidence} /></div>}
-        </div>
-        <div onClick={() => onFieldClick("totalAmount")} className={`col-span-2 md:col-span-1 border-t md:border-t-0 md:border-l border-[#eeded5] dark:border-stone-800 md:pl-2.5 p-2 rounded-xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${activeField === "totalAmount" ? "bg-[#C86432]/5 ring-1 ring-[#C86432]" : ""}`}>
-          <span className="text-[9.5px] font-bold uppercase tracking-wider text-[#C86432] block mb-0.5 font-sans">Total Amount</span>
-          <div className="flex items-center gap-1.5 animated-fade-in">
-            <p className="text-xs font-black text-rose-600 dark:text-rose-500 font-mono">{data.totalAmount?.value || "0.00"}</p>
-            <CopyFieldButton value={data.totalAmount?.value || ""} />
-          </div>
-          {data.totalAmount?.confidence !== undefined && <div className="mt-1"><ConfidenceMeter value={data.totalAmount?.confidence} /></div>}
-        </div>
-      </div>
-
-      <div 
-        onClick={() => onFieldClick("lineItems")}
-        className={`rounded-2xl border overflow-hidden ${SR.surfaceMuted} shadow-3xs transition-all cursor-pointer hover:border-[#C86432]/45 ${
-          activeField === "lineItems" ? "ring-2 ring-[#C86432] border-[#C86432]" : SR.border
-        }`}
-      >
-        <div className={`p-2.5 ${SR.surfaceInset} text-[10px] font-extrabold text-[#C86432] uppercase tracking-wider grid grid-cols-12 gap-2 border-b ${SR.border}`}>
-          <div className="col-span-6 animate-fade-in font-sans">Billed Item Description (Line Items)</div>
-          <div className="col-span-2 text-center animate-fade-in font-sans">Qty</div>
-          <div className="col-span-2 text-right animate-fade-in font-sans">Unit Price</div>
-          <div className="col-span-2 text-right animate-fade-in font-sans">Total</div>
-        </div>
-        <div className="divide-y divide-stone-200 dark:divide-stone-800/60 font-mono">
-          {lineItems.length === 0 ? (
-            <p className="p-3 text-center text-[11px] text-stone-400 italic font-sans">No invoice line items parsed.</p>
-          ) : (
-            lineItems.map((item: any, id: number) => (
-              <div key={id} className={`p-2.5 grid grid-cols-12 gap-2 text-[11px] items-center ${SR.hoverRow}`}>
-                <div className="col-span-6 flex flex-col gap-0.5 font-sans">
-                  <div className="flex items-center gap-1.5 font-sans animate-fade-in">
-                    <span className={`font-semibold ${SR.textPrimary} font-sans`}>{item.description?.value || "Item"}</span>
-                    <CopyFieldButton value={item.description?.value || ""} />
-                  </div>
-                  {item.description?.confidence !== undefined && <ConfidenceMeter value={item.description?.confidence} />}
-                </div>
-                <div className={`col-span-2 text-center ${SR.textMuted} font-mono`}>
-                  {item.quantity?.value !== undefined ? item.quantity.value : "1"}
-                </div>
-                <div className={`col-span-2 text-right ${SR.textMuted} font-mono font-medium`}>
-                  {item.unitPrice?.value !== undefined ? item.unitPrice.value : "N/A"}
-                </div>
-                <div className={`col-span-2 text-right font-bold ${SR.textPrimary} font-mono`}>
-                  {item.total?.value !== undefined ? item.total.value : "N/A"}
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-
-      <div className="flex justify-end mt-1 font-sans font-sans">
-        <div className={`w-full md:w-64 p-3.5 rounded-2xl border ${SR.border} ${SR.surfaceMuted} flex flex-col gap-2 shadow-2xs`}>
-          <div className="flex items-center justify-between text-[11px] font-sans">
-            <span className={`${SR.textLabel} font-sans`}>Subtotal:</span>
-            <span className={`font-mono font-semibold ${SR.textPrimary}`}>{data.subtotal?.value || "0.00"}</span>
-          </div>
-          <div className={`flex items-center justify-between text-[11px] border-b ${SR.border} pb-1.5`}>
-            <span className={`${SR.textLabel} font-sans`}>VAT / Tax:</span>
-            <span className={`font-mono font-semibold ${SR.textPrimary}`}>{data.tax?.value || "0.00"}</span>
-          </div>
-          <div className={`flex items-center justify-between text-[11.5px] font-bold font-sans animate-fade-in ${SR.surfaceInset} p-1 px-2.5 rounded-xl`}>
-            <span className={`${SR.textPrimary} font-sans font-extrabold`}>Grand Total:</span>
-            <div className="flex items-center gap-1.5 flex-row">
-              <span className="font-mono text-emerald-600 dark:text-emerald-500 font-extrabold">{data.totalAmount?.value || "0.00"}</span>
-              <CopyFieldButton value={data.totalAmount?.value || ""} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const renderContractNode = (data: any, activeField: string | null = null, onFieldClick: (field: string) => void = () => {}) => {
-  const parties = Array.isArray(data.parties) ? data.parties : [];
-  const importantDates = Array.isArray(data.importantDates) ? data.importantDates : [];
-  const keyObligations = Array.isArray(data.keyObligations) ? data.keyObligations : [];
-  const risks = Array.isArray(data.risks) ? data.risks : [];
-  const keyClauses = Array.isArray(data.keyClauses) ? data.keyClauses : [];
-
-  return (
-    <div className={`flex flex-col gap-4 ${SR.textSecondary} animate-fade-in font-sans`}>
-      {/* Title block */}
-      <div 
-        onClick={() => onFieldClick("contractTitle")}
-        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "contractTitle" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
-        } flex flex-col gap-1.5 shadow-3xs`}
-      >
-        <div className="flex justify-between items-center animate-fade-in">
-          <span className="text-[9px] font-bold uppercase tracking-wider text-[#C86432]">Contract Agreement</span>
-          <CopyFieldButton value={data.contractTitle?.value || "Legal Agreement"} />
-        </div>
-        <h3 className="text-xs font-black text-stone-900 dark:text-white leading-snug font-sans">{data.contractTitle?.value || "Legal Agreement"}</h3>
-        {data.contractTitle?.confidence !== undefined && <ConfidenceMeter value={data.contractTitle?.confidence} />}
-      </div>
-
-      {/* Summary Section */}
-      <div 
-        onClick={() => onFieldClick("summary")}
-        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "summary" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
-        } flex flex-col gap-2 shadow-2xs font-sans`}
-      >
-        <div className={`flex justify-between items-center border-b pb-2 ${SR.border} font-sans`}>
-          <h4 className={`text-[10px] font-extrabold uppercase tracking-wide ${SR.textPrimary} font-sans`}>Summary</h4>
-          <CopyFieldButton value={data.summary?.value || ""} />
-        </div>
-        <p className={`text-[11px] leading-relaxed italic ${SR.textSecondary} ${SR.surfaceInset} p-2.5 rounded-xl font-sans`}>
-          {data.summary?.value || "No agreement summary parsed."}
-        </p>
-        {data.summary?.confidence !== undefined && <ConfidenceMeter value={data.summary?.confidence} />}
-      </div>
-
-      {/* Important Dates Segment */}
-      <div 
-        onClick={() => onFieldClick("dates")}
-        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "dates" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
-        } flex flex-col gap-2 shadow-2xs font-sans`}
-      >
-        <h4 className={`text-[10px] font-extrabold uppercase tracking-wide ${SR.textPrimary} border-b pb-2 ${SR.border}`}>Important Dates & Notice Details</h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
-          <div className={`p-3 ${SR.surfaceInset} rounded-xl border border-dashed ${SR.border} flex flex-col justify-between`}>
-            <div>
-              <span className="text-[9px] uppercase font-bold text-stone-400 block pb-0.5">Effective Start Date</span>
-              <span className="text-xs font-bold text-stone-800 dark:text-white">{data.effectiveDate?.value || "N/A"}</span>
-            </div>
-            <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-stone-200 dark:border-stone-800">
-              <ConfidenceMeter value={data.effectiveDate?.confidence ?? 0.8} />
-              <CopyFieldButton value={data.effectiveDate?.value || ""} />
-            </div>
-          </div>
-          <div className={`p-3 ${SR.surfaceInset} rounded-xl border border-dashed ${SR.border} flex flex-col justify-between`}>
-            <div>
-              <span className="text-[9px] uppercase font-bold text-stone-400 block pb-0.5">Expiration Date</span>
-              <span className="text-xs font-bold text-stone-800 dark:text-white">{data.expirationDate?.value || "N/A"}</span>
-            </div>
-            <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-stone-200 dark:border-stone-800">
-              <ConfidenceMeter value={data.expirationDate?.confidence ?? 0.8} />
-              <CopyFieldButton value={data.expirationDate?.value || ""} />
-            </div>
-          </div>
-        </div>
-        {importantDates.length > 0 && (
-          <div className="flex flex-col gap-2 mt-2">
-            <span className="text-[9px] uppercase font-bold tracking-wider text-stone-500">Dates & Deadlines</span>
-            <div className="divide-y divide-stone-200 dark:divide-stone-800">
-              {importantDates.map((d: any, idx: number) => (
-                <div key={idx} className={`py-2.5 flex items-center justify-between text-[11px] ${SR.hoverRow}`}>
-                  <span className={`font-semibold ${SR.textPrimary}`}>{d.event?.value || d.event || "Deadline"}</span>
-                  <div className="flex items-center gap-2 font-sans">
-                    <span className={`font-mono ${SR.surfaceInset} ${SR.textSecondary} font-bold px-1.5 py-0.5 rounded-md`}>
-                      {d.dateValue?.value || d.dateValue || "Date"}
-                    </span>
-                    <CopyFieldButton value={d.dateValue?.value || d.dateValue || ""} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Risks Segment */}
-      <div 
-        onClick={() => onFieldClick("risks")}
-        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "risks" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
-        } flex flex-col gap-2 shadow-2xs font-sans`}
-      >
-        <h4 className={`text-[10px] font-extrabold uppercase tracking-wide ${SR.textPrimary} border-b pb-2 ${SR.border} font-sans`}>Risks</h4>
-        {risks.length === 0 ? (
-          <p className="p-4 rounded-xl text-center text-[11px] text-[#C86432] italic bg-[#C86432]/5 font-bold border border-[#C86432]/10 flex items-center justify-center gap-1.5 font-sans">
-            🛡️ No critical contractual risks visualizable.
-          </p>
-        ) : (
-          <div className="flex flex-col gap-2.5 pt-1.5 font-sans">
-            {risks.map((risk: any, idx: number) => {
-              const severityVal = (risk.severity?.value || risk.severity || "Medium").toLowerCase();
-              const badgeBg = severityVal.includes("high") 
-                ? "bg-rose-500/10 text-rose-600 dark:text-rose-500 border border-rose-500/20" 
-                : severityVal.includes("low") 
-                ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 border border-emerald-500/20"
-                : "bg-amber-500/10 text-amber-600 dark:text-amber-500 border border-amber-500/20";
-              return (
-                <div key={idx} className={`p-3 rounded-xl border ${SR.border} ${SR.surfaceInset} flex flex-col gap-1.5 ${SR.textSecondary}`}>
-                  <div className="flex items-center justify-between animate-fade-in">
-                    <div className="flex items-center gap-2">
-                      <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${badgeBg}`}>
-                        {risk.severity?.value || "Medium"}
-                      </span>
-                      <span className={`text-xs font-bold ${SR.textPrimary} font-sans`}>{risk.riskFactor?.value || "Risk Factor"}</span>
-                    </div>
-                    <CopyFieldButton value={`${risk.riskFactor?.value || ""}: ${risk.detail?.value || ""}`} />
-                  </div>
-                  <p className={`text-[11px] ${SR.textSecondary} leading-relaxed font-sans`}>{risk.detail?.value || ""}</p>
-                  {risk.riskFactor?.confidence !== undefined && <ConfidenceMeter value={risk.riskFactor?.confidence} />}
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* Clauses Segment */}
-      <div 
-        onClick={() => onFieldClick("clauses")}
-        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "clauses" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
-        } flex flex-col gap-2 shadow-2xs font-sans`}
-      >
-        <h4 className={`text-[10px] font-extrabold uppercase tracking-wide ${SR.textPrimary} border-b pb-2 ${SR.border} font-sans`}>Clauses</h4>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 py-1 select-none font-sans">
-          <div className={`p-2.5 rounded-xl ${SR.surfaceInset} border ${SR.border} flex flex-col justify-between gap-1`}>
-            <div>
-              <span className="text-[9px] uppercase font-bold text-stone-400 font-sans block pb-0.5 font-sans">Governing Law</span>
-              <p className="text-xs font-semibold font-sans text-stone-800 dark:text-white">{data.governingLaw?.value || "Default"}</p>
-            </div>
-            <div className="flex justify-end border-t dark:border-stone-800 pt-1 mt-1 font-sans">
-              <CopyFieldButton value={data.governingLaw?.value || ""} />
-            </div>
-          </div>
-          <div className={`p-2.5 rounded-xl ${SR.surfaceInset} border ${SR.border} flex flex-col justify-between gap-1 font-sans`}>
-            <div>
-              <span className="text-[9px] uppercase font-bold text-stone-400 font-sans block pb-0.5 font-sans">Termination Period</span>
-              <p className="text-xs font-semibold font-sans text-stone-800 dark:text-white">{data.terminationNoticePeriod?.value || "Immediate"}</p>
-            </div>
-            <div className="flex justify-end border-t dark:border-stone-800 pt-1 mt-1 font-sans">
-              <CopyFieldButton value={data.terminationNoticePeriod?.value || ""} />
-            </div>
-          </div>
-          <div className={`p-2.5 rounded-xl ${SR.surfaceInset} border ${SR.border} flex flex-col justify-between gap-1 font-sans`}>
-            <div>
-              <span className="text-[9px] uppercase font-bold text-stone-400 font-sans block pb-0.5 font-sans">Liability Cap</span>
-              <p className="text-xs font-bold font-sans text-stone-800 dark:text-white">{data.liabilityCap?.value || "No Caps Listed"}</p>
-            </div>
-            <div className="flex justify-end border-t dark:border-stone-800 pt-1 mt-1 font-sans">
-              <CopyFieldButton value={data.liabilityCap?.value || ""} />
-            </div>
-          </div>
-        </div>
-        {keyClauses.length > 0 && (
-          <div className="flex flex-col gap-2.5 mt-2 font-sans font-sans">
-            <span className="text-[9px] uppercase font-bold tracking-wider text-stone-500 font-sans">Legal Provisions</span>
-            <div className="flex flex-col gap-2">
-              {keyClauses.map((clause: any, idx: number) => (
-                <details key={idx} className={`group border ${SR.border} rounded-xl ${SR.surfaceInset} [&_summary::-webkit-details-marker]:hidden transition-all duration-300`}>
-                  <summary className={`p-3 select-none flex justify-between items-center text-xs font-bold ${SR.textPrimary} cursor-pointer ${SR.hoverRow} font-sans`}>
-                    <div className="flex items-center gap-2 font-sans">
-                      <span className="w-1.5 h-1.5 bg-[#C86432] rounded-full" />
-                      <span>{clause.title?.value || clause.title || "Section Clause"}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <ChevronDown className="w-3.5 h-3.5 text-stone-400 group-open:rotate-180 transition-transform" />
-                    </div>
-                  </summary>
-                  <div className={`p-3 pt-0 border-t ${SR.border} text-[11px] ${SR.textSecondary} leading-relaxed font-sans`}>
-                    <div className="flex justify-end mb-1">
-                      <CopyFieldButton value={clause.content?.value || clause.content || ""} />
-                    </div>
-                    {clause.content?.value || clause.content || ""}
-                  </div>
-                </details>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-
-
-const renderResumeNode = (
-  data: any,
-  activeField: string | null = null,
-  onFieldClick: (field: string) => void = () => {}
-) => {
-  const skills = Array.isArray(data.skills) ? data.skills : [];
-  const education = Array.isArray(data.education) ? data.education : [];
-  const experience = Array.isArray(data.experience) ? data.experience : [];
-
-  return (
-    <div className={`flex flex-col gap-4 ${SR.textSecondary}`}>
-      <div 
-        onClick={() => onFieldClick("candidateName")}
-        className={`p-3.5 rounded-2xl border transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-          activeField === "candidateName" || activeField === "email" || activeField === "phone"
-            ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
-            : `${SR.border} ${SR.surfaceMuted}`
-        } flex flex-col gap-2.5`}
-      >
-        <div className="flex items-center justify-between">
-          <h3 className="text-xs font-extrabold text-[#C86432]">{data.candidateName?.value || "Resume Profile"}</h3>
-          {data.candidateName?.confidence !== undefined && <ConfidenceMeter value={data.candidateName?.confidence} />}
-        </div>
-        
-        <div className={`grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px] ${SR.textMuted} border-t ${SR.border} pt-2.5`}>
-          <p onClick={(e) => { e.stopPropagation(); onFieldClick("email"); }} className={`p-1 rounded-sm hover:bg-[#C86432]/5 transition-all ${activeField === "email" ? "bg-[#C86432]/10 font-bold" : ""}`}>📧 Email: <span className={`font-semibold ${SR.textPrimary}`}>{data.email?.value || "N/A"}</span></p>
-          <p onClick={(e) => { e.stopPropagation(); onFieldClick("phone"); }} className={`p-1 rounded-sm hover:bg-[#C86432]/5 transition-all ${activeField === "phone" ? "bg-[#C86432]/10 font-bold" : ""}`}>📞 Phone: <span className={`font-semibold ${SR.textPrimary}`}>{data.phone?.value || "N/A"}</span></p>
-          <p>📍 Location: <span className={`font-semibold ${SR.textPrimary}`}>{data.location?.value || "N/A"}</span></p>
-        </div>
-
-        {data.summary?.value && (
-          <div className={`${SR.surfaceInset} p-2.5 rounded-xl mt-1.5`}>
-            <span className={`text-[9px] uppercase font-bold tracking-wider ${SR.textLabel} block mb-0.5`}>Summary Profile</span>
-            <p className={`text-[11px] leading-relaxed italic ${SR.textSecondary}`}>{data.summary.value}</p>
-          </div>
-        )}
-      </div>
-
-      {skills.length > 0 && (
-        <div 
-          onClick={() => onFieldClick("skills")}
-          className={`flex flex-col gap-2 p-2 rounded-2xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-            activeField === "skills" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : ""
-          }`}
-        >
-          <h4 className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Technical Skillset</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-            {skills.map((sk: any, idx: number) => (
-              <div key={idx} className={`p-2.5 rounded-xl border ${SR.border} ${SR.surfaceInset}`}>
-                <span className="text-xs font-bold text-[#C86432] block mb-1.5">{sk.category?.value || "Skills"}</span>
-                <div className="flex flex-wrap gap-1">
-                  {Array.isArray(sk.skillsList) ? sk.skillsList.map((item: string, id: number) => (
-                    <span key={id} className={`text-[9.5px] ${SR.surfaceInset} ${SR.textSecondary} font-bold px-1.5 py-0.5 rounded-md`}>
-                      {item}
-                    </span>
-                  )) : <span className="text-[9.5px] italic">{String(sk.skillsList)}</span>}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {experience.length > 0 && (
-        <div 
-          onClick={() => onFieldClick("experience")}
-          className={`flex flex-col gap-2 p-2 rounded-2xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-            activeField === "experience" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : ""
-          }`}
-        >
-          <h3 className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Experience History</h3>
-          <div className="flex flex-col gap-2.5">
-            {experience.map((ex: any, idx: number) => (
-              <div key={idx} className={`p-3 rounded-xl border ${SR.border} flex flex-col gap-1.5 ${SR.surfaceMuted}`}>
-                <div className={`flex flex-wrap justify-between items-start gap-2 border-b ${SR.border} pb-1.5`}>
-                  <div className="flex flex-col">
-                    <span className={`text-xs font-bold ${SR.textPrimary}`}>{ex.role?.value || "Role"}</span>
-                    <span className={`text-[11px] ${SR.textMuted}`}>{ex.company?.value || "Employer"}</span>
-                  </div>
-                  <div className="flex flex-col items-end gap-1">
-                    <span className={`text-[9.5px] font-mono ${SR.surfaceInset} px-1.5 py-0.5 rounded-md font-bold text-[#C86432]`}>
-                      {ex.startDate?.value || "Start"} - {ex.endDate?.value || "End"}
-                    </span>
-                    {ex.role?.confidence !== undefined && <ConfidenceMeter value={ex.role?.confidence} />}
-                  </div>
-                </div>
-                <p className={`text-[11px] ${SR.textMuted} leading-relaxed font-sans`}>{ex.description?.value || ""}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {education.length > 0 && (
-        <div 
-          onClick={() => onFieldClick("education")}
-          className={`flex flex-col gap-2 p-2 rounded-2xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-            activeField === "education" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : ""
-          }`}
-        >
-          <h3 className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Academic History</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-            {education.map((ed: any, idx: number) => (
-              <div key={idx} className={`p-2.5 rounded-xl border ${SR.border} ${SR.surfaceInset} flex items-center justify-between`}>
-                <div className="flex flex-col gap-0.5">
-                  <span className={`text-xs font-bold ${SR.textPrimary}`}>{ed.degree?.value || "Degree"}</span>
-                  <span className={`text-[10px] ${SR.textMuted}`}>{ed.institution?.value || "College/Univ"}</span>
-                </div>
-                <div className="flex flex-col items-end gap-1">
-                  <span className="text-[9.5px] font-mono font-bold text-[#C86432]">{ed.graduationYear?.value || ""}</span>
-                  {ed.degree?.confidence !== undefined && <ConfidenceMeter value={ed.degree?.confidence} />}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const renderReceiptNode = (
-  data: any,
-  activeField: string | null = null,
-  onFieldClick: (field: string) => void = () => {}
-) => {
-  const items = Array.isArray(data.items) ? data.items : [];
-  return (
-    <div className={`flex flex-col gap-4 ${SR.textSecondary} animate-fadeIn`}>
-      <div 
-        onClick={() => onFieldClick("merchantName")}
-        className={`p-3.5 rounded-2xl border transition-all cursor-pointer hover:bg-[#C86432]/5 text-center flex flex-col items-center gap-1 ${
-          activeField === "merchantName" || activeField === "merchantAddress" || activeField === "merchantPhone"
-            ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
-            : `${SR.border} ${SR.surfaceInset}`
-        }`}
-      >
-        <span className={`text-[9px] uppercase font-bold ${SR.textLabel}`}>Commercial Slip</span>
-        <h3 className={`text-xs font-black ${SR.textPrimary} uppercase tracking-wider`}>{data.merchantName?.value || "Merchant"}</h3>
-        <p className={`text-[10px] ${SR.textMuted}`}>{data.merchantAddress?.value || ""}</p>
-        <p className={`text-[9px] ${SR.textLabel} font-mono`}>{data.merchantPhone?.value || ""}</p>
-        {data.merchantName?.confidence !== undefined && <div className="mt-1.5"><ConfidenceMeter value={data.merchantName?.confidence} /></div>}
-      </div>
-
-      <div 
-        onClick={() => onFieldClick("transactionDate")}
-        className={`grid grid-cols-2 gap-2 text-[11px] border-y py-2.5 font-mono cursor-pointer transition-all hover:bg-[#C86432]/5 ${
-          activeField === "transactionDate" || activeField === "transactionTime"
-            ? "ring-1 ring-[#C86432] border-[#C86432] bg-[#C86432]/5 px-2 rounded-lg"
-            : "border-stone-200 dark:border-stone-800"
-        }`}
-      >
-        <div className="text-stone-700 dark:text-stone-300">📅 DATE: <span className="font-bold text-stone-900 dark:text-white">{data.transactionDate?.value || "N/A"}</span></div>
-        <div className="text-right text-stone-700 dark:text-stone-300">🕒 TIME: <span className="font-bold text-stone-900 dark:text-white">{data.transactionTime?.value || "N/A"}</span></div>
-      </div>
-
-      <div 
-        onClick={() => onFieldClick("items")}
-        className={`flex flex-col gap-1.5 p-1 rounded-2xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-          activeField === "items" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : ""
-        }`}
-      >
-        <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Purchases List</span>
-        <div className={`border ${SR.border} rounded-xl overflow-hidden ${SR.surfaceMuted}`}>
-          <div className={`p-2 ${SR.surfaceInset} text-[9px] font-bold ${SR.textMuted} uppercase flex items-center justify-between border-b ${SR.border}`}>
-            <span>Description</span>
-            <div className="flex items-center gap-5">
-              <span>Qty</span>
-              <span className="w-14 text-right">Total</span>
-            </div>
-          </div>
-          <div className="divide-y divide-stone-200 dark:divide-stone-800/60">
-            {items.map((it: any, idx: number) => (
-              <div key={idx} className={`p-2 flex items-center justify-between text-[11px] ${SR.hoverRow}`}>
-                <div className="flex flex-col gap-0.5">
-                  <span className={`font-semibold ${SR.textPrimary}`}>{it.description?.value || "Purchase Item"}</span>
-                  {it.description?.confidence !== undefined && <ConfidenceMeter value={it.description?.confidence} />}
-                </div>
-                <div className={`flex items-center gap-6 font-mono ${SR.textSecondary}`}>
-                  <span>{it.quantity?.value !== undefined ? it.quantity.value : "1"}</span>
-                  <span className={`w-14 text-right font-bold ${SR.textPrimary}`}>{it.totalPrice?.value !== undefined ? it.totalPrice.value : "N/A"}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div 
-        onClick={() => onFieldClick("totalAmount")}
-        className={`border p-2.5 rounded-2xl transition-all cursor-pointer flex flex-col gap-1.5 text-[11px] hover:bg-[#C86432]/5 ${
-          activeField === "totalAmount" || activeField === "subtotal" || activeField === "tax"
-            ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
-            : "border-stone-200 dark:border-stone-800"
-        }`}
-      >
-        <div className={`flex justify-between items-center ${SR.textSecondary}`}>
-          <span>VAT Taxes:</span>
-          <span className="font-mono">{data.tax?.value || "0.00"}</span>
-        </div>
-        <div className={`flex justify-between items-center ${SR.textSecondary}`}>
-          <span>Tips:</span>
-          <span className="font-mono">{data.tip?.value || "0.00"}</span>
-        </div>
-        <div className={`flex justify-between items-center ${SR.textSecondary}`}>
-          <span>Payment Channel:</span>
-          <span className="font-semibold">{data.paymentMethod?.value || "Card"}</span>
-        </div>
-        <div className={`flex justify-between items-center ${SR.textPrimary} font-bold border-t ${SR.border} pt-1.5`}>
-          <span>GRAND TOTAL:</span>
-          <span className="font-mono text-[#C86432]">{data.totalAmount?.value || "0.00"}</span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const renderTableNode = (
-  data: any,
-  activeField: string | null = null,
-  onFieldClick: (field: string) => void = () => {}
-) => {
-  const headers = Array.isArray(data.headers) ? data.headers : [];
-  const rows = Array.isArray(data.rows) ? data.rows : [];
-
-  return (
-    <div className={`flex flex-col gap-3.5 ${SR.textSecondary}`}>
-      <div 
-        onClick={() => onFieldClick("tableName")}
-        className={`p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all hover:bg-[#C86432]/5 ${
-          activeField === "tableName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
-        }`}
-      >
-        <div>
-          <span className={`text-[9.5px] font-bold uppercase ${SR.textLabel} block pb-0.5`}>Grid Title</span>
-          <h4 className={`text-xs font-bold ${SR.textPrimary}`}>{data.tableName?.value || "Structured Data Matrix"}</h4>
-        </div>
-        {data.tableName?.confidence !== undefined && <ConfidenceMeter value={data.tableName?.confidence} />}
-      </div>
-
-      <div 
-        onClick={() => onFieldClick("rows")}
-        className={`border rounded-2xl overflow-x-auto transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-          activeField === "rows" || activeField === "headers"
-            ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
-            : `${SR.border} ${SR.surfaceMuted}`
-        }`}
-      >
-        <table className={`w-full text-[11px] text-left ${SR.textMuted} border-collapse`}>
-          <thead>
-            <tr className={`${SR.surfaceInset} text-[9px] font-bold uppercase tracking-wider ${SR.textMuted} border-b ${SR.border}`}>
-              {headers.map((h: any, idx: number) => (
-                <th key={idx} className="p-2.5 font-semibold">
-                  <div className="flex flex-col gap-0.5">
-                    <span>{h.value || ""}</span>
-                    {h.confidence !== undefined && <div className="scale-75 origin-left"><ConfidenceMeter value={h.confidence} /></div>}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-stone-200 dark:divide-stone-800/60">
-            {rows.length === 0 ? (
-              <tr>
-                <td colSpan={headers.length || 1} className="p-3 text-center text-stone-400 italic">No structured rows.</td>
-              </tr>
-            ) : (
-              rows.map((row: any, rIdx: number) => {
-                const cells = Array.isArray(row.cells) ? row.cells : [];
-                return (
-                  <tr key={rIdx} className={SR.hoverRow}>
-                    {cells.map((cell: any, cIdx: number) => (
-                      <td key={cIdx} className="p-2.5">
-                        <div className="flex flex-col gap-0.5">
-                          <span className={`font-medium ${SR.textPrimary}`}>{cell.value || ""}</span>
-                          {cell.confidence !== undefined && <div className="scale-75 origin-left"><ConfidenceMeter value={cell.confidence} /></div>}
-                        </div>
-                      </td>
-                    ))}
-                  </tr>
-                );
-              })
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-};
-
-const renderGeneralOcrNode = (
-  data: any,
-  activeField: string | null = null,
-  onFieldClick: (field: string) => void = () => {}
-) => {
-  const keyBlocks = Array.isArray(data.keyBlocks) ? data.keyBlocks : [];
-  return (
-    <div className={`flex flex-col gap-3.5 ${SR.textSecondary}`}>
-      <div 
-        onClick={() => onFieldClick("title")}
-        className={`p-3 rounded-xl border grid grid-cols-2 gap-3 transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-          activeField === "title" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
-        }`}
-      >
-        <div>
-          <span className={`text-[9.5px] uppercase font-bold ${SR.textLabel} block mb-0.5 font-sans`}>Title Code</span>
-          <span className={`text-xs font-bold ${SR.textPrimary}`}>{data.documentTitle?.value || "N/A"}</span>
-          {data.documentTitle?.confidence !== undefined && <ConfidenceMeter value={data.documentTitle?.confidence} />}
-        </div>
-        <div>
-          <span className={`text-[9.5px] uppercase font-bold ${SR.textLabel} block mb-0.5 font-sans`}>Detected Language</span>
-          <span className={`text-xs font-bold ${SR.textPrimary}`}>{data.detectedLanguage?.value || "N/A"}</span>
-          {data.detectedLanguage?.confidence !== undefined && <ConfidenceMeter value={data.detectedLanguage?.confidence} />}
-        </div>
-      </div>
-
-      <div 
-        onClick={() => onFieldClick("body")}
-        className={`flex flex-col gap-2.5 mt-1 p-2 rounded-2xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-          activeField === "body" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : ""
-        }`}
-      >
-        <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 font-sans">Blocks</span>
-        <div className="flex flex-col gap-2.5">
-          {keyBlocks.map((blk: any, idx: number) => (
-            <div key={idx} className={`p-2.5 rounded-xl border ${SR.border} ${SR.surfaceInset}`}>
-              <span className="text-xs font-extrabold text-[#C86432] block mb-1">{blk.heading?.value || `Content Block #${idx + 1}`}</span>
-              <p className={`text-[11px] ${SR.textMuted} leading-relaxed font-sans`}>{blk.content?.value || ""}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {data.rawText?.value && (
-        <div className="mt-1 text-[11px] border-t dark:border-stone-800 pt-2.5">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block mb-1 font-sans">Raw Fallback</span>
-          <pre className={`p-2.5 border rounded-xl ${SR.border} ${SR.surfaceInset} font-mono text-[9.5px] leading-relaxed whitespace-pre-wrap overflow-x-auto ${SR.textMuted}`}>
-            {data.rawText.value}
-          </pre>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const renderVisualStructuredResult = (
-  extractedText: string, 
-  resultDocumentType: string,
-  activeField: string | null = null,
-  onFieldClick: (field: string) => void = () => {},
-  t: any = TRANSLATIONS.en
-) => {
-  try {
-    const parsed = JSON.parse(extractedText);
-    switch (resultDocumentType) {
-      case "invoice":
-        return renderInvoiceNode(parsed, activeField, onFieldClick);
-      case "contract":
-        return renderContractNode(parsed, activeField, onFieldClick);
-      case "resume":
-        return renderResumeNode(parsed, activeField, onFieldClick);
-      case "receipt":
-        return renderReceiptNode(parsed, activeField, onFieldClick);
-      case "table":
-        return renderTableNode(parsed, activeField, onFieldClick);
-      case "general_ocr":
-      default:
-        return renderGeneralOcrNode(parsed, activeField, onFieldClick);
-    }
-  } catch (e) {
-    return (
-      <div className="flex flex-col gap-3 animate-fade-in">
-        <div className="bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 p-2.5 rounded-2xl border border-emerald-500/10 flex items-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-          <span className="text-xs font-semibold">{t.resultUi?.customTextRepresentation || "Showing customized text representation."}</span>
-        </div>
-        <div className="p-4 rounded-2xl border whitespace-pre-wrap font-sans text-xs leading-relaxed selection:bg-[#C86432] border-stone-200 bg-stone-50 text-stone-800 dark:border-stone-800 dark:bg-stone-950 dark:text-stone-200">
-          {extractedText}
-        </div>
-      </div>
-    );
-  }
-};
-
-const calculateAverageConfidence = (text: string): number => {
-  try {
-    const parsed = JSON.parse(text);
-    let sum = 0;
-    let count = 0;
-    
-    const traverse = (obj: any) => {
-      if (!obj || typeof obj !== "object") return;
-      if (obj.hasOwnProperty("confidence") && typeof obj.confidence === "number") {
-        sum += obj.confidence;
-        count++;
-      } else {
-        for (const key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            traverse(obj[key]);
-          }
-        }
-      }
-    };
-    
-    traverse(parsed);
-    if (count === 0) return 94; // fallback high quality average
-    return Math.round((sum / count) * 100);
-  } catch (e) {
-    return 91; // standard general ocr OCR metric fallback
-  }
-};
-
-interface BeforeVsAfterWorkspaceProps {
-  filePreview: string;
-  extractedText: string;
-  resultDocumentType: string;
-  isDarkMode: boolean;
-  clearFile: () => void;
-  setExtractedText: (text: string) => void;
-  language: Language;
-  chatMessages: ChatMessage[];
-  handleSendMessage: (e: React.FormEvent) => void;
-  chatInput: string;
-  setChatInput: (text: string) => void;
-  isChatting: boolean;
-  chatError: string;
-  chatBottomRef: React.RefObject<HTMLDivElement | null>;
-  isSpecializedResult: boolean;
-  isEditing: boolean;
-  setIsEditing: (val: boolean) => void;
-  editedText: string;
-  setEditedText: (val: string) => void;
-  handleCopy: () => void;
-  copyFeedback: boolean;
-  downloadTextFile: (format: "md" | "txt") => void;
-  downloadDocFile: () => void;
-  t: any;
-}
-
-const BeforeVsAfterWorkspace = ({
-  filePreview,
-  extractedText,
-  resultDocumentType,
-  isDarkMode,
-  clearFile,
-  setExtractedText,
-  language,
-  chatMessages,
-  handleSendMessage,
-  chatInput,
-  setChatInput,
-  isChatting,
-  chatError,
-  chatBottomRef,
-  isSpecializedResult,
-  isEditing,
-  setIsEditing,
-  editedText,
-  setEditedText,
-  handleCopy,
-  copyFeedback,
-  downloadTextFile,
-  downloadDocFile,
-  t
-}: BeforeVsAfterWorkspaceProps) => {
-  const [activeField, setActiveField] = useState<string | null>(null);
-  const [zoomScale, setZoomScale] = useState<number>(1.0);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages] = useState<number>(3);
-  const [activeTab, setActiveTab] = useState<"visual" | "summary" | "confidence" | "chat" | "editor">("visual");
-  const [isJsonVisualMode, setIsJsonVisualMode] = useState<boolean>(true);
-
-  const avgConfidence = calculateAverageConfidence(extractedText);
-  const boxes = DOCUMENT_HIGHLIGHT_MAP[resultDocumentType] || [];
-  const r = t.resultUi || TRANSLATIONS.en.resultUi;
-  const docTypeLabel =
-    resultDocumentType === "invoice" ? t.docTypeInvoice :
-    resultDocumentType === "contract" ? t.docTypeContract :
-    resultDocumentType === "resume" ? t.docTypeResume :
-    resultDocumentType === "receipt" ? t.docTypeReceipt :
-    resultDocumentType === "table" ? t.docTypeTable :
-    t.docTypeGeneral;
-  const summaryMap: Record<string, { title: string; items?: string[]; desc?: string }> = {
-    invoice: { title: r.invoiceTitle, items: r.invoiceItems },
-    contract: { title: r.contractTitle, items: r.contractItems },
-    resume: { title: r.resumeTitle, items: r.resumeItems },
-    receipt: { title: r.receiptTitle, items: r.receiptItems },
-    default: { title: r.ocrTitle, desc: r.ocrDesc },
-  };
-  const summaryBlock = summaryMap[resultDocumentType] || summaryMap.default;
-
-  return (
-    <div className="col-span-12 flex flex-col gap-6" id="before-after-workbench-parent">
-      {/* Upper Control Bar */}
-      <div className={`p-4 rounded-3xl border flex flex-col md:flex-row items-center justify-between gap-4 transition-all ${
-        isDarkMode ? "bg-[#1d1714]/85 border-[#332822]" : "bg-[#FAF6F0] border-[#eeded5]"
-      }`}>
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-[#C86432]/10 rounded-xl">
-            <Layers className="w-5 h-5 text-[#C86432]" />
-          </div>
-          <div className="text-left">
-            <h3 className="font-extrabold text-sm text-stone-800 dark:text-white flex items-center flex-wrap gap-2">
-              {r.beforeAfterTitle}
-              <span className="text-[10px] font-mono font-bold bg-[#C86432]/10 text-[#C86432] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                {resultDocumentType.replace("_", " ")}
-              </span>
-            </h3>
-            <p className="text-xs text-stone-500 dark:text-stone-300">
-              {r.beforeAfterSub}
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setExtractedText("")}
-            className={`text-xs font-bold px-3 py-1.5 rounded-xl border ${SR.border} ${SR.surfaceMuted} hover:opacity-90 transition-all flex items-center gap-1.5 cursor-pointer ${SR.textSecondary}`}
-          >
-            <RefreshCw className="w-3.5 h-3.5" />
-            {r.parameterSettings}
-          </button>
-          <button
-            onClick={clearFile}
-            className="text-xs font-bold text-rose-500 hover:text-white border border-rose-500/20 bg-rose-500/10 hover:bg-rose-600 px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer"
-          >
-            <Trash2 className="w-3.5 h-3.5" />
-            {r.clearDocument}
-          </button>
-        </div>
-      </div>
-
-      {/* Two Panel Grid split */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
-        
-        {/* Left Side: Before Document Raw Preview */}
-        <div className="col-span-12 xl:col-span-6 flex flex-col gap-4">
-          <div className={`p-5 rounded-3xl border flex flex-col gap-4 h-full relative ${
-            isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
-          }`} style={{ minHeight: "580px" }}>
-            
-            <div className="flex items-center justify-between border-b dark:border-stone-800 pb-3 flex-wrap gap-2">
-              <span className="text-xs font-bold tracking-wider text-stone-400 font-sans flex items-center gap-1.5">
-                <Eye className="w-4 h-4 text-[#C86432]" />
-                {r.beforeRawSource}
-              </span>
-
-              {/* Sizing Magnifier Scale */}
-              <div className="flex items-center gap-1 bg-stone-100/60 dark:bg-stone-900/65 p-1 rounded-xl text-stone-700 dark:text-stone-300">
-                <button
-                  onClick={() => setZoomScale(z => Math.max(0.5, z - 0.15))}
-                  className="p-1 rounded-lg hover:bg-[#C86432]/10 hover:text-[#C86432] cursor-pointer"
-                  title={r.zoomOut}
-                >
-                  <ZoomOut className="w-4 h-4" />
-                </button>
-                <span className="text-[10px] font-mono font-bold w-12 text-center">
-                  {Math.round(zoomScale * 100)}%
-                </span>
-                <button
-                  onClick={() => setZoomScale(z => Math.min(2.5, z + 0.15))}
-                  className="p-1 rounded-lg hover:bg-[#C86432]/10 hover:text-[#C86432] cursor-pointer"
-                  title={r.zoomIn}
-                >
-                  <ZoomIn className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Document viewing canvas wrapper */}
-            <div className="relative border border-stone-300 dark:border-stone-800 rounded-2xl bg-stone-100/20 dark:bg-stone-950/30 flex items-center justify-center p-4 min-h-[420px] h-[480px] overflow-hidden select-none">
-              
-              <div className="overflow-auto w-full h-full relative flex items-center justify-center">
-                <div 
-                  style={{ transform: `scale(${zoomScale})`, transition: 'transform 0.15s ease' }}
-                  className="relative max-h-full max-w-full origin-center flex items-center justify-center"
-                >
-                  {filePreview ? (
-                    <img
-                      src={filePreview}
-                      alt="Source Doc original"
-                      className="origin-center object-contain max-h-[420px] max-w-[400px] rounded-xl shadow-md border-2 border-stone-200 dark:border-stone-800"
-                      referrerPolicy="no-referrer"
-                    />
-                  ) : (
-                    <div className="text-center text-stone-400 p-6">
-                      <FileText className="w-10 h-10 text-[#C86432] mx-auto opacity-30 mb-2" />
-                      <p className="text-xs">{r.previewUnavailable}</p>
-                    </div>
-                  )}
-
-                  {/* Absolute visual highlight coordinates overlay boxes */}
-                  {filePreview && boxes.map((box) => {
-                    const isActive = box.field === activeField;
-                    return (
-                      <button
-                        key={box.field}
-                        onClick={() => setActiveField(box.field)}
-                        className={`absolute rounded-md transition-all duration-300 pointer-events-auto border z-30 ${
-                          isActive
-                            ? "border-[#C86432] bg-[#C86432]/15 ring-2 ring-[#C86432]/25 animate-pulse"
-                            : "border-dotted border-stone-400/40 dark:border-stone-600/30 bg-stone-500/5 hover:border-[#C86432]/65 hover:bg-[#C86432]/5"
-                        }`}
-                        style={{
-                          top: `${box.top}%`,
-                          left: `${box.left}%`,
-                          width: `${box.width}%`,
-                          height: `${box.height}%`,
-                        }}
-                        title={`Click to focus: ${box.label}`}
-                      />
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Adaptive visual sync instruction banner */}
-              <div className="absolute bottom-2 left-2 right-2 bg-stone-50/95 dark:bg-stone-900/95 text-stone-500 dark:text-stone-300 p-2 border border-stone-200/50 dark:border-stone-800 rounded-xl text-[10px] font-sans flex items-center gap-1.5 shadow-sm">
-                <Sparkles className="w-3.5 h-3.5 text-[#C86432]" />
-                <span>{r.syncMapActive}</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        {/* Right Side: After Analysis, Summary & Metrics Tabs */}
-        <div className="col-span-12 xl:col-span-6 flex flex-col gap-4">
-          <div className={`p-5 rounded-3xl border flex flex-col h-full relative ${
-            isDarkMode ? "bg-[#1d1714]/80 border-[#332822] text-stone-200" : "bg-white border-[#eeded5] text-stone-800"
-          }`} style={{ minHeight: "580px", maxHeight: "580px" }}>
-            
-            {/* Header Tabs Navigation layout - Compact labels supporting sweep with hidden scrollbars */}
-            <div className="flex border-b dark:border-stone-800 pb-3 overflow-x-auto no-scrollbar gap-2 shrink-0">
-              <button
-                onClick={() => { setActiveTab("visual"); setIsEditing(false); }}
-                className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all flex items-center gap-1 text-xs whitespace-nowrap cursor-pointer ${
-                  activeTab === "visual" && !isEditing
-                    ? "bg-[#C86432] text-white"
-                    : "bg-stone-100 dark:bg-stone-900 hover:bg-[#C86432]/10 text-stone-600 dark:text-stone-300"
-                }`}
-              >
-                <Zap className="w-3.5 h-3.5" />
-                {r.result}
-              </button>
-              <button
-                onClick={() => { setActiveTab("summary"); setIsEditing(false); }}
-                className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all flex items-center gap-1 text-xs whitespace-nowrap cursor-pointer ${
-                  activeTab === "summary" && !isEditing
-                    ? "bg-[#C86432] text-white"
-                    : "bg-stone-100 dark:bg-stone-900 hover:bg-[#C86432]/10 text-stone-600 dark:text-stone-300"
-                }`}
-              >
-                <FileCheck className="w-3.5 h-3.5" />
-                {r.summary}
-              </button>
-              <button
-                onClick={() => { setActiveTab("confidence"); setIsEditing(false); }}
-                className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all flex items-center gap-1 text-xs whitespace-nowrap cursor-pointer ${
-                  activeTab === "confidence" && !isEditing
-                    ? "bg-[#C86432] text-white"
-                    : "bg-stone-100 dark:bg-stone-900 hover:bg-[#C86432]/10 text-stone-600 dark:text-stone-300"
-                }`}
-              >
-                <Gauge className="w-3.5 h-3.5" />
-                {r.accuracy}
-              </button>
-              <button
-                onClick={() => { setActiveTab("chat"); setIsEditing(false); }}
-                className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all flex items-center gap-1 text-xs whitespace-nowrap cursor-pointer ${
-                  activeTab === "chat" && !isEditing
-                    ? "bg-[#C86432] text-white"
-                    : "bg-stone-100 dark:bg-stone-900 hover:bg-[#C86432]/10 text-stone-600 dark:text-stone-300"
-                }`}
-              >
-                <MessageSquare className="w-3.5 h-3.5" />
-                {r.assistant}
-              </button>
-            </div>
-
-            {/* Scrollable container frame */}
-            <div className="flex-1 mt-4 overflow-y-auto pr-1">
-              {isEditing ? (
-                <div className="flex flex-col gap-2 h-full p-1 animate-fade text-xs">
-                  <span className="text-[10px] font-bold text-[#C86432] uppercase tracking-wider">{r.editRawOutline}</span>
-                  <textarea
-                    value={editedText}
-                    onChange={(e) => setEditedText(e.target.value)}
-                    className={`w-full min-h-[300px] flex-1 p-4 font-mono rounded-2xl border focus:outline-hidden text-xs leading-relaxed ${
-                      isDarkMode ? "border-stone-800 bg-[#14100e] text-white" : "border-stone-200 bg-stone-50 text-stone-800"
-                    }`}
-                  />
-                </div>
-              ) : (
-                <AnimatePresence mode="wait">
-                  
-                  {/* Visual Report */}
-                  {activeTab === "visual" && (
-                    <motion.div
-                      key="tab-ba-visual"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      className="flex flex-col gap-4 text-xs text-stone-800 dark:text-stone-200"
-                    >
-                      {isSpecializedResult ? (
-                        <>
-                          <div className="bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 p-2.5 rounded-2xl border border-emerald-500/10 flex items-center gap-2">
-                            <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-                            <span>{r.ocrSync}</span>
-                          </div>
-
-                          <div className="flex items-center justify-between border-b dark:border-stone-800 pb-2">
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">⚡ Structured Format</span>
-                            <div className="flex items-center gap-1 bg-stone-100 dark:bg-stone-900 border dark:border-stone-800 p-0.5 rounded-xl text-[10px]/none my-0.5">
-                              <button
-                                onClick={() => setIsJsonVisualMode(true)}
-                                className={`px-2.5 py-1 font-bold rounded-lg transition-all cursor-pointer ${
-                                  isJsonVisualMode
-                                    ? "bg-[#C86432] text-white"
-                                    : "text-stone-500 dark:text-stone-300 hover:text-stone-700 dark:hover:text-stone-100"
-                                }`}
-                              >
-                                {r.visual}
-                              </button>
-                              <button
-                                onClick={() => setIsJsonVisualMode(false)}
-                                className={`px-2.5 py-1 font-bold rounded-lg transition-all cursor-pointer ${
-                                  !isJsonVisualMode
-                                    ? "bg-[#C86432] text-white"
-                                    : "text-stone-500 dark:text-stone-300 hover:text-stone-700 dark:hover:text-stone-100"
-                                }`}
-                              >
-                                {r.rawJson}
-                              </button>
-                            </div>
-                          </div>
-
-                          <div className="p-1">
-                            {isJsonVisualMode ? (
-                              renderVisualStructuredResult(extractedText, resultDocumentType, activeField, setActiveField, t)
-                            ) : (
-                              <pre className={`p-4 rounded-xl border whitespace-pre-wrap font-mono text-[10.5px] leading-relaxed selection:bg-[#C86432] ${SR.border} ${isDarkMode ? "bg-[#14100e] text-stone-200" : "bg-stone-50 text-stone-800"}`}>
-                                {extractedText}
-                              </pre>
-                            )}
-                          </div>
-                        </>
-                      ) : (
-                        <div className="flex flex-col gap-3">
-                          <div className="bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 p-2.5 rounded-2xl border border-emerald-500/10 flex items-center gap-2">
-                            <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-                            <span>{r.textExtracted}</span>
-                          </div>
-                          <div className={`p-4 rounded-2xl border whitespace-pre-wrap font-sans text-xs leading-relaxed selection:bg-[#C86432] ${
-                            isDarkMode ? "border-stone-800 bg-stone-950 text-stone-200" : "border-stone-200 bg-stone-50 text-stone-800"
-                          }`}>
-                            {extractedText}
-                          </div>
-                        </div>
-                      )}
-                    </motion.div>
-                  )}
-
-                  {/* AI Executive Summaries */}
-                  {activeTab === "summary" && (
-                    <motion.div
-                      key="tab-ba-summary"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      className="flex flex-col gap-3 text-xs text-stone-800 dark:text-stone-200"
-                    >
-                      <div className={`p-4 rounded-2xl border flex flex-col gap-3 ${
-                        isDarkMode ? "bg-stone-900/60 border-stone-800" : "bg-stone-50 border-stone-200"
-                      }`}>
-                        <div className="flex items-center gap-2 text-[#C86432] font-black uppercase text-[10px] tracking-wider">
-                          <Sparkles className="w-4 h-4 animate-pulse shrink-0" />
-                          {r.digestTitle}
-                        </div>
-                        
-                        <p className="text-stone-700 dark:text-stone-300 leading-relaxed font-sans">
-                          {r.digestDesc.replace("{type}", docTypeLabel)}
-                        </p>
-
-                        <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
-                          <h4 className="font-bold text-[#C86432]">{summaryBlock.title}</h4>
-                          {summaryBlock.items ? (
-                            <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-600 dark:text-stone-300 leading-normal">
-                              {summaryBlock.items.map((item: string) => (
-                                <li key={item}>{item}</li>
-                              ))}
-                            </ul>
-                          ) : (
-                            <p className="text-[11px] text-stone-600 dark:text-stone-300 leading-relaxed">
-                              {summaryBlock.desc}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {/* Accuracy & Matrix Charts */}
-                  {activeTab === "confidence" && (
-                    <motion.div
-                      key="tab-ba-confidence"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      className="flex flex-col gap-4 text-xs text-stone-800 dark:text-stone-200"
-                    >
-                      <div className={`p-4 rounded-3xl border flex flex-col md:flex-row items-center gap-6 ${
-                        isDarkMode ? "bg-stone-900/60 border-stone-800" : "bg-stone-50 border-stone-200"
-                      }`}>
-                        {/* Circle accuracy indicator */}
-                        <div className="relative w-24 h-24 flex items-center justify-center shrink-0">
-                          <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="40" strokeWidth="8" stroke={isDarkMode ? "#2c2522" : "#eeded5"} fill="transparent" />
-                            <circle 
-                              cx="50" cy="50" r="40" strokeWidth="8" stroke="#C86432" strokeDasharray="251.2" 
-                              strokeDashoffset={251.2 - (251.2 * avgConfidence) / 100} 
-                              strokeLinecap="round" fill="transparent" className="transition-all duration-1000 ease-out" 
-                            />
-                          </svg>
-                          <div className="absolute text-center flex flex-col items-center">
-                            <span className="text-lg font-black font-mono text-[#C86432]">{avgConfidence}%</span>
-                            <span className="text-[8px] uppercase tracking-wider text-stone-400 font-bold">{r.accuracy}</span>
-                          </div>
-                        </div>
-
-                        <div className="flex-1 flex flex-col gap-1 text-left">
-                          <h4 className="font-extrabold text-xs text-stone-800 dark:text-white flex items-center gap-1.5">
-                            <TrendingUp className="w-3.5 h-3.5 text-[#C86432]" />
-                            {r.averageQuality}
-                          </h4>
-                          <p className="text-stone-500 dark:text-stone-300 leading-normal text-[11px]">
-                            {r.qualityDesc}
-                          </p>
-                          <div className="mt-1">
-                            {avgConfidence >= 90 ? (
-                              <span className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded font-bold text-[9px] tracking-wider">
-                                ✓ HIGH CONFIDENCE VERIFIED
-                              </span>
-                            ) : (
-                              <span className="bg-amber-500/10 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded font-bold text-[9px] tracking-wider">
-                                ⚠ MEDIUM RISK EXTREMUM
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Breakdown bars */}
-                      <div className="flex flex-col gap-2.5">
-                        <h5 className="font-extrabold text-stone-400 uppercase tracking-widest text-[9px]">{r.fieldsIntegrity}</h5>
-                        <div className="space-y-3">
-                          {boxes.map((box) => {
-                            const seed = box.field.charCodeAt(0) + box.field.charCodeAt(box.field.length - 1);
-                            const fieldConf = 86 + (seed % 14);
-                            const isSel = activeField === box.field;
-                            return (
-                              <div 
-                                key={box.field}
-                                onClick={() => setActiveField(box.field)}
-                                className={`p-2 rounded-xl border cursor-pointer transition-all hover:bg-[#C86432]/5 flex flex-col gap-1 ${
-                                  isSel ? "border-[#C86432] bg-[#C86432]/5" : `${SR.border} ${SR.surfaceMuted}`
-                                }`}
-                              >
-                                <div className="flex justify-between items-center text-[10.5px]">
-                                  <span className="font-bold text-stone-700 dark:text-stone-300">{box.label}</span>
-                                  <span className="font-bold font-mono text-[#C86432]">{fieldConf}%</span>
-                                </div>
-                                <div className="h-1.5 bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden">
-                                  <div 
-                                    className="h-full bg-[#C86432]" 
-                                    style={{ width: `${fieldConf}%` }}
-                                  />
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                    </motion.div>
-                  )}
-
-                  {/* Direct chatbot container thread */}
-                  {activeTab === "chat" && (
-                    <motion.div
-                      key="tab-ba-chat"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      className={`flex flex-col border ${SR.border} rounded-3xl overflow-hidden shadow-sm ${isDarkMode ? "bg-[#14100e]" : "bg-stone-50"} text-stone-800 dark:text-stone-200 text-left`}
-                    >
-                      {chatMessages.length === 0 && (
-                        <div className={`p-3 text-[11px] ${isDarkMode ? "bg-[#301c13]/30 text-stone-300" : "bg-[#eeded5]/20 text-stone-700"}`}>
-                          <h3 className="font-bold text-[#C86432] flex items-center gap-1.5">
-                            <MessageSquare className="w-4 h-4" />
-                            <span>{r.interactiveContext}</span>
-                          </h3>
-                          <p className="mt-0.5 opacity-95">{r.interactiveContextDesc}</p>
-                        </div>
-                      )}
-
-                      {/* Chat Messages */}
-                      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3 h-[250px] min-h-[200px]">
-                        {chatMessages.map((msg) => {
-                          const isUser = msg.role === "user";
-                          return (
-                            <div
-                              key={msg.id}
-                              className={`flex flex-col gap-1 max-w-[85%] rounded-2xl p-3 text-[11px] leading-relaxed ${
-                                isUser
-                                  ? "self-end bg-[#C86432] text-white rounded-tr-none"
-                                  : isDarkMode
-                                  ? "self-start bg-stone-900 border border-stone-800 text-stone-200 rounded-tl-none"
-                                  : "self-start bg-stone-100 text-stone-800 rounded-tl-none"
-                              }`}
-                            >
-                              <span className="text-[8px] font-bold uppercase select-none opacity-60">
-                                {isUser ? t.you : t.assistant}
-                              </span>
-                              <p className="whitespace-pre-wrap">{msg.content}</p>
-                            </div>
-                          );
-                        })}
-
-                        {isChatting && (
-                          <div className={`self-start ${SR.surfaceMuted} p-3 rounded-2xl rounded-tl-none flex items-center gap-2 text-[10.5px] ${SR.textSecondary}`}>
-                            <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#C86432]" />
-                            <span>{r.chatLoadingMetrics}</span>
-                          </div>
-                        )}
-
-                        {chatError && (
-                          <div className="p-2 bg-rose-500/10 text-rose-800 dark:text-rose-200 text-xs font-bold rounded-xl font-mono flex items-center gap-2">
-                            <AlertCircle className="w-4 h-4 text-rose-500" />
-                            <span>{chatError}</span>
-                          </div>
-                        )}
-                        <div ref={chatBottomRef} />
-                      </div>
-
-                      {/* Dialogue footer bar input */}
-                      <form onSubmit={handleSendMessage} className={`p-2.5 border-t flex gap-2 ${
-                        isDarkMode ? "border-[#332822] bg-[#1d1714]/60" : "border-[#eeded5] bg-[#FAF6F0]"
-                      }`}>
-                        <input
-                          type="text"
-                          value={chatInput}
-                          onChange={(e) => setChatInput(e.target.value)}
-                          placeholder={t.chatPlaceholder}
-                          disabled={isChatting}
-                          className={`flex-1 text-xs p-2.5 rounded-xl border focus:outline-hidden focus:ring-1 focus:ring-[#C86432] ${
-                            isDarkMode ? "border-stone-800 bg-[#14100e] text-white" : "border-stone-205 bg-white text-stone-800"
-                          }`}
-                        />
-                        <button
-                          type="submit"
-                          disabled={!chatInput.trim() || isChatting}
-                          className="px-3.5 py-2 bg-[#C86432] hover:bg-[#aa5328] disabled:bg-stone-300 disabled:text-stone-500 text-white font-bold rounded-xl text-xs flex items-center justify-center transition-all shrink-0 cursor-pointer"
-                        >
-                          <Send className="w-3.5 h-3.5" />
-                        </button>
-                      </form>
-                    </motion.div>
-                  )}
-
-                </AnimatePresence>
-              )}
-            </div>
-
-            {/* Always anchored actions footer */}
-            <div className={`p-4 mt-4 border-t flex flex-wrap items-center justify-between gap-3 ${
-              isDarkMode ? "border-[#332822] bg-[#1d1714]/65" : "border-[#eeded5] bg-[#FAF6F0]"
-            } rounded-2xl shrink-0`}>
-              <div>
-                {isEditing ? (
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => { setExtractedText(editedText); setIsEditing(false); }}
-                      className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer"
-                    >
-                      {t.saveBtn || "Save"}
-                    </button>
-                    <button
-                      onClick={() => { setEditedText(extractedText); setIsEditing(false); }}
-                      className={`px-3.5 py-1.5 border ${SR.border} ${SR.textSecondary} font-bold text-xs rounded-xl transition-all cursor-pointer ${SR.hoverRow}`}
-                    >
-                      {t.cancelBtn || "Cancel"}
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => { setEditedText(getDisplayableOrDownloadableText(extractedText, resultDocumentType)); setIsEditing(true); }}
-                    className="px-3 py-1.5 border border-[#eeded5] dark:border-[#332822] text-xs font-bold rounded-xl hover:bg-[#C86432]/5 cursor-pointer text-[#C86432] transition-colors"
-                  >
-                    {t.editBtn || "Edit Text"}
-                  </button>
-                )}
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handleCopy}
-                  className="px-3 py-1.5 border border-[#eeded5] dark:border-[#332822] text-xs font-bold rounded-xl transition-all cursor-pointer text-stone-600 dark:text-stone-300 hover:bg-[#C86432]/5"
-                >
-                  {copyFeedback ? (t.copied || "Copied!") : (t.copyText || "Copy")}
-                </button>
-
-                <div className={`flex items-center border p-0.5 rounded-xl text-[10px] ${
-                  isDarkMode 
-                    ? "border-stone-800 bg-stone-900 text-stone-400" 
-                    : "border-[#eeded5] bg-stone-100/50 text-stone-700"
-                }`}>
-                  <button onClick={() => downloadTextFile("md")} className="p-1 px-2 font-bold font-mono hover:text-[#C86432] cursor-pointer">.MD</button>
-                  <button onClick={() => downloadTextFile("txt")} className="p-1 px-2 font-bold font-mono border-l border-stone-200 dark:border-stone-800 hover:text-[#C86432] cursor-pointer">.TXT</button>
-                  <button onClick={downloadDocFile} className="p-1 px-2 font-bold font-mono border-l border-stone-200 dark:border-stone-800 hover:text-[#C86432] cursor-pointer animate-none">.DOC</button>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    </div>
-  );
-};
-
 export default function Home() {
   const [activeView, setActiveView] = useState<"home" | "workspace" | "cv">("home");
   const [language, setLanguage] = useState<Language>("en");
@@ -3014,6 +335,7 @@ export default function Home() {
   const [cvFileSize, setCvFileSize] = useState<string>("");
   const [cvRawNotes, setCvRawNotes] = useState<string>("");
   const [cvSelectedPositions, setCvSelectedPositions] = useState<string[]>(["Data Analyst"]);
+  const [cvCustomPosition, setCvCustomPosition] = useState<string>("");
   const [cvTemplate, setCvTemplate] = useState<string>("modern-ats");
   const [cvTone, setCvTone] = useState<string>("Confident professional");
   const [cvSeniority, setCvSeniority] = useState<string>("Adaptive");
@@ -3127,6 +449,22 @@ export default function Home() {
   }, [isDarkMode]);
 
   const t = TRANSLATIONS[language] || TRANSLATIONS.en;
+  const cvTemplateCopy = t.cvTemplates || {};
+  const cvToneLabels = t.cvToneOptions || {};
+  const cvSeniorityLabels = t.cvSeniorityOptions || {};
+  const cvFocusLabels = t.cvFocusAreaLabels || {};
+  const cvPositionLabels = t.cvPositionLabels || {};
+  const getTemplateName = (template: (typeof CV_TEMPLATES)[number]) => cvTemplateCopy[template.id]?.name || template.name;
+  const getTemplateDesc = (template: (typeof CV_TEMPLATES)[number]) => cvTemplateCopy[template.id]?.desc || template.desc;
+  const getFocusLabel = (area: string) => cvFocusLabels[area] || area;
+  const getPositionLabel = (position: string) => cvPositionLabels[position] || position;
+  const openHomeSection = (sectionId?: string) => {
+    setActiveView("home");
+    if (!sectionId) return;
+    window.setTimeout(() => {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+  };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -3140,8 +478,13 @@ export default function Home() {
   const processSelectedFile = (selectedFile: File) => {
     if (!selectedFile) return;
 
-    if (selectedFile.size > 10 * 1024 * 1024) {
-      setExtractionError("The file is too large. Please upload files smaller than 10MB to avoid oversized base64 payloads.");
+    const validation = validateFile(selectedFile);
+    if (!validation.valid) {
+      setExtractionError(
+        validation.error === "The file is too large. Please upload files smaller than 10MB."
+          ? "The file is too large. Please upload files smaller than 10MB to avoid oversized base64 payloads."
+          : validation.error || "Unsupported file type."
+      );
       return;
     }
 
@@ -3188,8 +531,13 @@ export default function Home() {
   const processSelectedCvFile = (selectedFile: File) => {
     if (!selectedFile) return;
 
-    if (selectedFile.size > 10 * 1024 * 1024) {
-      setCvError("The CV file is too large. Please upload files smaller than 10MB.");
+    const validation = validateFile(selectedFile, ALLOWED_CV_FILE_TYPES);
+    if (!validation.valid) {
+      setCvError(
+        validation.error === "The file is too large. Please upload files smaller than 10MB."
+          ? "The CV file is too large. Please upload files smaller than 10MB."
+          : validation.error || "Unsupported CV file type."
+      );
       return;
     }
 
@@ -3239,6 +587,18 @@ export default function Home() {
         ? prev.filter((item) => item !== position)
         : [...prev, position]
     );
+  };
+
+  const addCustomCvPosition = () => {
+    const position = cvCustomPosition.trim();
+    if (!position) return;
+
+    setCvSelectedPositions((prev) =>
+      prev.some((item) => item.toLowerCase() === position.toLowerCase())
+        ? prev
+        : [...prev, position]
+    );
+    setCvCustomPosition("");
   };
 
   const toggleCvFocusArea = (area: string) => {
@@ -3404,22 +764,14 @@ export default function Home() {
   };
 
   const copyCvText = () => {
-    navigator.clipboard.writeText(cvEditedText || cvGeneratedText);
+    copyToClipboard(cvEditedText || cvGeneratedText);
     setCvCopyFeedback(true);
     setTimeout(() => setCvCopyFeedback(false), 2000);
   };
 
   const downloadCvDoc = () => {
-  const blob = new Blob(["\ufeff" + buildCvHtmlDocument()], { type: "application/msword;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
     const baseName = cvFileName ? cvFileName.substring(0, cvFileName.lastIndexOf(".")) || cvFileName : "optimized-cv";
-    link.download = `${baseName}-optimized.doc`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    downloadBlob("\ufeff" + buildCvHtmlDocument(), `${baseName}-optimized.doc`, "application/msword;charset=utf-8");
   };
 
   const exportCvPdf = () => {
@@ -3598,23 +950,15 @@ export default function Home() {
 
   const handleCopy = () => {
     const textToCopy = isEditing ? editedText : getDisplayableOrDownloadableText(extractedText, resultDocumentType);
-    navigator.clipboard.writeText(textToCopy);
+    copyToClipboard(textToCopy);
     setCopyFeedback(true);
     setTimeout(() => setCopyFeedback(false), 2000);
   };
 
   const downloadTextFile = (ext: "md" | "txt") => {
     const textContent = isEditing ? editedText : getDisplayableOrDownloadableText(extractedText, resultDocumentType);
-    const blob = new Blob([textContent], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
     const baseName = fileName ? fileName.substring(0, fileName.lastIndexOf(".")) || fileName : "extracted-doc";
-    link.download = `${baseName}-extracted.${ext}`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    downloadAsTxt(textContent, `${baseName}-extracted.${ext}`);
   };
 
   const downloadDocFile = () => {
@@ -3663,16 +1007,8 @@ export default function Home() {
       </html>
     `;
 
-    const blob = new Blob(["\ufeff" + docHtml], { type: "application/msword;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
     const baseName = fileName ? fileName.substring(0, fileName.lastIndexOf(".")) || fileName : "extracted-doc";
-    link.download = `${baseName}-extracted.doc`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    downloadBlob("\ufeff" + docHtml, `${baseName}-extracted.doc`, "application/msword;charset=utf-8");
   };
 
   const wordCount = (isEditing ? editedText : extractedText).trim().split(/\s+/).filter(Boolean).length;
@@ -3695,7 +1031,12 @@ export default function Home() {
       }`}>
         {/* Brand Logo & Desktop Nav Links */}
         <div className="flex items-center gap-7">
-          <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={() => setActiveView("home")}
+            className="flex items-center gap-2.5 text-left rounded-xl focus:outline-hidden focus:ring-2 focus:ring-[#C86432]/50 cursor-pointer"
+            aria-label="Go to homepage"
+          >
             <div className="w-9 h-9 bg-[#C86432] rounded-xl flex items-center justify-center shadow-lg shadow-[#C86432]/20 text-white shrink-0">
               <Layers className="w-5 h-5" />
             </div>
@@ -3709,7 +1050,7 @@ export default function Home() {
                 </span>
               </div>
             </div>
-          </div>
+          </button>
 
           {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-2.5">
@@ -4264,7 +1605,7 @@ export default function Home() {
                                       : "bg-white/40 hover:bg-white text-[#7d6b60]"
                                   }`}
                                 >
-                                  {tpl.name}
+                                  {getTemplateName(tpl)}
                                 </button>
                               ))}
                             </div>
@@ -5291,9 +2632,9 @@ export default function Home() {
                         }`}
                       >
                         <span className={`text-xs font-bold block ${cvTemplate === template.id ? "text-[#C86432]" : ""}`}>
-                          {template.name}
+                          {getTemplateName(template)}
                         </span>
-                        <span className="text-[10px] text-stone-500 dark:text-stone-300 block mt-1 leading-tight">{template.desc}</span>
+                        <span className="text-[10px] text-stone-500 dark:text-stone-300 block mt-1 leading-tight">{getTemplateDesc(template)}</span>
                       </button>
                     ))}
                   </div>
@@ -5318,12 +2659,9 @@ export default function Home() {
                         isDarkMode ? "border-[#332822] bg-[#1a1412] text-white" : "border-[#eeded5] bg-white text-[#3c2f2f]"
                       }`}
                     >
-                      <option>Confident professional</option>
-                      <option>Bold leadership</option>
-                      <option>Technical expert</option>
-                      <option>Creative innovator</option>
-                      <option>Strategic thinker</option>
-                      <option>Collaborative team player</option>
+                      {CV_TONES.map((tone) => (
+                        <option key={tone} value={tone}>{cvToneLabels[tone] || tone}</option>
+                      ))}
                     </select>
                   </div>
 
@@ -5337,11 +2675,9 @@ export default function Home() {
                         isDarkMode ? "border-[#332822] bg-[#1a1412] text-white" : "border-[#eeded5] bg-white text-[#3c2f2f]"
                       }`}
                     >
-                      <option>Adaptive</option>
-                      <option>Junior (0-3 years)</option>
-                      <option>Mid-level (3-6 years)</option>
-                      <option>Senior (6-10 years)</option>
-                      <option>Executive (10+ years)</option>
+                      {CV_SENIORITY_LEVELS.map((level) => (
+                        <option key={level} value={level}>{cvSeniorityLabels[level] || level}</option>
+                      ))}
                     </select>
                   </div>
 
@@ -5366,7 +2702,7 @@ export default function Home() {
                         >
                           <div className="flex items-center gap-1.5">
                             <div className={`w-3 h-3 rounded border ${cvFocusAreas.includes(area) ? "bg-[#C86432] border-[#C86432]" : isDarkMode ? "border-stone-700" : "border-stone-300"}`} />
-                            <span>{area}</span>
+                            <span>{getFocusLabel(area)}</span>
                           </div>
                         </button>
                       ))}
@@ -5417,6 +2753,54 @@ export default function Home() {
                     </div>
                   </div>
 
+                  <div className={`flex flex-col sm:flex-row gap-2 rounded-2xl border p-2 ${
+                    isDarkMode ? "border-[#332822] bg-[#14100e]" : "border-[#eeded5] bg-[#FAF6F0]"
+                  }`}>
+                    <input
+                      type="text"
+                      value={cvCustomPosition}
+                      onChange={(e) => setCvCustomPosition(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          addCustomCvPosition();
+                        }
+                      }}
+                      placeholder={t.cvCustomPositionPlaceholder || "Write a custom target position"}
+                      maxLength={80}
+                      className={`flex-1 rounded-xl border px-3 py-2 text-xs font-bold focus:outline-hidden focus:ring-1 focus:ring-[#C86432] ${
+                        isDarkMode
+                          ? "border-stone-800 bg-[#1d1714] text-white placeholder-stone-500"
+                          : "border-stone-200 bg-white text-stone-800 placeholder-stone-400"
+                      }`}
+                    />
+                    <button
+                      type="button"
+                      onClick={addCustomCvPosition}
+                      disabled={!cvCustomPosition.trim()}
+                      className="px-4 py-2 rounded-xl text-xs font-bold bg-[#C86432] hover:bg-[#aa5328] disabled:bg-stone-300 disabled:text-stone-500 text-white transition-all cursor-pointer"
+                    >
+                      {t.cvAddPosition || "Add"}
+                    </button>
+                  </div>
+
+                  {cvSelectedPositions.some((position) => !CV_POSITION_CATEGORIES.includes(position)) && (
+                    <div className="flex flex-wrap gap-2">
+                      {cvSelectedPositions
+                        .filter((position) => !CV_POSITION_CATEGORIES.includes(position))
+                        .map((position) => (
+                          <button
+                            key={position}
+                            type="button"
+                            onClick={() => toggleCvPosition(position)}
+                            className="px-3 py-1.5 rounded-full text-[11px] font-bold bg-[#C86432]/10 text-[#C86432] border border-[#C86432]/20 hover:bg-[#C86432] hover:text-white transition-all"
+                          >
+                            {position} ×
+                          </button>
+                        ))}
+                    </div>
+                  )}
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[480px] overflow-y-auto pr-2">
                     {CV_POSITION_CATEGORIES.map((position) => (
                       <button
@@ -5439,7 +2823,7 @@ export default function Home() {
                         }`}>
                           {cvSelectedPositions.includes(position) && <Check className="w-2.5 h-2.5 text-white" />}
                         </div>
-                        <span>{position}</span>
+                        <span>{getPositionLabel(position)}</span>
                       </button>
                     ))}
                   </div>
@@ -5528,7 +2912,7 @@ export default function Home() {
                               {t.cvText}
                             </button>
                           </div>
-                          <div className="text-[10px] text-stone-500 dark:text-stone-300">{t.cvTemplate}: <span className="font-bold">{CV_TEMPLATES.find((t)=>t.id===cvTemplate)?.name}</span></div>
+                          <div className="text-[10px] text-stone-500 dark:text-stone-300">{t.cvTemplate}: <span className="font-bold">{getTemplateName(CV_TEMPLATES.find((item)=>item.id===cvTemplate) || CV_TEMPLATES[0])}</span></div>
                         </div>
 
                         {cvPreviewMode === "preview" ? (
@@ -5540,11 +2924,14 @@ export default function Home() {
                             />
                           </div>
                         ) : (
-                          <div className={`p-4 rounded-xl border whitespace-pre-wrap font-sans text-xs leading-relaxed selection:bg-[#C86432] ${
-                            isDarkMode ? "border-stone-800 bg-stone-950 text-stone-200" : "border-stone-200 bg-stone-50 text-stone-800"
-                          }`}>
-                            {cvEditedText || cvGeneratedText}
-                          </div>
+                          <textarea
+                            value={cvEditedText || cvGeneratedText}
+                            onChange={(e) => setCvEditedText(e.target.value)}
+                            aria-label={t.cvManualEditLabel || "Edit generated CV"}
+                            className={`w-full h-[360px] p-4 rounded-xl border font-sans text-xs leading-relaxed resize-none focus:outline-hidden focus:ring-1 focus:ring-[#C86432] selection:bg-[#C86432] ${
+                              isDarkMode ? "border-stone-800 bg-stone-950 text-stone-200" : "border-stone-200 bg-stone-50 text-stone-800"
+                            }`}
+                          />
                         )}
                       </div>
 
@@ -5594,10 +2981,43 @@ export default function Home() {
       </div>
 
       {/* Footer Segment */}
-      <footer className={`border-t py-6 px-12 text-center text-xs transition-all duration-300 ${
-        isDarkMode ? "border-[#332822]/40 bg-[#14100e] text-stone-300" : "border-[#eeded5]/60 bg-white/30 text-stone-500"
+      <footer className={`border-t px-6 sm:px-12 py-10 text-xs transition-all duration-300 ${
+        isDarkMode ? "border-[#332822]/60 bg-[#0f0b0a] text-stone-300" : "border-[#eeded5]/70 bg-white/45 text-stone-600"
       }`}>
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 font-sans">
+        <div className="max-w-7xl mx-auto font-sans">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-left">
+            <div className="flex flex-col gap-3">
+              <h3 className="text-[11px] font-black uppercase tracking-[0.22em] text-[#C86432]">{t.footerProduct}</h3>
+              <button type="button" onClick={() => openHomeSection()} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.navOverview}</button>
+              <button type="button" onClick={() => setActiveView("workspace")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.navWorkspace}</button>
+              <button type="button" onClick={() => setActiveView("cv")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.featureCvTitle}</button>
+              <button type="button" onClick={() => openHomeSection("simulator")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.footerDemo}</button>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <h3 className="text-[11px] font-black uppercase tracking-[0.22em] text-[#C86432]">{t.footerResources}</h3>
+              <button type="button" onClick={() => setActiveView("workspace")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.footerUpload}</button>
+              <button type="button" onClick={() => setActiveView("workspace")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.extractedText}</button>
+              <button type="button" onClick={() => setActiveView("workspace")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.chatWithDoc}</button>
+              <button type="button" onClick={() => setActiveView("cv")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.cvTemplateStyle}</button>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <h3 className="text-[11px] font-black uppercase tracking-[0.22em] text-[#C86432]">{t.footerSocial}</h3>
+              <button type="button" onClick={() => openHomeSection("simulator")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer flex items-center gap-2">
+                <Instagram className="w-3.5 h-3.5" />
+                Instagram
+              </button>
+              <a href="https://t.me/digitalhelperam" target="_blank" rel="noopener noreferrer" className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer flex items-center gap-2">
+                <Send className="w-3.5 h-3.5" />
+                Telegram
+              </a>
+            </div>
+          </div>
+
+          <div className={`mt-8 pt-5 border-t flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-center sm:text-left ${
+            isDarkMode ? "border-[#332822]/70" : "border-[#eeded5]/80"
+          }`}>
           <p>{t.copyright}</p>
           <div className="flex justify-center gap-4 text-[10px] font-bold uppercase tracking-wider text-[#C86432]">
             <span>{t.statelessSandbox}</span>
@@ -5605,6 +3025,7 @@ export default function Home() {
             <span>{t.securitySafe}</span>
             <span className="opacity-40">·</span>
             <span>{t.jsonOutput}</span>
+          </div>
           </div>
         </div>
       </footer>
