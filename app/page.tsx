@@ -1016,6 +1016,8 @@ export default function Home() {
 
   return (
     <div
+      lang={language === "am" ? "hy" : language}
+      data-language={language}
       className={`flex flex-col min-h-screen font-sans transition-colors duration-500 ${
         isDarkMode ? "text-[#f7f3f0] bg-[#181210]" : "text-[#3c2f2f] bg-[#fbf9f6]"
       }`}
@@ -2215,10 +2217,10 @@ export default function Home() {
                         </div>
 
                         {/* Workspace toggle tabs */}
-                        <div className="flex items-center border border-[#eeded5] dark:border-[#332822] p-0.5 rounded-xl bg-stone-100/50 dark:bg-stone-900/40">
+                        <div className="grid grid-cols-2 w-full sm:w-auto border border-[#eeded5] dark:border-[#332822] p-0.5 rounded-xl bg-stone-100/50 dark:bg-stone-900/40 gap-1">
                           <button
                             onClick={() => setActiveTab("result")}
-                            className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1 cursor-pointer ${
+                            className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 text-[11px] sm:text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 text-center leading-tight cursor-pointer ${
                               activeTab === "result" ? "bg-[#C86432] text-white" : "text-stone-500 dark:text-stone-300"
                             }`}
                           >
@@ -2227,7 +2229,7 @@ export default function Home() {
                           </button>
                           <button
                             onClick={() => setActiveTab("chat")}
-                            className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1 cursor-pointer ${
+                            className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 text-[11px] sm:text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 text-center leading-tight cursor-pointer ${
                               activeTab === "chat" ? "bg-[#C86432] text-white" : "text-stone-500 dark:text-stone-300"
                             }`}
                           >
@@ -2897,22 +2899,22 @@ export default function Home() {
 
                       {/* Output Text Area */}
                       <div className={`flex-1 overflow-hidden p-4 max-h-[420px] text-xs leading-relaxed ${isDarkMode ? "text-stone-200" : "text-stone-800"}`}>
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-2">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
+                          <div className="grid grid-cols-2 w-full sm:w-auto gap-1.5">
                             <button
                               onClick={() => setCvPreviewMode("preview")}
-                              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${cvPreviewMode === "preview" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-900/80 text-stone-200 border border-stone-800" : "bg-white text-stone-700"}`}
+                              className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all text-center leading-tight flex items-center justify-center ${cvPreviewMode === "preview" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-900/80 text-stone-200 border border-stone-800" : "bg-white text-stone-700"}`}
                             >
                               {t.cvPreview}
                             </button>
                             <button
                               onClick={() => setCvPreviewMode("text")}
-                              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${cvPreviewMode === "text" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-900/80 text-stone-200 border border-stone-800" : "bg-white text-stone-700"}`}
+                              className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all text-center leading-tight flex items-center justify-center ${cvPreviewMode === "text" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-900/80 text-stone-200 border border-stone-800" : "bg-white text-stone-700"}`}
                             >
                               {t.cvText}
                             </button>
                           </div>
-                          <div className="text-[10px] text-stone-500 dark:text-stone-300">{t.cvTemplate}: <span className="font-bold">{getTemplateName(CV_TEMPLATES.find((item)=>item.id===cvTemplate) || CV_TEMPLATES[0])}</span></div>
+                          <div className="text-[10px] text-stone-500 dark:text-stone-300 leading-snug">{t.cvTemplate}: <span className="font-bold">{getTemplateName(CV_TEMPLATES.find((item)=>item.id===cvTemplate) || CV_TEMPLATES[0])}</span></div>
                         </div>
 
                         {cvPreviewMode === "preview" ? (

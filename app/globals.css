@@ -37,3 +37,65 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+/* Localized UI guardrails: Armenian labels are longer and need softer mobile wrapping. */
+[data-language="am"] {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+[data-language="am"] button,
+[data-language="am"] a,
+[data-language="am"] label,
+[data-language="am"] h1,
+[data-language="am"] h2,
+[data-language="am"] h3,
+[data-language="am"] h4,
+[data-language="am"] p,
+[data-language="am"] span {
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  [data-language="am"] .uppercase {
+    text-transform: none;
+  }
+
+  [data-language="am"] .tracking-wider,
+  [data-language="am"] .tracking-widest,
+  [data-language="am"] .tracking-\[0\.22em\] {
+    letter-spacing: 0.02em;
+  }
+
+  [data-language="am"] button,
+  [data-language="am"] a,
+  [data-language="am"] label,
+  [data-language="am"] h1,
+  [data-language="am"] h2,
+  [data-language="am"] h3,
+  [data-language="am"] h4,
+  [data-language="am"] p,
+  [data-language="am"] span {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
+  }
+
+  [data-language="am"] .truncate {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  [data-language="am"] .flex.items-center.gap-1,
+  [data-language="am"] .flex.items-center.gap-1\.5,
+  [data-language="am"] .flex.items-center.gap-2,
+  [data-language="am"] .flex.items-start.gap-2,
+  [data-language="am"] .flex.items-center.gap-3 {
+    align-items: flex-start;
+  }
+
+  [data-language="am"] .flex.items-center.justify-center {
+    align-items: center;
+  }
+}

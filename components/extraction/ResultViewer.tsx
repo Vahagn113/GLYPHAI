@@ -1297,10 +1297,10 @@ export const BeforeVsAfterWorkspace = ({
           }`} style={{ minHeight: "580px", maxHeight: "580px" }}>
             
             {/* Header Tabs Navigation layout - Compact labels supporting sweep with hidden scrollbars */}
-            <div className="flex border-b dark:border-stone-800 pb-3 overflow-x-auto no-scrollbar gap-2 shrink-0">
+            <div className="grid grid-cols-2 sm:flex border-b dark:border-stone-800 pb-3 gap-2 shrink-0">
               <button
                 onClick={() => { setActiveTab("visual"); setIsEditing(false); }}
-                className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all flex items-center gap-1 text-xs whitespace-nowrap cursor-pointer ${
+                className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 text-[11px] sm:text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 text-center leading-tight cursor-pointer ${
                   activeTab === "visual" && !isEditing
                     ? "bg-[#C86432] text-white"
                     : "bg-stone-100 dark:bg-stone-900 hover:bg-[#C86432]/10 text-stone-600 dark:text-stone-300"
@@ -1311,7 +1311,7 @@ export const BeforeVsAfterWorkspace = ({
               </button>
               <button
                 onClick={() => { setActiveTab("summary"); setIsEditing(false); }}
-                className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all flex items-center gap-1 text-xs whitespace-nowrap cursor-pointer ${
+                className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 text-[11px] sm:text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 text-center leading-tight cursor-pointer ${
                   activeTab === "summary" && !isEditing
                     ? "bg-[#C86432] text-white"
                     : "bg-stone-100 dark:bg-stone-900 hover:bg-[#C86432]/10 text-stone-600 dark:text-stone-300"
@@ -1322,7 +1322,7 @@ export const BeforeVsAfterWorkspace = ({
               </button>
               <button
                 onClick={() => { setActiveTab("confidence"); setIsEditing(false); }}
-                className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all flex items-center gap-1 text-xs whitespace-nowrap cursor-pointer ${
+                className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 text-[11px] sm:text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 text-center leading-tight cursor-pointer ${
                   activeTab === "confidence" && !isEditing
                     ? "bg-[#C86432] text-white"
                     : "bg-stone-100 dark:bg-stone-900 hover:bg-[#C86432]/10 text-stone-600 dark:text-stone-300"
@@ -1333,7 +1333,7 @@ export const BeforeVsAfterWorkspace = ({
               </button>
               <button
                 onClick={() => { setActiveTab("chat"); setIsEditing(false); }}
-                className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all flex items-center gap-1 text-xs whitespace-nowrap cursor-pointer ${
+                className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 text-[11px] sm:text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 text-center leading-tight cursor-pointer ${
                   activeTab === "chat" && !isEditing
                     ? "bg-[#C86432] text-white"
                     : "bg-stone-100 dark:bg-stone-900 hover:bg-[#C86432]/10 text-stone-600 dark:text-stone-300"
