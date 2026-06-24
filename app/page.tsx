@@ -267,6 +267,104 @@ const DEMO_PRESETS: DemoPreset[] = [
   }
 ];
 
+function ScrollLinkedBackground({
+  isDarkMode,
+  scrollProgress,
+}: {
+  isDarkMode: boolean;
+  scrollProgress: number;
+}) {
+  const scanOffset = Math.round(scrollProgress * 140);
+  const drift = Math.round(scrollProgress * 48);
+  const counterDrift = Math.round(scrollProgress * -36);
+  const glowOpacity = Math.min(0.52, 0.22 + scrollProgress * 0.25);
+
+  const layerStyle = {
+    "--scan-offset": `${scanOffset}px`,
+    "--drift": `${drift}px`,
+    "--counter-drift": `${counterDrift}px`,
+    "--glow-opacity": glowOpacity,
+  } as React.CSSProperties;
+
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+      style={layerStyle}
+    >
+      <div
+        className={`absolute inset-0 transition-colors duration-500 ${
+          isDarkMode ? "opacity-80" : "opacity-95"
+        }`}
+        style={{
+          backgroundImage: isDarkMode
+            ? "radial-gradient(circle at 16% 12%, rgba(200,100,50,0.16), transparent 28%), radial-gradient(circle at 84% 88%, rgba(217,119,54,0.12), transparent 34%)"
+            : "radial-gradient(circle at 16% 12%, rgba(200,100,50,0.12), transparent 30%), radial-gradient(circle at 84% 88%, rgba(238,222,213,0.8), transparent 36%)",
+        }}
+      />
+
+      <div
+        className={`absolute inset-0 transition-opacity duration-500 ${
+          isDarkMode ? "opacity-[0.12]" : "opacity-[0.18]"
+        }`}
+        style={{
+          backgroundImage: isDarkMode
+            ? "linear-gradient(rgba(217,119,54,0.22) 1px, transparent 1px), linear-gradient(90deg, rgba(217,119,54,0.16) 1px, transparent 1px)"
+            : "linear-gradient(rgba(200,100,50,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(200,100,50,0.12) 1px, transparent 1px)",
+          backgroundPosition: "0 var(--counter-drift), var(--drift) 0",
+          backgroundSize: "72px 72px",
+        }}
+      />
+
+      <div
+        className={`absolute -left-1/4 top-[-12%] h-[46vh] w-[150vw] rotate-[-8deg] blur-2xl transition-opacity duration-500 sm:h-[52vh] ${
+          isDarkMode ? "bg-[#C86432]/10" : "bg-[#C86432]/12"
+        }`}
+        style={{
+          opacity: "var(--glow-opacity)",
+          transform: "translate3d(0, var(--scan-offset), 0) rotate(-8deg)",
+        }}
+      />
+
+      <div
+        className={`absolute right-[-18vw] top-[16vh] hidden h-56 w-56 rounded-full border sm:block ${
+          isDarkMode ? "border-[#D97736]/18" : "border-[#C86432]/16"
+        }`}
+        style={{
+          transform: "translate3d(var(--counter-drift), calc(var(--drift) * 0.5), 0)",
+        }}
+      />
+
+      <div
+        className={`absolute bottom-[10vh] left-[-10vw] hidden h-72 w-72 rounded-full border md:block ${
+          isDarkMode ? "border-[#D97736]/12" : "border-[#C86432]/10"
+        }`}
+        style={{
+          transform: "translate3d(var(--drift), calc(var(--counter-drift) * 0.6), 0)",
+        }}
+      />
+
+      <div
+        className={`absolute left-[7vw] top-[30vh] h-12 w-12 rounded-xl border transition-opacity duration-500 sm:h-16 sm:w-16 ${
+          isDarkMode ? "border-[#D97736]/20 bg-[#301c13]/12" : "border-[#C86432]/18 bg-white/18"
+        }`}
+        style={{
+          transform: "translate3d(0, calc(var(--drift) * 0.7), 0)",
+        }}
+      />
+
+      <div
+        className={`absolute right-[9vw] top-[62vh] h-10 w-10 rounded-xl border transition-opacity duration-500 sm:h-14 sm:w-14 ${
+          isDarkMode ? "border-[#D97736]/18 bg-[#301c13]/10" : "border-[#C86432]/14 bg-white/14"
+        }`}
+        style={{
+          transform: "translate3d(0, calc(var(--counter-drift) * 0.8), 0)",
+        }}
+      />
+    </div>
+  );
+}
+
 // Small set of CV demo presets used for the homepage CV Builder simulator
 const CV_DEMO_PRESETS: CvDemoPreset[] = [
   {
@@ -286,6 +384,7 @@ export default function Home() {
   const [activeView, setActiveView] = useState<"home" | "workspace" | "cv">("home");
   const [language, setLanguage] = useState<Language>("en");
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [scrollProgress, setScrollProgress] = useState<number>(0);
   const [publishingMethod, setPublishingMethod] = useState<string>("raw");
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
@@ -458,6 +557,42 @@ export default function Home() {
     document.documentElement.classList.toggle("dark", isDarkMode);
     return () => document.documentElement.classList.remove("dark");
   }, [isDarkMode]);
+
+  useEffect(() => {
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let animationFrame = 0;
+
+    const updateScrollProgress = () => {
+      if (motionQuery.matches) {
+        setScrollProgress(0);
+        return;
+      }
+
+      const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const nextProgress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
+      setScrollProgress(Math.min(1, Math.max(0, nextProgress)));
+    };
+
+    const queueScrollUpdate = () => {
+      if (animationFrame) return;
+      animationFrame = window.requestAnimationFrame(() => {
+        animationFrame = 0;
+        updateScrollProgress();
+      });
+    };
+
+    updateScrollProgress();
+    window.addEventListener("scroll", queueScrollUpdate, { passive: true });
+    window.addEventListener("resize", queueScrollUpdate);
+    motionQuery.addEventListener("change", updateScrollProgress);
+
+    return () => {
+      if (animationFrame) window.cancelAnimationFrame(animationFrame);
+      window.removeEventListener("scroll", queueScrollUpdate);
+      window.removeEventListener("resize", queueScrollUpdate);
+      motionQuery.removeEventListener("change", updateScrollProgress);
+    };
+  }, []);
 
   const t = TRANSLATIONS[language] || TRANSLATIONS.en;
   const cvTemplateCopy = t.cvTemplates || {};
@@ -1035,15 +1170,17 @@ export default function Home() {
     <div
       lang={language === "am" ? "hy" : language}
       data-language={language}
-      className={`flex flex-col min-h-screen font-sans transition-colors duration-500 ${
+      className={`relative isolate flex flex-col min-h-screen overflow-x-hidden font-sans transition-colors duration-500 ${
         isDarkMode ? "text-[#f7f3f0] bg-[#181210]" : "text-[#3c2f2f] bg-[#fbf9f6]"
       }`}
       style={{
         backgroundImage: isDarkMode
           ? "radial-gradient(circle at 0% 0%, #301f17 0%, transparent 45%), radial-gradient(circle at 100% 100%, #201511 0%, transparent 50%)"
           : "radial-gradient(circle at 0% 0%, #f7ebe1 0%, transparent 45%), radial-gradient(circle at 100% 100%, #f0e2d5 0%, transparent 55%)",
-      }}
+        }}
     >
+      <ScrollLinkedBackground isDarkMode={isDarkMode} scrollProgress={scrollProgress} />
+
       {/* Premium Cozy Header Nav */}
       <nav className={`flex items-center justify-between px-4 sm:px-12 py-4 border-b sticky top-0 z-50 transition-all duration-300 ${
         isDarkMode ? "border-[#332822] bg-[#181210]/95 backdrop-blur-md" : "border-[#eeded5] bg-[#fbf9f6]/95 backdrop-blur-md"
@@ -1305,7 +1442,7 @@ export default function Home() {
       </nav>
 
       {/* Main Responsive Canvas view controller */}
-      <div className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col justify-start">
+      <div className="relative z-10 flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col justify-start">
         
         <AnimatePresence mode="wait">
           {activeView === "home" ? (
@@ -3017,7 +3154,7 @@ export default function Home() {
       </div>
 
       {/* Footer Segment */}
-      <footer className={`border-t px-6 sm:px-12 py-10 text-xs transition-all duration-300 ${
+      <footer className={`relative z-10 border-t px-6 sm:px-12 py-10 text-xs transition-all duration-300 ${
         isDarkMode ? "border-[#332822]/60 bg-[#0f0b0a] text-stone-300" : "border-[#eeded5]/70 bg-white/45 text-stone-600"
       }`}>
         <div className="max-w-7xl mx-auto font-sans">
