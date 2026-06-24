@@ -152,6 +152,15 @@ const CV_SENIORITY_LEVELS = [
   "Executive (10+ years)",
 ];
 
+const CV_OUTPUT_LANGUAGES = [
+  { id: "en", name: "English" },
+  { id: "ru", name: "Russian" },
+  { id: "am", name: "Armenian" },
+  { id: "es", name: "Spanish" },
+  { id: "fr", name: "French" },
+  { id: "de", name: "German" },
+];
+
 const SAMPLES: SampleDocument[] = [
   {
     name: "Handwritten Meeting Notes.png",
@@ -337,8 +346,10 @@ export default function Home() {
   const [cvSelectedPositions, setCvSelectedPositions] = useState<string[]>(["Data Analyst"]);
   const [cvCustomPosition, setCvCustomPosition] = useState<string>("");
   const [cvTemplate, setCvTemplate] = useState<string>("modern-ats");
+  const cvTemplateRef = useRef<string>("modern-ats");
   const [cvTone, setCvTone] = useState<string>("Confident professional");
   const [cvSeniority, setCvSeniority] = useState<string>("Adaptive");
+  const [cvOutputLanguage, setCvOutputLanguage] = useState<string>("en");
   const [cvFocusAreas, setCvFocusAreas] = useState<string[]>(["ATS keywords", "Measurable achievements", "Grammar polish"]);
   const [cvCustomRequest, setCvCustomRequest] = useState<string>("");
   const [cvGeneratedText, setCvGeneratedText] = useState<string>("");
@@ -452,12 +463,17 @@ export default function Home() {
   const cvTemplateCopy = t.cvTemplates || {};
   const cvToneLabels = t.cvToneOptions || {};
   const cvSeniorityLabels = t.cvSeniorityOptions || {};
+  const cvOutputLanguageLabels = t.cvOutputLanguageOptions || {};
   const cvFocusLabels = t.cvFocusAreaLabels || {};
   const cvPositionLabels = t.cvPositionLabels || {};
   const getTemplateName = (template: (typeof CV_TEMPLATES)[number]) => cvTemplateCopy[template.id]?.name || template.name;
   const getTemplateDesc = (template: (typeof CV_TEMPLATES)[number]) => cvTemplateCopy[template.id]?.desc || template.desc;
   const getFocusLabel = (area: string) => cvFocusLabels[area] || area;
   const getPositionLabel = (position: string) => cvPositionLabels[position] || position;
+  const handleCvTemplateChange = (templateId: string) => {
+    cvTemplateRef.current = templateId;
+    setCvTemplate(templateId);
+  };
   const openHomeSection = (sectionId?: string) => {
     setActiveView("home");
     if (!sectionId) return;
@@ -655,9 +671,10 @@ export default function Home() {
                 rawNotes: cvRawNotesTrimmed,
               }),
           targetPositions: cvSelectedPositions,
-          template: cvTemplate,
+          template: cvTemplateRef.current,
           tone: cvTone,
           seniority: cvSeniority,
+          outputLanguage: cvOutputLanguage,
           focusAreas: cvFocusAreas,
           customRequest: cvCustomRequest,
         }),
@@ -1598,7 +1615,7 @@ export default function Home() {
                               {CV_TEMPLATES.map((tpl) => (
                                 <button
                                   key={tpl.id}
-                                  onClick={() => setCvTemplate(tpl.id)}
+                                  onClick={() => handleCvTemplateChange(tpl.id)}
                                   className={`py-1.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                                     cvTemplate === tpl.id
                                       ? "bg-[#C86432] text-white"
@@ -1659,7 +1676,7 @@ export default function Home() {
                               ) : (
                                 <div className="w-full h-[340px] rounded-xl overflow-hidden border">
                                   {simPreviewHtml ? (
-                                    <iframe title="cv-sim-preview" srcDoc={simPreviewHtml} className="w-full h-full" />
+                                    <iframe key={`cv-sim-preview-${cvTemplate}-${language}`} title="cv-sim-preview" srcDoc={simPreviewHtml} className="w-full h-full" />
                                   ) : (
                                     <div className={`p-4 rounded-xl border ${isDarkMode ? "border-stone-800 bg-stone-950 text-stone-200" : "border-stone-200 bg-stone-50 text-stone-800"}`}>
                                       <h3 className="text-sm font-bold mb-2">{CV_DEMO_PRESETS[simSelectedPreset % CV_DEMO_PRESETS.length].name}</h3>
@@ -2624,7 +2641,7 @@ export default function Home() {
                     {CV_TEMPLATES.map((template) => (
                       <button
                         key={template.id}
-                        onClick={() => setCvTemplate(template.id)}
+                        onClick={() => handleCvTemplateChange(template.id)}
                         className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                           cvTemplate === template.id
                             ? "border-[#C86432] bg-[#C86432]/10"
@@ -2679,6 +2696,22 @@ export default function Home() {
                     >
                       {CV_SENIORITY_LEVELS.map((level) => (
                         <option key={level} value={level}>{cvSeniorityLabels[level] || level}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Output Language */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[10px] uppercase font-bold tracking-wider text-stone-500 dark:text-stone-300">{t.cvOutputLanguage}</label>
+                    <select
+                      value={cvOutputLanguage}
+                      onChange={(e) => setCvOutputLanguage(e.target.value)}
+                      className={`w-full p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                        isDarkMode ? "border-[#332822] bg-[#1a1412] text-white" : "border-[#eeded5] bg-white text-[#3c2f2f]"
+                      }`}
+                    >
+                      {CV_OUTPUT_LANGUAGES.map((item) => (
+                        <option key={item.id} value={item.id}>{cvOutputLanguageLabels[item.id] || item.name}</option>
                       ))}
                     </select>
                   </div>
@@ -2920,6 +2953,7 @@ export default function Home() {
                         {cvPreviewMode === "preview" ? (
                           <div className={`w-full h-[360px] rounded-xl border overflow-hidden ${isDarkMode ? "border-stone-800 bg-stone-950" : "border-stone-200 bg-white"}`}>
                             <iframe
+                              key={`cv-preview-${cvTemplate}-${cvOutputLanguage}-${(cvEditedText || cvGeneratedText).length}`}
                               title="cv-preview"
                               srcDoc={buildCvHtmlDocument()}
                               className="w-full h-full"

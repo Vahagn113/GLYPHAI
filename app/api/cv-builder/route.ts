@@ -81,6 +81,7 @@ export async function POST(req: NextRequest) {
       template,
       tone,
       seniority,
+      outputLanguage,
       focusAreas,
       customRequest,
     } = await req.json();
@@ -112,6 +113,26 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const outputLanguageMap: Record<string, string> = {
+      en: "English",
+      ru: "Russian",
+      am: "Armenian",
+      es: "Spanish",
+      fr: "French",
+      de: "German",
+    };
+    const requestedOutputLanguage =
+      outputLanguageMap[typeof outputLanguage === "string" ? outputLanguage : ""] || "English";
+    const templateStyleMap: Record<string, string> = {
+      "modern-ats": "Modern ATS - clean headings, recruiter-friendly structure, and strong keyword density",
+      executive: "Executive - leadership profile with strategic impact and concise achievements",
+      technical: "Technical - skills matrix, projects, tools, and engineering achievements up front",
+      creative: "Creative Pro - stylish but export-safe for design, marketing, and content roles",
+      graduate: "Graduate - education, projects, internships, and transferable skills emphasized",
+    };
+    const requestedTemplateStyle =
+      templateStyleMap[typeof template === "string" ? template : ""] || templateStyleMap["modern-ats"];
+
     let cleanBase64 = "";
     if (hasFileInput) {
       cleanBase64 = file;
@@ -133,13 +154,15 @@ export async function POST(req: NextRequest) {
   Then rebuild a clean, production-ready, optimized CV tailored for these selected target positions: ${targetPositions.join(", ")}.
 
   Configuration:
-  - Template style: ${template || "modern ats"}
+  - Template style: ${requestedTemplateStyle}
   - Tone: ${tone || "confident professional"}
   - Seniority target: ${seniority || "adaptive to candidate evidence"}
+  - Output language: ${requestedOutputLanguage}
   - Focus areas: ${Array.isArray(focusAreas) && focusAreas.length ? focusAreas.join(", ") : "ATS keywords, measurable impact, clarity, role alignment"}
   - User request: ${customRequest || "No extra request provided."}
 
   Important rules (do NOT include extra QA sections):
+  - Return the final ready-to-use CV entirely in ${requestedOutputLanguage}. Translate section headings, summary, skills labels, and rewritten bullets into ${requestedOutputLanguage}, while preserving factual names, company names, email addresses, phone numbers, URLs, dates, product/tool names, and certifications as written when appropriate.
   - Keep facts faithful to the source CV. Do not invent employers, degrees, certifications, dates, metrics, or tools not supported by the original CV.
   - You may rewrite, reorganize, strengthen phrasing, and surface transferable skills.
   - Do NOT include sections titled "ATS Keyword Alignment", "ATS Keywords", "Missing Details To Add", or any meta checklist in the returned CV. The final output must be a ready-to-use CV without QA/meta sections.
