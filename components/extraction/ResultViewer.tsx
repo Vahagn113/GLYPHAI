@@ -8,15 +8,15 @@ import { DOCUMENT_HIGHLIGHT_MAP } from "@/lib/documentHighlights";
 import type { ChatMessage, HighlightBox, Language } from "@/lib/types";
 
 const SR = {
-  surface: "bg-white dark:bg-[#1a1412]",
-  surfaceMuted: "bg-stone-50 dark:bg-[#1f1815]",
-  surfaceInset: "bg-stone-100 dark:bg-[#252018]",
-  border: "border-stone-200 dark:border-stone-700",
-  textPrimary: "text-stone-800 dark:text-stone-100",
-  textSecondary: "text-stone-600 dark:text-stone-300",
+  surface: "bg-white dark:bg-[#0b0b0d]",
+  surfaceMuted: "bg-slate-50 dark:bg-[#111113]",
+  surfaceInset: "bg-slate-100 dark:bg-[#18181b]",
+  border: "border-slate-200 dark:border-zinc-800",
+  textPrimary: "text-slate-900 dark:text-zinc-100",
+  textSecondary: "text-slate-600 dark:text-zinc-300",
   textMuted: "text-stone-500 dark:text-stone-300",
-  textLabel: "text-stone-500 dark:text-stone-400",
-  hoverRow: "hover:bg-stone-50 dark:hover:bg-[#252018]",
+  textLabel: "text-slate-500 dark:text-zinc-400",
+  hoverRow: "hover:bg-slate-50 dark:hover:bg-[#18181b]",
 };
 
 // Sub-components for confidence scoring and visual results
@@ -58,7 +58,7 @@ const CopyFieldButton = ({ value }: { value: string }) => {
     <button
       onClick={handleCopy}
       title="Copy field value"
-      className="p-1 hover:bg-[#C86432]/10 dark:hover:bg-[#C86432]/20 rounded-md text-stone-400 hover:text-[#C86432] transition-colors cursor-pointer inline-flex items-center justify-center scale-90"
+      className="p-1 hover:bg-[#E50914]/10 dark:hover:bg-[#E50914]/20 rounded-md text-stone-400 hover:text-[#E50914] transition-colors cursor-pointer inline-flex items-center justify-center scale-90"
     >
       {copied ? (
         <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" />
@@ -323,8 +323,8 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
         <div 
           onClick={() => onFieldClick("vendorName")}
-          className={`p-3.5 rounded-xl border transition-all flex flex-col gap-1.5 shadow-3xs cursor-pointer hover:border-[#C86432]/50 ${
-            activeField === "vendorName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
+          className={`p-3.5 rounded-xl border transition-all flex flex-col gap-1.5 shadow-3xs cursor-pointer hover:border-[#E50914]/50 ${
+            activeField === "vendorName" ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]" : `${SR.border} ${SR.surfaceMuted}`
           }`}
         >
           <div className="flex items-center justify-between font-sans">
@@ -340,8 +340,8 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
 
         <div 
           onClick={() => onFieldClick("billingName")}
-          className={`p-3.5 rounded-xl border transition-all flex flex-col gap-1.5 shadow-3xs cursor-pointer hover:border-[#C86432]/50 ${
-            activeField === "billingName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
+          className={`p-3.5 rounded-xl border transition-all flex flex-col gap-1.5 shadow-3xs cursor-pointer hover:border-[#E50914]/50 ${
+            activeField === "billingName" ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]" : `${SR.border} ${SR.surfaceMuted}`
           }`}
         >
           <div className="flex items-center justify-between font-sans">
@@ -357,7 +357,7 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
       </div>
 
       <div className={`p-3.5 rounded-2xl border ${SR.border} ${SR.surfaceMuted} grid grid-cols-2 md:grid-cols-5 gap-3 shadow-3xs font-sans`}>
-        <div onClick={() => onFieldClick("invoiceNumber")} className={`p-2 rounded-xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${activeField === "invoiceNumber" ? "bg-[#C86432]/5 ring-1 ring-[#C86432]" : ""}`}>
+        <div onClick={() => onFieldClick("invoiceNumber")} className={`p-2 rounded-xl transition-all cursor-pointer hover:bg-[#E50914]/5 ${activeField === "invoiceNumber" ? "bg-[#E50914]/5 ring-1 ring-[#E50914]" : ""}`}>
           <span className="text-[9.5px] font-bold uppercase tracking-wider text-stone-400 block mb-0.5 font-sans">Invoice Number</span>
           <div className="flex items-center gap-1.5 font-sans">
             <p className="text-xs font-bold text-stone-800 dark:text-white font-mono">{data.invoiceNumber?.value || "N/A"}</p>
@@ -365,7 +365,7 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
           </div>
           {data.invoiceNumber?.confidence !== undefined && <div className="mt-1"><ConfidenceMeter value={data.invoiceNumber?.confidence} /></div>}
         </div>
-        <div onClick={() => onFieldClick("invoiceDate")} className={`p-2 rounded-xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${activeField === "invoiceDate" ? "bg-[#C86432]/5 ring-1 ring-[#C86432]" : ""}`}>
+        <div onClick={() => onFieldClick("invoiceDate")} className={`p-2 rounded-xl transition-all cursor-pointer hover:bg-[#E50914]/5 ${activeField === "invoiceDate" ? "bg-[#E50914]/5 ring-1 ring-[#E50914]" : ""}`}>
           <span className="text-[9.5px] font-bold uppercase tracking-wider text-stone-400 block mb-0.5 font-sans">Date (Issue)</span>
           <div className="flex items-center gap-1.5 font-sans">
             <p className="text-xs font-semibold text-stone-800 dark:text-white font-mono">{data.invoiceDate?.value || "N/A"}</p>
@@ -373,7 +373,7 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
           </div>
           {data.invoiceDate?.confidence !== undefined && <div className="mt-1"><ConfidenceMeter value={data.invoiceDate?.confidence} /></div>}
         </div>
-        <div onClick={() => onFieldClick("tax")} className={`p-2 rounded-xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${activeField === "tax" ? "bg-[#C86432]/5 ring-1 ring-[#C86432]" : ""}`}>
+        <div onClick={() => onFieldClick("tax")} className={`p-2 rounded-xl transition-all cursor-pointer hover:bg-[#E50914]/5 ${activeField === "tax" ? "bg-[#E50914]/5 ring-1 ring-[#E50914]" : ""}`}>
           <span className="text-[9.5px] font-bold uppercase tracking-wider text-stone-400 block mb-0.5 font-sans">VAT / Tax Amount</span>
           <div className="flex items-center gap-1.5 animate-fade-in font-sans">
             <p className="text-xs font-semibold text-stone-800 dark:text-white font-mono">{data.tax?.value || "0.00"}</p>
@@ -381,16 +381,16 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
           </div>
           {data.tax?.confidence !== undefined && <div className="mt-1"><ConfidenceMeter value={data.tax?.confidence} /></div>}
         </div>
-        <div onClick={() => onFieldClick("currency")} className={`p-2 rounded-xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${activeField === "currency" ? "bg-[#C86432]/5 ring-1 ring-[#C86432]" : ""}`}>
+        <div onClick={() => onFieldClick("currency")} className={`p-2 rounded-xl transition-all cursor-pointer hover:bg-[#E50914]/5 ${activeField === "currency" ? "bg-[#E50914]/5 ring-1 ring-[#E50914]" : ""}`}>
           <span className="text-[9.5px] font-bold uppercase tracking-wider text-stone-400 block mb-0.5 font-sans">Currency</span>
-          <div className="flex items-center gap-1.5 font-mono text-[#C86432] font-bold">
-            <p className="text-xs font-semibold text-[#C86432] uppercase font-mono font-bold">{data.currency?.value || "N/A"}</p>
+          <div className="flex items-center gap-1.5 font-mono text-[#E50914] font-bold">
+            <p className="text-xs font-semibold text-[#E50914] uppercase font-mono font-bold">{data.currency?.value || "N/A"}</p>
             <CopyFieldButton value={data.currency?.value || ""} />
           </div>
           {data.currency?.confidence !== undefined && <div className="mt-1"><ConfidenceMeter value={data.currency?.confidence} /></div>}
         </div>
-        <div onClick={() => onFieldClick("totalAmount")} className={`col-span-2 md:col-span-1 border-t md:border-t-0 md:border-l border-[#eeded5] dark:border-stone-800 md:pl-2.5 p-2 rounded-xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${activeField === "totalAmount" ? "bg-[#C86432]/5 ring-1 ring-[#C86432]" : ""}`}>
-          <span className="text-[9.5px] font-bold uppercase tracking-wider text-[#C86432] block mb-0.5 font-sans">Total Amount</span>
+        <div onClick={() => onFieldClick("totalAmount")} className={`col-span-2 md:col-span-1 border-t md:border-t-0 md:border-l border-[#e5e7eb] dark:border-stone-800 md:pl-2.5 p-2 rounded-xl transition-all cursor-pointer hover:bg-[#E50914]/5 ${activeField === "totalAmount" ? "bg-[#E50914]/5 ring-1 ring-[#E50914]" : ""}`}>
+          <span className="text-[9.5px] font-bold uppercase tracking-wider text-[#E50914] block mb-0.5 font-sans">Total Amount</span>
           <div className="flex items-center gap-1.5 animated-fade-in">
             <p className="text-xs font-black text-rose-600 dark:text-rose-500 font-mono">{data.totalAmount?.value || "0.00"}</p>
             <CopyFieldButton value={data.totalAmount?.value || ""} />
@@ -401,11 +401,11 @@ const renderInvoiceNode = (data: any, activeField: string | null = null, onField
 
       <div 
         onClick={() => onFieldClick("lineItems")}
-        className={`rounded-2xl border overflow-hidden ${SR.surfaceMuted} shadow-3xs transition-all cursor-pointer hover:border-[#C86432]/45 ${
-          activeField === "lineItems" ? "ring-2 ring-[#C86432] border-[#C86432]" : SR.border
+        className={`rounded-2xl border overflow-hidden ${SR.surfaceMuted} shadow-3xs transition-all cursor-pointer hover:border-[#E50914]/45 ${
+          activeField === "lineItems" ? "ring-2 ring-[#E50914] border-[#E50914]" : SR.border
         }`}
       >
-        <div className={`p-2.5 ${SR.surfaceInset} text-[10px] font-extrabold text-[#C86432] uppercase tracking-wider grid grid-cols-12 gap-2 border-b ${SR.border}`}>
+        <div className={`p-2.5 ${SR.surfaceInset} text-[10px] font-extrabold text-[#E50914] uppercase tracking-wider grid grid-cols-12 gap-2 border-b ${SR.border}`}>
           <div className="col-span-6 animate-fade-in font-sans">Billed Item Description (Line Items)</div>
           <div className="col-span-2 text-center animate-fade-in font-sans">Qty</div>
           <div className="col-span-2 text-right animate-fade-in font-sans">Unit Price</div>
@@ -474,12 +474,12 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
       {/* Title block */}
       <div 
         onClick={() => onFieldClick("contractTitle")}
-        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "contractTitle" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
+        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#E50914]/50 ${
+          activeField === "contractTitle" ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]" : `${SR.border} ${SR.surfaceMuted}`
         } flex flex-col gap-1.5 shadow-3xs`}
       >
         <div className="flex justify-between items-center animate-fade-in">
-          <span className="text-[9px] font-bold uppercase tracking-wider text-[#C86432]">Contract Agreement</span>
+          <span className="text-[9px] font-bold uppercase tracking-wider text-[#E50914]">Contract Agreement</span>
           <CopyFieldButton value={data.contractTitle?.value || "Legal Agreement"} />
         </div>
         <h3 className="text-xs font-black text-stone-900 dark:text-white leading-snug font-sans">{data.contractTitle?.value || "Legal Agreement"}</h3>
@@ -489,8 +489,8 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
       {/* Summary Section */}
       <div 
         onClick={() => onFieldClick("summary")}
-        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "summary" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
+        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#E50914]/50 ${
+          activeField === "summary" ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]" : `${SR.border} ${SR.surfaceMuted}`
         } flex flex-col gap-2 shadow-2xs font-sans`}
       >
         <div className={`flex justify-between items-center border-b pb-2 ${SR.border} font-sans`}>
@@ -506,8 +506,8 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
       {/* Important Dates Segment */}
       <div 
         onClick={() => onFieldClick("dates")}
-        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "dates" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
+        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#E50914]/50 ${
+          activeField === "dates" ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]" : `${SR.border} ${SR.surfaceMuted}`
         } flex flex-col gap-2 shadow-2xs font-sans`}
       >
         <h4 className={`text-[10px] font-extrabold uppercase tracking-wide ${SR.textPrimary} border-b pb-2 ${SR.border}`}>Important Dates & Notice Details</h4>
@@ -556,13 +556,13 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
       {/* Risks Segment */}
       <div 
         onClick={() => onFieldClick("risks")}
-        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "risks" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
+        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#E50914]/50 ${
+          activeField === "risks" ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]" : `${SR.border} ${SR.surfaceMuted}`
         } flex flex-col gap-2 shadow-2xs font-sans`}
       >
         <h4 className={`text-[10px] font-extrabold uppercase tracking-wide ${SR.textPrimary} border-b pb-2 ${SR.border} font-sans`}>Risks</h4>
         {risks.length === 0 ? (
-          <p className="p-4 rounded-xl text-center text-[11px] text-[#C86432] italic bg-[#C86432]/5 font-bold border border-[#C86432]/10 flex items-center justify-center gap-1.5 font-sans">
+          <p className="p-4 rounded-xl text-center text-[11px] text-[#E50914] italic bg-[#E50914]/5 font-bold border border-[#E50914]/10 flex items-center justify-center gap-1.5 font-sans">
             🛡️ No critical contractual risks visualizable.
           </p>
         ) : (
@@ -597,8 +597,8 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
       {/* Clauses Segment */}
       <div 
         onClick={() => onFieldClick("clauses")}
-        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#C86432]/50 ${
-          activeField === "clauses" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
+        className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-[#E50914]/50 ${
+          activeField === "clauses" ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]" : `${SR.border} ${SR.surfaceMuted}`
         } flex flex-col gap-2 shadow-2xs font-sans`}
       >
         <h4 className={`text-[10px] font-extrabold uppercase tracking-wide ${SR.textPrimary} border-b pb-2 ${SR.border} font-sans`}>Clauses</h4>
@@ -639,7 +639,7 @@ const renderContractNode = (data: any, activeField: string | null = null, onFiel
                 <details key={idx} className={`group border ${SR.border} rounded-xl ${SR.surfaceInset} [&_summary::-webkit-details-marker]:hidden transition-all duration-300`}>
                   <summary className={`p-3 select-none flex justify-between items-center text-xs font-bold ${SR.textPrimary} cursor-pointer ${SR.hoverRow} font-sans`}>
                     <div className="flex items-center gap-2 font-sans">
-                      <span className="w-1.5 h-1.5 bg-[#C86432] rounded-full" />
+                      <span className="w-1.5 h-1.5 bg-[#E50914] rounded-full" />
                       <span>{clause.title?.value || clause.title || "Section Clause"}</span>
                     </div>
                     <div className="flex items-center gap-2">
@@ -677,20 +677,20 @@ const renderResumeNode = (
     <div className={`flex flex-col gap-4 ${SR.textSecondary}`}>
       <div 
         onClick={() => onFieldClick("candidateName")}
-        className={`p-3.5 rounded-2xl border transition-all cursor-pointer hover:bg-[#C86432]/5 ${
+        className={`p-3.5 rounded-2xl border transition-all cursor-pointer hover:bg-[#E50914]/5 ${
           activeField === "candidateName" || activeField === "email" || activeField === "phone"
-            ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
+            ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]"
             : `${SR.border} ${SR.surfaceMuted}`
         } flex flex-col gap-2.5`}
       >
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-extrabold text-[#C86432]">{data.candidateName?.value || "Resume Profile"}</h3>
+          <h3 className="text-xs font-extrabold text-[#E50914]">{data.candidateName?.value || "Resume Profile"}</h3>
           {data.candidateName?.confidence !== undefined && <ConfidenceMeter value={data.candidateName?.confidence} />}
         </div>
         
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px] ${SR.textMuted} border-t ${SR.border} pt-2.5`}>
-          <p onClick={(e) => { e.stopPropagation(); onFieldClick("email"); }} className={`p-1 rounded-sm hover:bg-[#C86432]/5 transition-all ${activeField === "email" ? "bg-[#C86432]/10 font-bold" : ""}`}>📧 Email: <span className={`font-semibold ${SR.textPrimary}`}>{data.email?.value || "N/A"}</span></p>
-          <p onClick={(e) => { e.stopPropagation(); onFieldClick("phone"); }} className={`p-1 rounded-sm hover:bg-[#C86432]/5 transition-all ${activeField === "phone" ? "bg-[#C86432]/10 font-bold" : ""}`}>📞 Phone: <span className={`font-semibold ${SR.textPrimary}`}>{data.phone?.value || "N/A"}</span></p>
+          <p onClick={(e) => { e.stopPropagation(); onFieldClick("email"); }} className={`p-1 rounded-sm hover:bg-[#E50914]/5 transition-all ${activeField === "email" ? "bg-[#E50914]/10 font-bold" : ""}`}>📧 Email: <span className={`font-semibold ${SR.textPrimary}`}>{data.email?.value || "N/A"}</span></p>
+          <p onClick={(e) => { e.stopPropagation(); onFieldClick("phone"); }} className={`p-1 rounded-sm hover:bg-[#E50914]/5 transition-all ${activeField === "phone" ? "bg-[#E50914]/10 font-bold" : ""}`}>📞 Phone: <span className={`font-semibold ${SR.textPrimary}`}>{data.phone?.value || "N/A"}</span></p>
           <p>📍 Location: <span className={`font-semibold ${SR.textPrimary}`}>{data.location?.value || "N/A"}</span></p>
         </div>
 
@@ -705,15 +705,15 @@ const renderResumeNode = (
       {skills.length > 0 && (
         <div 
           onClick={() => onFieldClick("skills")}
-          className={`flex flex-col gap-2 p-2 rounded-2xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-            activeField === "skills" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : ""
+          className={`flex flex-col gap-2 p-2 rounded-2xl transition-all cursor-pointer hover:bg-[#E50914]/5 ${
+            activeField === "skills" ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]" : ""
           }`}
         >
           <h4 className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Technical Skillset</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
             {skills.map((sk: any, idx: number) => (
               <div key={idx} className={`p-2.5 rounded-xl border ${SR.border} ${SR.surfaceInset}`}>
-                <span className="text-xs font-bold text-[#C86432] block mb-1.5">{sk.category?.value || "Skills"}</span>
+                <span className="text-xs font-bold text-[#E50914] block mb-1.5">{sk.category?.value || "Skills"}</span>
                 <div className="flex flex-wrap gap-1">
                   {Array.isArray(sk.skillsList) ? sk.skillsList.map((item: string, id: number) => (
                     <span key={id} className={`text-[9.5px] ${SR.surfaceInset} ${SR.textSecondary} font-bold px-1.5 py-0.5 rounded-md`}>
@@ -730,8 +730,8 @@ const renderResumeNode = (
       {experience.length > 0 && (
         <div 
           onClick={() => onFieldClick("experience")}
-          className={`flex flex-col gap-2 p-2 rounded-2xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-            activeField === "experience" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : ""
+          className={`flex flex-col gap-2 p-2 rounded-2xl transition-all cursor-pointer hover:bg-[#E50914]/5 ${
+            activeField === "experience" ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]" : ""
           }`}
         >
           <h3 className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Experience History</h3>
@@ -744,7 +744,7 @@ const renderResumeNode = (
                     <span className={`text-[11px] ${SR.textMuted}`}>{ex.company?.value || "Employer"}</span>
                   </div>
                   <div className="flex flex-col items-end gap-1">
-                    <span className={`text-[9.5px] font-mono ${SR.surfaceInset} px-1.5 py-0.5 rounded-md font-bold text-[#C86432]`}>
+                    <span className={`text-[9.5px] font-mono ${SR.surfaceInset} px-1.5 py-0.5 rounded-md font-bold text-[#E50914]`}>
                       {ex.startDate?.value || "Start"} - {ex.endDate?.value || "End"}
                     </span>
                     {ex.role?.confidence !== undefined && <ConfidenceMeter value={ex.role?.confidence} />}
@@ -760,8 +760,8 @@ const renderResumeNode = (
       {education.length > 0 && (
         <div 
           onClick={() => onFieldClick("education")}
-          className={`flex flex-col gap-2 p-2 rounded-2xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-            activeField === "education" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : ""
+          className={`flex flex-col gap-2 p-2 rounded-2xl transition-all cursor-pointer hover:bg-[#E50914]/5 ${
+            activeField === "education" ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]" : ""
           }`}
         >
           <h3 className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Academic History</h3>
@@ -773,7 +773,7 @@ const renderResumeNode = (
                   <span className={`text-[10px] ${SR.textMuted}`}>{ed.institution?.value || "College/Univ"}</span>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="text-[9.5px] font-mono font-bold text-[#C86432]">{ed.graduationYear?.value || ""}</span>
+                  <span className="text-[9.5px] font-mono font-bold text-[#E50914]">{ed.graduationYear?.value || ""}</span>
                   {ed.degree?.confidence !== undefined && <ConfidenceMeter value={ed.degree?.confidence} />}
                 </div>
               </div>
@@ -795,9 +795,9 @@ const renderReceiptNode = (
     <div className={`flex flex-col gap-4 ${SR.textSecondary} animate-fadeIn`}>
       <div 
         onClick={() => onFieldClick("merchantName")}
-        className={`p-3.5 rounded-2xl border transition-all cursor-pointer hover:bg-[#C86432]/5 text-center flex flex-col items-center gap-1 ${
+        className={`p-3.5 rounded-2xl border transition-all cursor-pointer hover:bg-[#E50914]/5 text-center flex flex-col items-center gap-1 ${
           activeField === "merchantName" || activeField === "merchantAddress" || activeField === "merchantPhone"
-            ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
+            ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]"
             : `${SR.border} ${SR.surfaceInset}`
         }`}
       >
@@ -810,9 +810,9 @@ const renderReceiptNode = (
 
       <div 
         onClick={() => onFieldClick("transactionDate")}
-        className={`grid grid-cols-2 gap-2 text-[11px] border-y py-2.5 font-mono cursor-pointer transition-all hover:bg-[#C86432]/5 ${
+        className={`grid grid-cols-2 gap-2 text-[11px] border-y py-2.5 font-mono cursor-pointer transition-all hover:bg-[#E50914]/5 ${
           activeField === "transactionDate" || activeField === "transactionTime"
-            ? "ring-1 ring-[#C86432] border-[#C86432] bg-[#C86432]/5 px-2 rounded-lg"
+            ? "ring-1 ring-[#E50914] border-[#E50914] bg-[#E50914]/5 px-2 rounded-lg"
             : "border-stone-200 dark:border-stone-800"
         }`}
       >
@@ -822,8 +822,8 @@ const renderReceiptNode = (
 
       <div 
         onClick={() => onFieldClick("items")}
-        className={`flex flex-col gap-1.5 p-1 rounded-2xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-          activeField === "items" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : ""
+        className={`flex flex-col gap-1.5 p-1 rounded-2xl transition-all cursor-pointer hover:bg-[#E50914]/5 ${
+          activeField === "items" ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]" : ""
         }`}
       >
         <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Purchases List</span>
@@ -854,9 +854,9 @@ const renderReceiptNode = (
 
       <div 
         onClick={() => onFieldClick("totalAmount")}
-        className={`border p-2.5 rounded-2xl transition-all cursor-pointer flex flex-col gap-1.5 text-[11px] hover:bg-[#C86432]/5 ${
+        className={`border p-2.5 rounded-2xl transition-all cursor-pointer flex flex-col gap-1.5 text-[11px] hover:bg-[#E50914]/5 ${
           activeField === "totalAmount" || activeField === "subtotal" || activeField === "tax"
-            ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
+            ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]"
             : "border-stone-200 dark:border-stone-800"
         }`}
       >
@@ -874,7 +874,7 @@ const renderReceiptNode = (
         </div>
         <div className={`flex justify-between items-center ${SR.textPrimary} font-bold border-t ${SR.border} pt-1.5`}>
           <span>GRAND TOTAL:</span>
-          <span className="font-mono text-[#C86432]">{data.totalAmount?.value || "0.00"}</span>
+          <span className="font-mono text-[#E50914]">{data.totalAmount?.value || "0.00"}</span>
         </div>
       </div>
     </div>
@@ -893,8 +893,8 @@ const renderTableNode = (
     <div className={`flex flex-col gap-3.5 ${SR.textSecondary}`}>
       <div 
         onClick={() => onFieldClick("tableName")}
-        className={`p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all hover:bg-[#C86432]/5 ${
-          activeField === "tableName" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
+        className={`p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all hover:bg-[#E50914]/5 ${
+          activeField === "tableName" ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]" : `${SR.border} ${SR.surfaceMuted}`
         }`}
       >
         <div>
@@ -906,9 +906,9 @@ const renderTableNode = (
 
       <div 
         onClick={() => onFieldClick("rows")}
-        className={`border rounded-2xl overflow-x-auto transition-all cursor-pointer hover:bg-[#C86432]/5 ${
+        className={`border rounded-2xl overflow-x-auto transition-all cursor-pointer hover:bg-[#E50914]/5 ${
           activeField === "rows" || activeField === "headers"
-            ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]"
+            ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]"
             : `${SR.border} ${SR.surfaceMuted}`
         }`}
       >
@@ -964,8 +964,8 @@ const renderGeneralOcrNode = (
     <div className={`flex flex-col gap-3.5 ${SR.textSecondary}`}>
       <div 
         onClick={() => onFieldClick("title")}
-        className={`p-3 rounded-xl border grid grid-cols-2 gap-3 transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-          activeField === "title" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : `${SR.border} ${SR.surfaceMuted}`
+        className={`p-3 rounded-xl border grid grid-cols-2 gap-3 transition-all cursor-pointer hover:bg-[#E50914]/5 ${
+          activeField === "title" ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]" : `${SR.border} ${SR.surfaceMuted}`
         }`}
       >
         <div>
@@ -982,15 +982,15 @@ const renderGeneralOcrNode = (
 
       <div 
         onClick={() => onFieldClick("body")}
-        className={`flex flex-col gap-2.5 mt-1 p-2 rounded-2xl transition-all cursor-pointer hover:bg-[#C86432]/5 ${
-          activeField === "body" ? "ring-2 ring-[#C86432] bg-[#C86432]/5 border-[#C86432]" : ""
+        className={`flex flex-col gap-2.5 mt-1 p-2 rounded-2xl transition-all cursor-pointer hover:bg-[#E50914]/5 ${
+          activeField === "body" ? "ring-2 ring-[#E50914] bg-[#E50914]/5 border-[#E50914]" : ""
         }`}
       >
         <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 font-sans">Blocks</span>
         <div className="flex flex-col gap-2.5">
           {keyBlocks.map((blk: any, idx: number) => (
             <div key={idx} className={`p-2.5 rounded-xl border ${SR.border} ${SR.surfaceInset}`}>
-              <span className="text-xs font-extrabold text-[#C86432] block mb-1">{blk.heading?.value || `Content Block #${idx + 1}`}</span>
+              <span className="text-xs font-extrabold text-[#E50914] block mb-1">{blk.heading?.value || `Content Block #${idx + 1}`}</span>
               <p className={`text-[11px] ${SR.textMuted} leading-relaxed font-sans`}>{blk.content?.value || ""}</p>
             </div>
           ))}
@@ -1040,7 +1040,7 @@ export const renderVisualStructuredResult = (
           <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
           <span className="text-xs font-semibold">{t.resultUi?.customTextRepresentation || "Showing customized text representation."}</span>
         </div>
-        <div className="p-4 rounded-2xl border whitespace-pre-wrap font-sans text-xs leading-relaxed selection:bg-[#C86432] border-stone-200 bg-stone-50 text-stone-800 dark:border-stone-800 dark:bg-stone-950 dark:text-stone-200">
+        <div className="p-4 rounded-2xl border whitespace-pre-wrap font-sans text-xs leading-relaxed selection:bg-[#E50914] border-stone-200 bg-stone-50 text-stone-800 dark:border-stone-800 dark:bg-stone-950 dark:text-stone-200">
           {extractedText}
         </div>
       </div>
@@ -1158,17 +1158,17 @@ export const BeforeVsAfterWorkspace = ({
   return (
     <div className="col-span-12 flex flex-col gap-6" id="before-after-workbench-parent">
       {/* Upper Control Bar */}
-      <div className={`p-4 rounded-3xl border flex flex-col md:flex-row items-center justify-between gap-4 transition-all ${
-        isDarkMode ? "bg-[#1d1714]/85 border-[#332822]" : "bg-[#FAF6F0] border-[#eeded5]"
+      <div className={`p-4 rounded-3xl border product-card flex flex-col md:flex-row items-center justify-between gap-4 transition-all ${
+        isDarkMode ? "bg-[#111111]/85 border-[#262626]" : "bg-[#f8fafc] border-[#e5e7eb]"
       }`}>
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-[#C86432]/10 rounded-xl">
-            <Layers className="w-5 h-5 text-[#C86432]" />
+          <div className="p-2.5 bg-[#E50914]/10 rounded-xl">
+            <Layers className="w-5 h-5 text-[#E50914]" />
           </div>
           <div className="text-left">
             <h3 className="font-extrabold text-sm text-stone-800 dark:text-white flex items-center flex-wrap gap-2">
               {r.beforeAfterTitle}
-              <span className="text-[10px] font-mono font-bold bg-[#C86432]/10 text-[#C86432] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+              <span className="text-[10px] font-mono font-bold bg-[#E50914]/10 text-[#E50914] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                 {resultDocumentType.replace("_", " ")}
               </span>
             </h3>
@@ -1201,13 +1201,13 @@ export const BeforeVsAfterWorkspace = ({
         
         {/* Left Side: Before Document Raw Preview */}
         <div className="col-span-12 xl:col-span-6 flex flex-col gap-4">
-          <div className={`p-5 rounded-3xl border flex flex-col gap-4 h-full relative ${
-            isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+          <div className={`p-5 rounded-3xl border product-card flex flex-col gap-4 h-full relative ${
+            isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
           }`} style={{ minHeight: "580px" }}>
             
             <div className="flex items-center justify-between border-b dark:border-stone-800 pb-3 flex-wrap gap-2">
               <span className="text-xs font-bold tracking-wider text-stone-400 font-sans flex items-center gap-1.5">
-                <Eye className="w-4 h-4 text-[#C86432]" />
+                <Eye className="w-4 h-4 text-[#E50914]" />
                 {r.beforeRawSource}
               </span>
 
@@ -1215,7 +1215,7 @@ export const BeforeVsAfterWorkspace = ({
               <div className="flex items-center gap-1 bg-stone-100/60 dark:bg-stone-900/65 p-1 rounded-xl text-stone-700 dark:text-stone-300">
                 <button
                   onClick={() => setZoomScale(z => Math.max(0.5, z - 0.15))}
-                  className="p-1 rounded-lg hover:bg-[#C86432]/10 hover:text-[#C86432] cursor-pointer"
+                  className="p-1 rounded-lg hover:bg-[#E50914]/10 hover:text-[#E50914] cursor-pointer"
                   title={r.zoomOut}
                 >
                   <ZoomOut className="w-4 h-4" />
@@ -1225,7 +1225,7 @@ export const BeforeVsAfterWorkspace = ({
                 </span>
                 <button
                   onClick={() => setZoomScale(z => Math.min(2.5, z + 0.15))}
-                  className="p-1 rounded-lg hover:bg-[#C86432]/10 hover:text-[#C86432] cursor-pointer"
+                  className="p-1 rounded-lg hover:bg-[#E50914]/10 hover:text-[#E50914] cursor-pointer"
                   title={r.zoomIn}
                 >
                   <ZoomIn className="w-4 h-4" />
@@ -1250,7 +1250,7 @@ export const BeforeVsAfterWorkspace = ({
                     />
                   ) : (
                     <div className="text-center text-stone-400 p-6">
-                      <FileText className="w-10 h-10 text-[#C86432] mx-auto opacity-30 mb-2" />
+                      <FileText className="w-10 h-10 text-[#E50914] mx-auto opacity-30 mb-2" />
                       <p className="text-xs">{r.previewUnavailable}</p>
                     </div>
                   )}
@@ -1264,8 +1264,8 @@ export const BeforeVsAfterWorkspace = ({
                         onClick={() => setActiveField(box.field)}
                         className={`absolute rounded-md transition-all duration-300 pointer-events-auto border z-30 ${
                           isActive
-                            ? "border-[#C86432] bg-[#C86432]/15 ring-2 ring-[#C86432]/25 animate-pulse"
-                            : "border-dotted border-stone-400/40 dark:border-stone-600/30 bg-stone-500/5 hover:border-[#C86432]/65 hover:bg-[#C86432]/5"
+                            ? "border-[#E50914] bg-[#E50914]/15 ring-2 ring-[#E50914]/25 animate-pulse"
+                            : "border-dotted border-stone-400/40 dark:border-stone-600/30 bg-stone-500/5 hover:border-[#E50914]/65 hover:bg-[#E50914]/5"
                         }`}
                         style={{
                           top: `${box.top}%`,
@@ -1282,7 +1282,7 @@ export const BeforeVsAfterWorkspace = ({
 
               {/* Adaptive visual sync instruction banner */}
               <div className="absolute bottom-2 left-2 right-2 bg-stone-50/95 dark:bg-stone-900/95 text-stone-500 dark:text-stone-300 p-2 border border-stone-200/50 dark:border-stone-800 rounded-xl text-[10px] font-sans flex items-center gap-1.5 shadow-sm">
-                <Sparkles className="w-3.5 h-3.5 text-[#C86432]" />
+                <Sparkles className="w-3.5 h-3.5 text-[#E50914]" />
                 <span>{r.syncMapActive}</span>
               </div>
             </div>
@@ -1292,8 +1292,8 @@ export const BeforeVsAfterWorkspace = ({
 
         {/* Right Side: After Analysis, Summary & Metrics Tabs */}
         <div className="col-span-12 xl:col-span-6 flex flex-col gap-4">
-          <div className={`p-5 rounded-3xl border flex flex-col h-full relative ${
-            isDarkMode ? "bg-[#1d1714]/80 border-[#332822] text-stone-200" : "bg-white border-[#eeded5] text-stone-800"
+          <div className={`p-5 rounded-3xl border product-card flex flex-col h-full relative ${
+            isDarkMode ? "bg-[#111111]/80 border-[#262626] text-stone-200" : "bg-white border-[#e5e7eb] text-stone-800"
           }`} style={{ minHeight: "580px", maxHeight: "580px" }}>
             
             {/* Header Tabs Navigation layout - Compact labels supporting sweep with hidden scrollbars */}
@@ -1302,8 +1302,8 @@ export const BeforeVsAfterWorkspace = ({
                 onClick={() => { setActiveTab("visual"); setIsEditing(false); }}
                 className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 text-[11px] sm:text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 text-center leading-tight cursor-pointer ${
                   activeTab === "visual" && !isEditing
-                    ? "bg-[#C86432] text-white"
-                    : "bg-stone-100 dark:bg-stone-900 hover:bg-[#C86432]/10 text-stone-600 dark:text-stone-300"
+                    ? "bg-[#E50914] text-white"
+                    : "bg-stone-100 dark:bg-stone-900 hover:bg-[#E50914]/10 text-stone-600 dark:text-stone-300"
                 }`}
               >
                 <Zap className="w-3.5 h-3.5" />
@@ -1313,8 +1313,8 @@ export const BeforeVsAfterWorkspace = ({
                 onClick={() => { setActiveTab("summary"); setIsEditing(false); }}
                 className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 text-[11px] sm:text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 text-center leading-tight cursor-pointer ${
                   activeTab === "summary" && !isEditing
-                    ? "bg-[#C86432] text-white"
-                    : "bg-stone-100 dark:bg-stone-900 hover:bg-[#C86432]/10 text-stone-600 dark:text-stone-300"
+                    ? "bg-[#E50914] text-white"
+                    : "bg-stone-100 dark:bg-stone-900 hover:bg-[#E50914]/10 text-stone-600 dark:text-stone-300"
                 }`}
               >
                 <FileCheck className="w-3.5 h-3.5" />
@@ -1324,8 +1324,8 @@ export const BeforeVsAfterWorkspace = ({
                 onClick={() => { setActiveTab("confidence"); setIsEditing(false); }}
                 className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 text-[11px] sm:text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 text-center leading-tight cursor-pointer ${
                   activeTab === "confidence" && !isEditing
-                    ? "bg-[#C86432] text-white"
-                    : "bg-stone-100 dark:bg-stone-900 hover:bg-[#C86432]/10 text-stone-600 dark:text-stone-300"
+                    ? "bg-[#E50914] text-white"
+                    : "bg-stone-100 dark:bg-stone-900 hover:bg-[#E50914]/10 text-stone-600 dark:text-stone-300"
                 }`}
               >
                 <Gauge className="w-3.5 h-3.5" />
@@ -1335,8 +1335,8 @@ export const BeforeVsAfterWorkspace = ({
                 onClick={() => { setActiveTab("chat"); setIsEditing(false); }}
                 className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 text-[11px] sm:text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 text-center leading-tight cursor-pointer ${
                   activeTab === "chat" && !isEditing
-                    ? "bg-[#C86432] text-white"
-                    : "bg-stone-100 dark:bg-stone-900 hover:bg-[#C86432]/10 text-stone-600 dark:text-stone-300"
+                    ? "bg-[#E50914] text-white"
+                    : "bg-stone-100 dark:bg-stone-900 hover:bg-[#E50914]/10 text-stone-600 dark:text-stone-300"
                 }`}
               >
                 <MessageSquare className="w-3.5 h-3.5" />
@@ -1348,12 +1348,12 @@ export const BeforeVsAfterWorkspace = ({
             <div className="flex-1 mt-4 overflow-y-auto pr-1">
               {isEditing ? (
                 <div className="flex flex-col gap-2 h-full p-1 animate-fade text-xs">
-                  <span className="text-[10px] font-bold text-[#C86432] uppercase tracking-wider">{r.editRawOutline}</span>
+                  <span className="text-[10px] font-bold text-[#E50914] uppercase tracking-wider">{r.editRawOutline}</span>
                   <textarea
                     value={editedText}
                     onChange={(e) => setEditedText(e.target.value)}
                     className={`w-full min-h-[300px] flex-1 p-4 font-mono rounded-2xl border focus:outline-hidden text-xs leading-relaxed ${
-                      isDarkMode ? "border-stone-800 bg-[#14100e] text-white" : "border-stone-200 bg-stone-50 text-stone-800"
+                      isDarkMode ? "border-stone-800 bg-[#080808] text-white" : "border-stone-200 bg-stone-50 text-stone-800"
                     }`}
                   />
                 </div>
@@ -1383,7 +1383,7 @@ export const BeforeVsAfterWorkspace = ({
                                 onClick={() => setIsJsonVisualMode(true)}
                                 className={`px-2.5 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                   isJsonVisualMode
-                                    ? "bg-[#C86432] text-white"
+                                    ? "bg-[#E50914] text-white"
                                     : "text-stone-500 dark:text-stone-300 hover:text-stone-700 dark:hover:text-stone-100"
                                 }`}
                               >
@@ -1393,7 +1393,7 @@ export const BeforeVsAfterWorkspace = ({
                                 onClick={() => setIsJsonVisualMode(false)}
                                 className={`px-2.5 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                   !isJsonVisualMode
-                                    ? "bg-[#C86432] text-white"
+                                    ? "bg-[#E50914] text-white"
                                     : "text-stone-500 dark:text-stone-300 hover:text-stone-700 dark:hover:text-stone-100"
                                 }`}
                               >
@@ -1406,7 +1406,7 @@ export const BeforeVsAfterWorkspace = ({
                             {isJsonVisualMode ? (
                               renderVisualStructuredResult(extractedText, resultDocumentType, activeField, setActiveField, t)
                             ) : (
-                              <pre className={`p-4 rounded-xl border whitespace-pre-wrap font-mono text-[10.5px] leading-relaxed selection:bg-[#C86432] ${SR.border} ${isDarkMode ? "bg-[#14100e] text-stone-200" : "bg-stone-50 text-stone-800"}`}>
+                              <pre className={`p-4 rounded-xl border whitespace-pre-wrap font-mono text-[10.5px] leading-relaxed selection:bg-[#E50914] ${SR.border} ${isDarkMode ? "bg-[#080808] text-stone-200" : "bg-stone-50 text-stone-800"}`}>
                                 {extractedText}
                               </pre>
                             )}
@@ -1418,7 +1418,7 @@ export const BeforeVsAfterWorkspace = ({
                             <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
                             <span>{r.textExtracted}</span>
                           </div>
-                          <div className={`p-4 rounded-2xl border whitespace-pre-wrap font-sans text-xs leading-relaxed selection:bg-[#C86432] ${
+                          <div className={`p-4 rounded-2xl border whitespace-pre-wrap font-sans text-xs leading-relaxed selection:bg-[#E50914] ${
                             isDarkMode ? "border-stone-800 bg-stone-950 text-stone-200" : "border-stone-200 bg-stone-50 text-stone-800"
                           }`}>
                             {extractedText}
@@ -1440,7 +1440,7 @@ export const BeforeVsAfterWorkspace = ({
                       <div className={`p-4 rounded-2xl border flex flex-col gap-3 ${
                         isDarkMode ? "bg-stone-900/60 border-stone-800" : "bg-stone-50 border-stone-200"
                       }`}>
-                        <div className="flex items-center gap-2 text-[#C86432] font-black uppercase text-[10px] tracking-wider">
+                        <div className="flex items-center gap-2 text-[#E50914] font-black uppercase text-[10px] tracking-wider">
                           <Sparkles className="w-4 h-4 animate-pulse shrink-0" />
                           {r.digestTitle}
                         </div>
@@ -1450,7 +1450,7 @@ export const BeforeVsAfterWorkspace = ({
                         </p>
 
                         <div className="flex flex-col gap-2 border-t dark:border-stone-800 pt-3 mt-1">
-                          <h4 className="font-bold text-[#C86432]">{summaryBlock.title}</h4>
+                          <h4 className="font-bold text-[#E50914]">{summaryBlock.title}</h4>
                           {summaryBlock.items ? (
                             <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-stone-600 dark:text-stone-300 leading-normal">
                               {summaryBlock.items.map((item: string) => (
@@ -1476,28 +1476,28 @@ export const BeforeVsAfterWorkspace = ({
                       exit={{ opacity: 0, y: -8 }}
                       className="flex flex-col gap-4 text-xs text-stone-800 dark:text-stone-200"
                     >
-                      <div className={`p-4 rounded-3xl border flex flex-col md:flex-row items-center gap-6 ${
+                      <div className={`p-4 rounded-3xl border product-card flex flex-col md:flex-row items-center gap-6 ${
                         isDarkMode ? "bg-stone-900/60 border-stone-800" : "bg-stone-50 border-stone-200"
                       }`}>
                         {/* Circle accuracy indicator */}
                         <div className="relative w-24 h-24 flex items-center justify-center shrink-0">
                           <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="40" strokeWidth="8" stroke={isDarkMode ? "#2c2522" : "#eeded5"} fill="transparent" />
+                            <circle cx="50" cy="50" r="40" strokeWidth="8" stroke={isDarkMode ? "#2c2522" : "#e5e7eb"} fill="transparent" />
                             <circle 
-                              cx="50" cy="50" r="40" strokeWidth="8" stroke="#C86432" strokeDasharray="251.2" 
+                              cx="50" cy="50" r="40" strokeWidth="8" stroke="#E50914" strokeDasharray="251.2" 
                               strokeDashoffset={251.2 - (251.2 * avgConfidence) / 100} 
                               strokeLinecap="round" fill="transparent" className="transition-all duration-1000 ease-out" 
                             />
                           </svg>
                           <div className="absolute text-center flex flex-col items-center">
-                            <span className="text-lg font-black font-mono text-[#C86432]">{avgConfidence}%</span>
+                            <span className="text-lg font-black font-mono text-[#E50914]">{avgConfidence}%</span>
                             <span className="text-[8px] uppercase tracking-wider text-stone-400 font-bold">{r.accuracy}</span>
                           </div>
                         </div>
 
                         <div className="flex-1 flex flex-col gap-1 text-left">
                           <h4 className="font-extrabold text-xs text-stone-800 dark:text-white flex items-center gap-1.5">
-                            <TrendingUp className="w-3.5 h-3.5 text-[#C86432]" />
+                            <TrendingUp className="w-3.5 h-3.5 text-[#E50914]" />
                             {r.averageQuality}
                           </h4>
                           <p className="text-stone-500 dark:text-stone-300 leading-normal text-[11px]">
@@ -1529,17 +1529,17 @@ export const BeforeVsAfterWorkspace = ({
                               <div 
                                 key={box.field}
                                 onClick={() => setActiveField(box.field)}
-                                className={`p-2 rounded-xl border cursor-pointer transition-all hover:bg-[#C86432]/5 flex flex-col gap-1 ${
-                                  isSel ? "border-[#C86432] bg-[#C86432]/5" : `${SR.border} ${SR.surfaceMuted}`
+                                className={`p-2 rounded-xl border cursor-pointer transition-all hover:bg-[#E50914]/5 flex flex-col gap-1 ${
+                                  isSel ? "border-[#E50914] bg-[#E50914]/5" : `${SR.border} ${SR.surfaceMuted}`
                                 }`}
                               >
                                 <div className="flex justify-between items-center text-[10.5px]">
                                   <span className="font-bold text-stone-700 dark:text-stone-300">{box.label}</span>
-                                  <span className="font-bold font-mono text-[#C86432]">{fieldConf}%</span>
+                                  <span className="font-bold font-mono text-[#E50914]">{fieldConf}%</span>
                                 </div>
                                 <div className="h-1.5 bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden">
                                   <div 
-                                    className="h-full bg-[#C86432]" 
+                                    className="h-full bg-[#E50914]" 
                                     style={{ width: `${fieldConf}%` }}
                                   />
                                 </div>
@@ -1559,11 +1559,11 @@ export const BeforeVsAfterWorkspace = ({
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
-                      className={`flex flex-col border ${SR.border} rounded-3xl overflow-hidden shadow-sm ${isDarkMode ? "bg-[#14100e]" : "bg-stone-50"} text-stone-800 dark:text-stone-200 text-left`}
+                      className={`flex flex-col border ${SR.border} rounded-3xl overflow-hidden shadow-sm ${isDarkMode ? "bg-[#080808]" : "bg-stone-50"} text-stone-800 dark:text-stone-200 text-left`}
                     >
                       {chatMessages.length === 0 && (
-                        <div className={`p-3 text-[11px] ${isDarkMode ? "bg-[#301c13]/30 text-stone-300" : "bg-[#eeded5]/20 text-stone-700"}`}>
-                          <h3 className="font-bold text-[#C86432] flex items-center gap-1.5">
+                        <div className={`p-3 text-[11px] ${isDarkMode ? "bg-[#1f1f1f]/30 text-stone-300" : "bg-[#e5e7eb]/20 text-stone-700"}`}>
+                          <h3 className="font-bold text-[#E50914] flex items-center gap-1.5">
                             <MessageSquare className="w-4 h-4" />
                             <span>{r.interactiveContext}</span>
                           </h3>
@@ -1580,7 +1580,7 @@ export const BeforeVsAfterWorkspace = ({
                               key={msg.id}
                               className={`flex flex-col gap-1 max-w-[85%] rounded-2xl p-3 text-[11px] leading-relaxed ${
                                 isUser
-                                  ? "self-end bg-[#C86432] text-white rounded-tr-none"
+                                  ? "self-end bg-[#E50914] text-white rounded-tr-none"
                                   : isDarkMode
                                   ? "self-start bg-stone-900 border border-stone-800 text-stone-200 rounded-tl-none"
                                   : "self-start bg-stone-100 text-stone-800 rounded-tl-none"
@@ -1596,7 +1596,7 @@ export const BeforeVsAfterWorkspace = ({
 
                         {isChatting && (
                           <div className={`self-start ${SR.surfaceMuted} p-3 rounded-2xl rounded-tl-none flex items-center gap-2 text-[10.5px] ${SR.textSecondary}`}>
-                            <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#C86432]" />
+                            <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#E50914]" />
                             <span>{r.chatLoadingMetrics}</span>
                           </div>
                         )}
@@ -1612,7 +1612,7 @@ export const BeforeVsAfterWorkspace = ({
 
                       {/* Dialogue footer bar input */}
                       <form onSubmit={handleSendMessage} className={`p-2.5 border-t flex gap-2 ${
-                        isDarkMode ? "border-[#332822] bg-[#1d1714]/60" : "border-[#eeded5] bg-[#FAF6F0]"
+                        isDarkMode ? "border-[#262626] bg-[#111111]/60" : "border-[#e5e7eb] bg-[#f8fafc]"
                       }`}>
                         <input
                           type="text"
@@ -1620,14 +1620,14 @@ export const BeforeVsAfterWorkspace = ({
                           onChange={(e) => setChatInput(e.target.value)}
                           placeholder={t.chatPlaceholder}
                           disabled={isChatting}
-                          className={`flex-1 text-xs p-2.5 rounded-xl border focus:outline-hidden focus:ring-1 focus:ring-[#C86432] ${
-                            isDarkMode ? "border-stone-800 bg-[#14100e] text-white" : "border-stone-205 bg-white text-stone-800"
+                          className={`flex-1 text-xs p-2.5 rounded-xl border focus:outline-hidden focus:ring-1 focus:ring-[#E50914] ${
+                            isDarkMode ? "border-stone-800 bg-[#080808] text-white" : "border-stone-205 bg-white text-stone-800"
                           }`}
                         />
                         <button
                           type="submit"
                           disabled={!chatInput.trim() || isChatting}
-                          className="px-3.5 py-2 bg-[#C86432] hover:bg-[#aa5328] disabled:bg-stone-300 disabled:text-stone-500 text-white font-bold rounded-xl text-xs flex items-center justify-center transition-all shrink-0 cursor-pointer"
+                          className="px-3.5 py-2 bg-[#E50914] hover:bg-[#b80710] disabled:bg-stone-300 disabled:text-stone-500 text-white font-bold rounded-xl text-xs flex items-center justify-center transition-all shrink-0 cursor-pointer"
                         >
                           <Send className="w-3.5 h-3.5" />
                         </button>
@@ -1641,7 +1641,7 @@ export const BeforeVsAfterWorkspace = ({
 
             {/* Always anchored actions footer */}
             <div className={`p-4 mt-4 border-t flex flex-wrap items-center justify-between gap-3 ${
-              isDarkMode ? "border-[#332822] bg-[#1d1714]/65" : "border-[#eeded5] bg-[#FAF6F0]"
+              isDarkMode ? "border-[#262626] bg-[#111111]/65" : "border-[#e5e7eb] bg-[#f8fafc]"
             } rounded-2xl shrink-0`}>
               <div>
                 {isEditing ? (
@@ -1662,7 +1662,7 @@ export const BeforeVsAfterWorkspace = ({
                 ) : (
                   <button
                     onClick={() => { setEditedText(getDisplayableOrDownloadableText(extractedText, resultDocumentType)); setIsEditing(true); }}
-                    className="px-3 py-1.5 border border-[#eeded5] dark:border-[#332822] text-xs font-bold rounded-xl hover:bg-[#C86432]/5 cursor-pointer text-[#C86432] transition-colors"
+                    className="px-3 py-1.5 border border-[#e5e7eb] dark:border-[#262626] text-xs font-bold rounded-xl hover:bg-[#E50914]/5 cursor-pointer text-[#E50914] transition-colors"
                   >
                     {t.editBtn || "Edit Text"}
                   </button>
@@ -1672,7 +1672,7 @@ export const BeforeVsAfterWorkspace = ({
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleCopy}
-                  className="px-3 py-1.5 border border-[#eeded5] dark:border-[#332822] text-xs font-bold rounded-xl transition-all cursor-pointer text-stone-600 dark:text-stone-300 hover:bg-[#C86432]/5"
+                  className="px-3 py-1.5 border border-[#e5e7eb] dark:border-[#262626] text-xs font-bold rounded-xl transition-all cursor-pointer text-stone-600 dark:text-stone-300 hover:bg-[#E50914]/5"
                 >
                   {copyFeedback ? (t.copied || "Copied!") : (t.copyText || "Copy")}
                 </button>
@@ -1680,11 +1680,11 @@ export const BeforeVsAfterWorkspace = ({
                 <div className={`flex items-center border p-0.5 rounded-xl text-[10px] ${
                   isDarkMode 
                     ? "border-stone-800 bg-stone-900 text-stone-400" 
-                    : "border-[#eeded5] bg-stone-100/50 text-stone-700"
+                    : "border-[#e5e7eb] bg-stone-100/50 text-stone-700"
                 }`}>
-                  <button onClick={() => downloadTextFile("md")} className="p-1 px-2 font-bold font-mono hover:text-[#C86432] cursor-pointer">.MD</button>
-                  <button onClick={() => downloadTextFile("txt")} className="p-1 px-2 font-bold font-mono border-l border-stone-200 dark:border-stone-800 hover:text-[#C86432] cursor-pointer">.TXT</button>
-                  <button onClick={downloadDocFile} className="p-1 px-2 font-bold font-mono border-l border-stone-200 dark:border-stone-800 hover:text-[#C86432] cursor-pointer animate-none">.DOC</button>
+                  <button onClick={() => downloadTextFile("md")} className="p-1 px-2 font-bold font-mono hover:text-[#E50914] cursor-pointer">.MD</button>
+                  <button onClick={() => downloadTextFile("txt")} className="p-1 px-2 font-bold font-mono border-l border-stone-200 dark:border-stone-800 hover:text-[#E50914] cursor-pointer">.TXT</button>
+                  <button onClick={downloadDocFile} className="p-1 px-2 font-bold font-mono border-l border-stone-200 dark:border-stone-800 hover:text-[#E50914] cursor-pointer animate-none">.DOC</button>
                 </div>
               </div>
             </div>

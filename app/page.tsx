@@ -31,6 +31,7 @@ import {
   Instagram,
   ChevronDown,
   ArrowRight,
+  ArrowUp,
   ShieldCheck,
   Zap,
   BookOpen,
@@ -167,7 +168,7 @@ const SAMPLES: SampleDocument[] = [
     type: "image/png",
     mimeType: "image/png",
     size: "142 KB",
-    mockData: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='250' viewBox='0 0 400 250'><rect width='100%' height='100%' fill='%23FAF6F0'/><path d='M30 40 L370 40' stroke='%23eeded5' stroke-width='1'/><path d='M30 80 L370 80' stroke='%23eeded5' stroke-dasharray='4' stroke-width='1'/><path d='M30 120 L370 120' stroke='%23eeded5' stroke-dasharray='4' stroke-width='1'/><path d='M30 160 L370 160' stroke='%23eeded5' stroke-dasharray='4' stroke-width='1'/><text x='40' y='65' font-family='sans-serif' font-size='16' fill='%235A4A42' font-style='italic'>Project Warmth - Core Milestones</text><text x='40' y='105' font-family='sans-serif' font-size='14' fill='%237D6B60' font-style='italic'>* Launch cozy warm theme by early June (Antigravity to test)</text><text x='40' y='145' font-family='sans-serif' font-size='14' fill='%237D6B60' font-style='italic'>* Integrate full-featured homepage & micro OCR simulator</text><text x='40' y='185' font-family='sans-serif' font-size='14' fill='%23B2533E' font-weight='bold' font-style='italic'>Notice: Safe sandboxed local storage used.</text></svg>",
+    mockData: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='250' viewBox='0 0 400 250'><rect width='100%' height='100%' fill='%23f8fafc'/><path d='M30 40 L370 40' stroke='%23e5e7eb' stroke-width='1'/><path d='M30 80 L370 80' stroke='%23e5e7eb' stroke-dasharray='4' stroke-width='1'/><path d='M30 120 L370 120' stroke='%23e5e7eb' stroke-dasharray='4' stroke-width='1'/><path d='M30 160 L370 160' stroke='%23e5e7eb' stroke-dasharray='4' stroke-width='1'/><text x='40' y='65' font-family='sans-serif' font-size='16' fill='%23374151' font-style='italic'>Project Warmth - Core Milestones</text><text x='40' y='105' font-family='sans-serif' font-size='14' fill='%234b5563' font-style='italic'>* Launch cozy warm theme by early June (Antigravity to test)</text><text x='40' y='145' font-family='sans-serif' font-size='14' fill='%234b5563' font-style='italic'>* Integrate full-featured homepage & micro OCR simulator</text><text x='40' y='185' font-family='sans-serif' font-size='14' fill='%23E50914' font-weight='bold' font-style='italic'>Notice: Safe sandboxed local storage used.</text></svg>",
     initialExtract: `# Project Warmth - Core Milestones
 
 *   **Milestone 1:** Launch cozy warm theme by early June (Antigravity will execute testing protocols).
@@ -179,7 +180,7 @@ const SAMPLES: SampleDocument[] = [
     type: "image/jpeg",
     mimeType: "image/jpeg",
     size: "94 KB",
-    mockData: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='250' viewBox='0 0 400 250'><rect width='100%' height='100%' fill='%23F4EFEA'/><text x='110' y='40' font-family='monospace' font-size='18' font-weight='bold' fill='%233C2F2F'>ACOUSTIC TAVERNA</text><text x='120' y='60' font-family='monospace' font-size='11' fill='%237D6B60'>102 Cozy Way, Boston</text><text x='50' y='110' font-family='monospace' font-size='12' fill='%235A4A42'>2x Warm Cinnamon Latte...$12.00</text><text x='50' y='135' font-family='monospace' font-size='12' fill='%235A4A42'>1x Fresh Baked Croissant..$6.50</text><text x='50' y='160' font-family='monospace' font-size='12' fill='%235A4A42'>1x Honey Apple Galette....$8.00</text><text x='50' y='190' font-family='monospace' font-size='12' font-weight='bold' fill='%233C2F2F'>Total Paid...............$26.50</text></svg>",
+    mockData: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='250' viewBox='0 0 400 250'><rect width='100%' height='100%' fill='%23f8fafc'/><text x='110' y='40' font-family='monospace' font-size='18' font-weight='bold' fill='%23111827'>ACOUSTIC TAVERNA</text><text x='120' y='60' font-family='monospace' font-size='11' fill='%234b5563'>102 Cozy Way, Boston</text><text x='50' y='110' font-family='monospace' font-size='12' fill='%23374151'>2x Warm Cinnamon Latte...$12.00</text><text x='50' y='135' font-family='monospace' font-size='12' fill='%23374151'>1x Fresh Baked Croissant..$6.50</text><text x='50' y='160' font-family='monospace' font-size='12' fill='%23374151'>1x Honey Apple Galette....$8.00</text><text x='50' y='190' font-family='monospace' font-size='12' font-weight='bold' fill='%23111827'>Total Paid...............$26.50</text></svg>",
     initialExtract: `| Item | Qty | Price |
 | :--- | :---: | :---: |
 | Warm Cinnamon Latte | 2 | $12.00 |
@@ -249,7 +250,7 @@ const DOCUMENT_HIGHLIGHT_MAP: Record<string, HighlightBox[]> = {
 const DEMO_PRESETS: DemoPreset[] = [
   {
     name: "Cozy Bakery Invoice #429",
-    illustration: `<svg viewBox="0 0 100 100" class="w-24 h-24 text-amber-700/80"><rect width="80" height="90" x="10" y="5" rx="5" fill="#FAF6F0" stroke="#eeded5" stroke-width="2"/><circle cx="50" cy="40" r="18" fill="#E8D5C4"/><path d="M40 40 Q50 30 60 40" stroke="#B2533E" stroke-width="4" fill="none"/><line x1="25" y1="70" x2="75" y2="70" stroke="#eeded5" stroke-width="2"/><line x1="25" y1="80" x2="60" y2="80" stroke="#eeded5" stroke-width="2"/></svg>`,
+    illustration: `<svg viewBox="0 0 100 100" class="w-24 h-24 text-amber-700/80"><rect width="80" height="90" x="10" y="5" rx="5" fill="#f8fafc" stroke="#e5e7eb" stroke-width="2"/><circle cx="50" cy="40" r="18" fill="#f3f4f6"/><path d="M40 40 Q50 30 60 40" stroke="#E50914" stroke-width="4" fill="none"/><line x1="25" y1="70" x2="75" y2="70" stroke="#e5e7eb" stroke-width="2"/><line x1="25" y1="80" x2="60" y2="80" stroke="#e5e7eb" stroke-width="2"/></svg>`,
     raw: "SWEET HARVEST BAKERY\nInvoice #429\nDate: 2026-06-03\n3x Butter Croissant....$13.50\n1x Warm Apple Cider...$4.50\nTotal Paid: $18.00\nThanks for stopping by!",
     layout: "### SWEET HARVEST BAKERY\n* **Invoice:** #429\n* **Date:** June 3, 2026\n\n| Item | Qty | Total Price |\n| :--- | :---: | :---: |\n| Butter Croissant | 3 | $13.50 |\n| Warm Apple Cider | 1 | $4.50 |\n\n**Total Amount Paid:** **$18.00**",
     transcript: "[00:01] Customer: Hi! I'd like to get three butter croissants, please.\n[00:04] Baker: Absolutely! Three butter croissants. Would you like anything to drink?\n[00:08] Customer: Yes, a warm apple cider as well, please.\n[00:11] Baker: Great, that's three croissants and one warm apple cider.\n[00:15] Baker: Your total is $18.00. How would you like to pay?\n[00:18] Customer: Card, please. *beeps*\n[00:20] Baker: Perfect, payment accepted! Thanks for stopping by, have a wonderful day!\n[00:24] Customer: Thank you! You too!",
@@ -258,7 +259,7 @@ const DEMO_PRESETS: DemoPreset[] = [
   },
   {
     name: "Lecture Notes on Archeology",
-    illustration: `<svg viewBox="0 0 100 100" class="w-24 h-24 text-amber-700/80"><rect width="80" height="90" x="10" y="5" rx="5" fill="#FAF6F0" stroke="#eeded5" stroke-width="2"/><path d="M20 20 L80 20" stroke="#7D6B60" stroke-width="2"/><path d="M20 35 L80 35" stroke="#eeded5" stroke-dasharray="2" stroke-width="1.5"/><path d="M20 50 L60 50" stroke="#eeded5" stroke-dasharray="2" stroke-width="1.5"/><polygon points="40,65 75,65 57,85" fill="#B2533E" opacity="0.8"/></svg>`,
+    illustration: `<svg viewBox="0 0 100 100" class="w-24 h-24 text-amber-700/80"><rect width="80" height="90" x="10" y="5" rx="5" fill="#f8fafc" stroke="#e5e7eb" stroke-width="2"/><path d="M20 20 L80 20" stroke="#4b5563" stroke-width="2"/><path d="M20 35 L80 35" stroke="#e5e7eb" stroke-dasharray="2" stroke-width="1.5"/><path d="M20 50 L60 50" stroke="#e5e7eb" stroke-dasharray="2" stroke-width="1.5"/><polygon points="40,65 75,65 57,85" fill="#E50914" opacity="0.8"/></svg>`,
     raw: "Archeology Lab 08 - Warm Sun Sands\nGiza pyramid alignment suggests seasonal coordination\nCarbon dating estimates: ~2500 BCE\nNext task: review stone quarries map and write draft proposal",
     layout: "# Archeology Lab 08: Giza Exploration\n\n*   **General Assessment:** Structural analysis shows alignments correspond to key seasonal solar configurations.\n*   **Timeline Coordinates:** Radiocarbon logs place construction parameters around **~2500 BCE**.\n*   **Actionable Items:**\n    1.  Conduct stone quarry GIS mapping analysis.\n    2.  Formulate the secondary draft research proposal.",
     transcript: "[00:15] Archaeologist: Dr. Ames, what did the latest analysis of the Giza solar alignment reveal?\n[00:21] Dr. Ames: Well, the calculations suggest a deliberate seasonal coordination, likely aligned with the solstice.\n[00:28] Archaeologist: Fascinating. And do we have the final radiocarbon results back from the lab?\n[00:32] Dr. Ames: Yes, the carbon dating estimates place construction activities around ~2500 BCE.\n[00:38] Archaeologist: Magnificent! What are our priority next steps?\n[00:41] Dr. Ames: We must review the stone quarries GIS map and finish writing the draft research proposal.",
@@ -298,8 +299,8 @@ function ScrollLinkedBackground({
         }`}
         style={{
           backgroundImage: isDarkMode
-            ? "radial-gradient(circle at 16% 12%, rgba(200,100,50,0.16), transparent 28%), radial-gradient(circle at 84% 88%, rgba(217,119,54,0.12), transparent 34%)"
-            : "radial-gradient(circle at 16% 12%, rgba(200,100,50,0.12), transparent 30%), radial-gradient(circle at 84% 88%, rgba(238,222,213,0.8), transparent 36%)",
+            ? "radial-gradient(circle at 16% 12%, rgba(229,9,20,0.12), transparent 28%), radial-gradient(circle at 84% 88%, rgba(255,255,255,0.06), transparent 34%)"
+            : "radial-gradient(circle at 16% 12%, rgba(229,9,20,0.08), transparent 30%), radial-gradient(circle at 84% 88%, rgba(226,232,240,0.72), transparent 36%)",
         }}
       />
 
@@ -309,8 +310,8 @@ function ScrollLinkedBackground({
         }`}
         style={{
           backgroundImage: isDarkMode
-            ? "linear-gradient(rgba(217,119,54,0.22) 1px, transparent 1px), linear-gradient(90deg, rgba(217,119,54,0.16) 1px, transparent 1px)"
-            : "linear-gradient(rgba(200,100,50,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(200,100,50,0.12) 1px, transparent 1px)",
+            ? "linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)"
+            : "linear-gradient(rgba(15,23,42,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.05) 1px, transparent 1px)",
           backgroundPosition: "0 var(--counter-drift), var(--drift) 0",
           backgroundSize: "72px 72px",
         }}
@@ -318,7 +319,7 @@ function ScrollLinkedBackground({
 
       <div
         className={`absolute -left-1/4 top-[-12%] h-[46vh] w-[150vw] rotate-[-8deg] blur-2xl transition-opacity duration-500 sm:h-[52vh] ${
-          isDarkMode ? "bg-[#C86432]/10" : "bg-[#C86432]/12"
+          isDarkMode ? "bg-[#E50914]/10" : "bg-[#E50914]/12"
         }`}
         style={{
           opacity: "var(--glow-opacity)",
@@ -328,7 +329,7 @@ function ScrollLinkedBackground({
 
       <div
         className={`absolute right-[-18vw] top-[16vh] hidden h-56 w-56 rounded-full border sm:block ${
-          isDarkMode ? "border-[#D97736]/18" : "border-[#C86432]/16"
+          isDarkMode ? "border-[#E50914]/18" : "border-[#E50914]/16"
         }`}
         style={{
           transform: "translate3d(var(--counter-drift), calc(var(--drift) * 0.5), 0)",
@@ -337,7 +338,7 @@ function ScrollLinkedBackground({
 
       <div
         className={`absolute bottom-[10vh] left-[-10vw] hidden h-72 w-72 rounded-full border md:block ${
-          isDarkMode ? "border-[#D97736]/12" : "border-[#C86432]/10"
+          isDarkMode ? "border-[#E50914]/12" : "border-[#E50914]/10"
         }`}
         style={{
           transform: "translate3d(var(--drift), calc(var(--counter-drift) * 0.6), 0)",
@@ -346,7 +347,7 @@ function ScrollLinkedBackground({
 
       <div
         className={`absolute left-[7vw] top-[30vh] h-12 w-12 rounded-xl border transition-opacity duration-500 sm:h-16 sm:w-16 ${
-          isDarkMode ? "border-[#D97736]/20 bg-[#301c13]/12" : "border-[#C86432]/18 bg-white/18"
+          isDarkMode ? "border-[#E50914]/20 bg-[#1f1f1f]/12" : "border-[#E50914]/18 bg-white/18"
         }`}
         style={{
           transform: "translate3d(0, calc(var(--drift) * 0.7), 0)",
@@ -355,7 +356,7 @@ function ScrollLinkedBackground({
 
       <div
         className={`absolute right-[9vw] top-[62vh] h-10 w-10 rounded-xl border transition-opacity duration-500 sm:h-14 sm:w-14 ${
-          isDarkMode ? "border-[#D97736]/18 bg-[#301c13]/10" : "border-[#C86432]/14 bg-white/14"
+          isDarkMode ? "border-[#E50914]/18 bg-[#1f1f1f]/10" : "border-[#E50914]/14 bg-white/14"
         }`}
         style={{
           transform: "translate3d(0, calc(var(--counter-drift) * 0.8), 0)",
@@ -369,12 +370,12 @@ function ScrollLinkedBackground({
 const CV_DEMO_PRESETS: CvDemoPreset[] = [
   {
     name: "Data Analyst - Sample CV",
-    illustration: `<svg viewBox="0 0 100 100" class="w-24 h-24 text-amber-700/80"><rect width="80" height="90" x="10" y="5" rx="5" fill="#FAF6F0" stroke="#eeded5" stroke-width="2"/></svg>`,
+    illustration: `<svg viewBox="0 0 100 100" class="w-24 h-24 text-amber-700/80"><rect width="80" height="90" x="10" y="5" rx="5" fill="#f8fafc" stroke="#e5e7eb" stroke-width="2"/></svg>`,
     markdown: `# Jane Doe\n\n**Data Analyst** · jane.doe@example.com · (555) 555-0100\n\n## Summary\nAnalytical Data Analyst with 4 years of experience turning raw data into actionable insights. Skilled in SQL, Python, and dashboarding.\n\n## Experience\n- **Data Analyst**, ACME Corp (2021 - Present) — Improved reporting pipelines, reduced query time by 30%.\n\n## Education\n- B.Sc. in Statistics, State University (2019)`
   },
   {
     name: "Product Manager - Sample CV",
-    illustration: `<svg viewBox="0 0 100 100" class="w-24 h-24 text-amber-700/80"><rect width="80" height="90" x="10" y="5" rx="5" fill="#FAF6F0" stroke="#eeded5" stroke-width="2"/></svg>`,
+    illustration: `<svg viewBox="0 0 100 100" class="w-24 h-24 text-amber-700/80"><rect width="80" height="90" x="10" y="5" rx="5" fill="#f8fafc" stroke="#e5e7eb" stroke-width="2"/></svg>`,
     markdown: `# Alex Smith\n\n**Product Manager** · alex.smith@example.com · (555) 555-0123\n\n## Summary\nProduct Manager with experience leading cross-functional teams and launching mobile products used by 200k+ users.\n\n## Experience\n- **PM**, FutureApps (2019 - Present) — Led roadmap and GTM for subscription product.`
   }
 ];
@@ -503,7 +504,7 @@ export default function Home() {
     const body = convertCvMarkdownToHtml(md);
     const templateName = CV_TEMPLATES.find((item) => item.id === tplId)?.name || "Modern ATS";
     const templateStyles: Record<string, string> = {
-      "modern-ats": `body{font-family:Inter, Arial, sans-serif;color:#2f2925;margin:24px;line-height:1.45}h1{font-size:20px;color:#1f2937;margin:0 0 6px}h2{color:#C86432;font-size:11px;text-transform:uppercase;margin-top:12px;border-bottom:1px solid #fde8dc;padding-bottom:6px}p{font-size:12px;margin:0 0 8px}`,
+      "modern-ats": `body{font-family:Inter, Arial, sans-serif;color:#2f2925;margin:24px;line-height:1.45}h1{font-size:20px;color:#1f2937;margin:0 0 6px}h2{color:#E50914;font-size:11px;text-transform:uppercase;margin-top:12px;border-bottom:1px solid #fde8dc;padding-bottom:6px}p{font-size:12px;margin:0 0 8px}`,
       "executive": `body{font-family:Georgia, serif;color:#111827;margin:32px;background:#fff}h1{font-family:Georgia, serif;color:#0f172a;font-size:24px;margin:0 0 4px}h2{color:#0f172a;font-size:12px;border-left:4px solid #cbd5e1;padding-left:10px;margin-top:10px}p{font-size:13px;margin:0 0 8px}`,
       "technical": `body{font-family:JetBrains Mono, ui-monospace, monospace;color:#0b1220;margin:20px;background:#f8fafc}h1{font-size:18px;color:#0b1220;border-bottom:2px dashed #e6edf3;padding-bottom:8px}h2{color:#0b1220;font-size:11px;margin-top:10px}p{font-size:12px;margin:0 0 6px}`,
       "creative": `body{font-family:Space Grotesk, Arial, sans-serif;color:#1b1b1b;margin:24px}h1{font-size:22px;color:#6b21a8;margin:0 0 8px}h2{color:#6b21a8;font-size:11px;margin-top:8px}p{font-size:13px;margin:0 0 8px}`,
@@ -535,7 +536,7 @@ export default function Home() {
   const handleLoadCvSimulatedToBuilder = (idx: number) => {
     const p = CV_DEMO_PRESETS[idx % CV_DEMO_PRESETS.length];
     // set a small svg preview and fill the CV editor/preview with markdown
-    const svgPreview = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='250'><rect width='100%' height='100%' fill='%23FAF6F0'/><text x='20' y='120' font-family='sans-serif' font-size='16' fill='%235A4A42'>${p.name}</text></svg>`;
+    const svgPreview = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='250'><rect width='100%' height='100%' fill='%23f8fafc'/><text x='20' y='120' font-family='sans-serif' font-size='16' fill='%23374151'>${p.name}</text></svg>`;
     setCvFilePreview(svgPreview);
     setCvFileName(`${p.name}.md`);
     setCvFileMimeType("text/markdown");
@@ -886,7 +887,7 @@ export default function Home() {
 
     // Template-specific CSS variations
     const templateStyles: Record<string, string> = {
-      "modern-ats": `body{font-family:Inter, Arial, sans-serif;color:#2f2925;margin:40px;line-height:1.45}h1{font-size:26px;color:#1f2937;margin:0 0 6px}h2{color:#C86432;font-size:12px;text-transform:uppercase;margin-top:18px;border-bottom:1px solid #fde8dc;padding-bottom:6px}p{font-size:12px;margin:0 0 8px}`,
+      "modern-ats": `body{font-family:Inter, Arial, sans-serif;color:#2f2925;margin:40px;line-height:1.45}h1{font-size:26px;color:#1f2937;margin:0 0 6px}h2{color:#E50914;font-size:12px;text-transform:uppercase;margin-top:18px;border-bottom:1px solid #fde8dc;padding-bottom:6px}p{font-size:12px;margin:0 0 8px}`,
       "executive": `body{font-family:Georgia, serif;color:#111827;margin:48px;background:#fff}h1{font-family:Georgia, serif;color:#0f172a;font-size:30px;margin:0 0 4px}h2{color:#0f172a;font-size:13px;border-left:4px solid #cbd5e1;padding-left:10px;margin-top:16px}p{font-size:13px;margin:0 0 8px}`,
       "technical": `body{font-family:JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;color:#0b1220;margin:36px;background:#f8fafc}h1{font-size:22px;color:#0b1220;border-bottom:2px dashed #e6edf3;padding-bottom:8px}h2{color:#0b1220;font-size:12px;margin-top:14px}p{font-size:12px;margin:0 0 6px}`,
       "creative": `body{font-family:Space Grotesk, Arial, sans-serif;color:#1b1b1b;margin:36px}h1{font-size:28px;color:#6b21a8;margin:0 0 8px}h2{color:#6b21a8;font-size:12px;margin-top:12px}p{font-size:13px;margin:0 0 8px}`,
@@ -962,7 +963,7 @@ export default function Home() {
     setFileMimeType("image/png");
     setFileSize("128 KB");
     // Generate simple preview svg URL
-    const svgPreview = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='250' viewBox='0 0 400 250'><rect width='100%' height='100%' fill='%23FAF6F0'/><text x='20' y='120' font-family='sans-serif' font-size='18' fill='%235A4A42'>${preset.name}</text></svg>`;
+    const svgPreview = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='250' viewBox='0 0 400 250'><rect width='100%' height='100%' fill='%23f8fafc'/><text x='20' y='120' font-family='sans-serif' font-size='18' fill='%23374151'>${preset.name}</text></svg>`;
     setFilePreview(svgPreview);
     setFile(null);
     setExtractedText(preset[simSelectedMode as keyof DemoPreset] || preset.raw);
@@ -1130,7 +1131,7 @@ export default function Home() {
           if (trimmed.startsWith("|")) {
             const cells = trimmed.split("|").map(c => c.trim()).filter(Boolean);
             if (cells.every(c => c.startsWith("-"))) return "";
-            return `<tr style="border-bottom: 1px solid #eeded5;">${cells.map(c => `<td style="padding: 6px; border: 1px solid #eeded5;">${c.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")}</td>`).join("")}</tr>`;
+            return `<tr style="border-bottom: 1px solid #e5e7eb;">${cells.map(c => `<td style="padding: 6px; border: 1px solid #e5e7eb;">${c.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")}</td>`).join("")}</tr>`;
           }
           return `<p style="font-family: Arial; font-size: 11pt; line-height: 1.4; margin-bottom: 8px;">${trimmed.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")}</p>`;
         })
@@ -1148,7 +1149,7 @@ export default function Home() {
             font-family: 'Calibri', 'Arial', sans-serif;
             font-size: 11pt;
             line-height: 1.15;
-            color: #3c2f2f;
+            color: #111827;
             margin: 1in;
           }
         </style>
@@ -1171,37 +1172,35 @@ export default function Home() {
       lang={language === "am" ? "hy" : language}
       data-language={language}
       className={`relative isolate flex flex-col min-h-screen overflow-x-hidden font-sans transition-colors duration-500 ${
-        isDarkMode ? "text-[#f7f3f0] bg-[#181210]" : "text-[#3c2f2f] bg-[#fbf9f6]"
+        isDarkMode ? "text-[#f7f3f0] bg-[#050505]" : "text-[#111827] bg-[#f8fafc]"
       }`}
       style={{
         backgroundImage: isDarkMode
-          ? "radial-gradient(circle at 0% 0%, #301f17 0%, transparent 45%), radial-gradient(circle at 100% 100%, #201511 0%, transparent 50%)"
-          : "radial-gradient(circle at 0% 0%, #f7ebe1 0%, transparent 45%), radial-gradient(circle at 100% 100%, #f0e2d5 0%, transparent 55%)",
+          ? "radial-gradient(circle at 0% 0%, rgba(229,9,20,0.12) 0%, transparent 38%), radial-gradient(circle at 100% 100%, rgba(255,255,255,0.05) 0%, transparent 45%)"
+          : "linear-gradient(180deg, #ffffff 0%, #f8fafc 42%, #eef2f7 100%)",
         }}
     >
       <ScrollLinkedBackground isDarkMode={isDarkMode} scrollProgress={scrollProgress} />
 
       {/* Premium Cozy Header Nav */}
-      <nav className={`flex items-center justify-between px-4 sm:px-12 py-4 border-b sticky top-0 z-50 transition-all duration-300 ${
-        isDarkMode ? "border-[#332822] bg-[#181210]/95 backdrop-blur-md" : "border-[#eeded5] bg-[#fbf9f6]/95 backdrop-blur-md"
-      }`}>
+      <nav className="fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b border-white/30 bg-white/20 px-5 py-5 text-[#111827] dark:border-white/10 dark:bg-black/20 dark:text-white shadow-2xl shadow-black/10 backdrop-blur-md transition-all duration-300 sm:px-14">
         {/* Brand Logo & Desktop Nav Links */}
         <div className="flex items-center gap-7">
           <button
             type="button"
             onClick={() => setActiveView("home")}
-            className="flex items-center gap-2.5 text-left rounded-xl focus:outline-hidden focus:ring-2 focus:ring-[#C86432]/50 cursor-pointer"
+            className="flex items-center gap-2.5 text-left rounded-xl focus:outline-hidden focus:ring-2 focus:ring-[#E50914]/50 cursor-pointer"
             aria-label="Go to homepage"
           >
-            <div className="w-9 h-9 bg-[#C86432] rounded-xl flex items-center justify-center shadow-lg shadow-[#C86432]/20 text-white shrink-0">
-              <Layers className="w-5 h-5" />
+            <div className="w-11 h-11 bg-[#E50914] rounded-2xl flex items-center justify-center shadow-lg shadow-[#E50914]/20 text-white shrink-0">
+              <Layers className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-baseline gap-1.5 font-sans">
-                <span id="brand-logo" className={`text-xl font-bold tracking-tight font-display ${isDarkMode ? "text-white" : "text-[#3c2f2f]"}`}>
-                  {t.title}<span className="text-[#C86432] font-semibold">AI</span>
+                <span id="brand-logo" className="text-2xl font-bold tracking-tight font-display text-[#111827] drop-shadow-sm dark:text-white">
+                  {t.title}<span className="text-[#E50914] font-semibold">AI</span>
                 </span>
-                <span className="text-[10px] bg-[#C86432]/10 text-[#C86432] dark:bg-[#C86432]/20 dark:text-[#D97736] px-2 py-0.5 rounded-full font-bold">
+                <span className="text-[11px] bg-[#E50914]/10 text-[#E50914] dark:bg-[#E50914]/20 dark:text-[#E50914] px-2.5 py-1 rounded-full font-bold">
                   v3.0
                 </span>
               </div>
@@ -1212,30 +1211,30 @@ export default function Home() {
           <div className="hidden md:flex items-center gap-2.5">
             <button
               onClick={() => setActiveView("home")}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+              className={`px-4 py-2 text-sm font-bold rounded-xl transition-all cursor-pointer ${
                 activeView === "home"
-                  ? "bg-[#C86432]/10 text-[#C86432]"
-                  : "text-stone-500 hover:text-stone-800 dark:text-stone-300 dark:hover:text-white"
+                  ? "bg-white/60 text-[#111827] dark:bg-white/15 dark:text-white"
+                  : "text-[#111827]/75 hover:bg-white/40 hover:text-[#111827] dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white"
               }`}
             >
               {t.navOverview}
             </button>
             <button
               onClick={() => setActiveView("workspace")}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+              className={`px-4 py-2 text-sm font-bold rounded-xl transition-all cursor-pointer ${
                 activeView === "workspace"
-                  ? "bg-[#C86432]/10 text-[#C86432]"
-                  : "text-stone-500 hover:text-stone-800 dark:text-stone-300 dark:hover:text-white"
+                  ? "bg-white/60 text-[#111827] dark:bg-white/15 dark:text-white"
+                  : "text-[#111827]/75 hover:bg-white/40 hover:text-[#111827] dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white"
               }`}
             >
               {t.navWorkspace}
             </button>
             <button
               onClick={() => setActiveView("cv")}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+              className={`px-4 py-2 text-sm font-bold rounded-xl transition-all cursor-pointer ${
                 activeView === "cv"
-                  ? "bg-[#C86432]/10 text-[#C86432]"
-                  : "text-stone-500 hover:text-stone-800 dark:text-stone-300 dark:hover:text-white"
+                  ? "bg-white/60 text-[#111827] dark:bg-white/15 dark:text-white"
+                  : "text-[#111827]/75 hover:bg-white/40 hover:text-[#111827] dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white"
               }`}
             >
               {t.featureCvTitle}
@@ -1249,13 +1248,13 @@ export default function Home() {
           <div className="relative">
             <button
               onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-              className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-xs font-bold uppercase tracking-wider backdrop-blur-xs transition-all cursor-pointer ${
-                isDarkMode ? "border-[#332822] bg-[#1d1714]/60 text-white" : "border-[#eeded5] bg-white/60 text-[#3c2f2f]"
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-sm font-bold uppercase tracking-wider backdrop-blur-xs transition-all cursor-pointer ${
+                "border-white/30 bg-white/35 text-[#111827] dark:border-white/15 dark:bg-white/10 dark:text-white"
               }`}
             >
-              <Globe className="w-3.5 h-3.5 text-[#C86432]" />
+              <Globe className="w-4 h-4 text-[#E50914]" />
               <span>{language === "en" ? "🇺🇸 EN" : language === "ru" ? "🇷🇺 RU" : "🇦🇲 HY"}</span>
-              <ChevronDown className="w-3.5 h-3.5 text-[#7d6b60]" />
+              <ChevronDown className="w-4 h-4 text-[#4b5563]" />
             </button>
 
             <AnimatePresence>
@@ -1267,24 +1266,24 @@ export default function Home() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     className={`absolute right-0 mt-2 w-32 rounded-2xl p-1 border shadow-xl z-20 backdrop-blur-xl ${
-                      isDarkMode ? "bg-[#1d1714] border-[#332822] text-white" : "bg-white border-[#eeded5] text-[#3c2f2f]"
+                      isDarkMode ? "bg-[#111111] border-[#262626] text-white" : "bg-white border-[#e5e7eb] text-[#111827]"
                     }`}
                   >
                     <button
                       onClick={() => { setLanguage("en"); setIsLangDropdownOpen(false); }}
-                      className="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-[#C86432] hover:text-white transition-all flex items-center gap-2 cursor-pointer"
+                      className="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-[#E50914] hover:text-white transition-all flex items-center gap-2 cursor-pointer"
                     >
                       <span>🇺🇸</span> English
                     </button>
                     <button
                       onClick={() => { setLanguage("ru"); setIsLangDropdownOpen(false); }}
-                      className="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-[#C86432] hover:text-white transition-all flex items-center gap-2 cursor-pointer"
+                      className="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-[#E50914] hover:text-white transition-all flex items-center gap-2 cursor-pointer"
                     >
                       <span>🇷🇺</span> Русский
                     </button>
                     <button
                       onClick={() => { setLanguage("am"); setIsLangDropdownOpen(false); }}
-                      className="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-[#C86432] hover:text-white transition-all flex items-center gap-2 cursor-pointer"
+                      className="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-[#E50914] hover:text-white transition-all flex items-center gap-2 cursor-pointer"
                     >
                       <span>🇦🇲</span> Հայերեն
                     </button>
@@ -1297,11 +1296,11 @@ export default function Home() {
           {/* Theme Button */}
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
-            className={`w-8.5 h-8.5 flex items-center justify-center rounded-xl border backdrop-blur-xs transition-all cursor-pointer ${
-              isDarkMode ? "border-[#332822] bg-[#1d1714]/60 text-amber-400" : "border-[#eeded5] bg-white/60 text-[#C86432]"
+            className={`w-10 h-10 flex items-center justify-center rounded-xl border backdrop-blur-xs transition-all cursor-pointer ${
+              "border-white/30 bg-white/35 text-[#111827] dark:border-white/15 dark:bg-white/10 dark:text-white"
             }`}
           >
-            {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
         </div>
 
@@ -1310,21 +1309,21 @@ export default function Home() {
           {/* Theme Button directly in mobile header */}
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
-            className={`w-8.5 h-8.5 flex items-center justify-center rounded-xl border backdrop-blur-xs transition-all cursor-pointer ${
-              isDarkMode ? "border-[#332822] bg-[#1d1714]/60 text-amber-400" : "border-[#eeded5] bg-white/60 text-[#C86432]"
+            className={`w-10 h-10 flex items-center justify-center rounded-xl border backdrop-blur-xs transition-all cursor-pointer ${
+              "border-white/30 bg-white/35 text-[#111827] dark:border-white/15 dark:bg-white/10 dark:text-white"
             }`}
           >
-            {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
 
           {/* Elegant Burger trigger buttons */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`w-8.5 h-8.5 flex items-center justify-center rounded-xl border transition-all cursor-pointer ${
-              isDarkMode ? "border-[#332822] bg-[#1d1714]/60 text-[#D97736]" : "border-[#eeded5] bg-white text-[#C86432]"
+            className={`w-10 h-10 flex items-center justify-center rounded-xl border transition-all cursor-pointer ${
+              "border-white/30 bg-white/35 text-[#111827] dark:border-white/15 dark:bg-white/10 dark:text-white"
             }`}
           >
-            {isMobileMenuOpen ? <X className="w-4.5 h-4.5" /> : <Menu className="w-4.5 h-4.5" />}
+            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
@@ -1340,7 +1339,7 @@ export default function Home() {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 className={`absolute left-0 right-0 top-[69px] w-full border-b z-50 overflow-hidden shadow-2xl transition-all ${
-                  isDarkMode ? "bg-[#181210] border-[#332822]" : "bg-[#fbf9f6] border-[#eeded5]"
+                  isDarkMode ? "bg-[#050505] border-[#262626]" : "bg-[#f8fafc] border-[#e5e7eb]"
                 }`}
               >
                 <div className="p-5 flex flex-col gap-4">
@@ -1353,9 +1352,9 @@ export default function Home() {
                       onClick={() => { setActiveView("home"); setIsMobileMenuOpen(false); }}
                       className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold transition-all flex items-center gap-3 ${
                         activeView === "home"
-                          ? "bg-[#C86432] text-white"
+                          ? "bg-[#E50914] text-white"
                           : isDarkMode
-                          ? "bg-[#1d1714] text-stone-300 border border-stone-800"
+                          ? "bg-[#111111] text-stone-300 border border-stone-800"
                           : "bg-white text-stone-700 border border-stone-200"
                       }`}
                     >
@@ -1366,9 +1365,9 @@ export default function Home() {
                       onClick={() => { setActiveView("workspace"); setIsMobileMenuOpen(false); }}
                       className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold transition-all flex items-center gap-3 ${
                         activeView === "workspace"
-                          ? "bg-[#C86432] text-white"
+                          ? "bg-[#E50914] text-white"
                           : isDarkMode
-                          ? "bg-[#1d1714] text-stone-300 border border-stone-800"
+                          ? "bg-[#111111] text-stone-300 border border-stone-800"
                           : "bg-white text-stone-700 border border-stone-200"
                       }`}
                     >
@@ -1379,9 +1378,9 @@ export default function Home() {
                       onClick={() => { setActiveView("cv"); setIsMobileMenuOpen(false); }}
                       className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold transition-all flex items-center gap-3 ${
                         activeView === "cv"
-                          ? "bg-[#C86432] text-white"
+                          ? "bg-[#E50914] text-white"
                           : isDarkMode
-                          ? "bg-[#1d1714] text-stone-300 border border-stone-800"
+                          ? "bg-[#111111] text-stone-300 border border-stone-800"
                           : "bg-white text-stone-700 border border-stone-200"
                       }`}
                     >
@@ -1391,7 +1390,7 @@ export default function Home() {
                   </div>
 
                   {/* Language Selection */}
-                  <div className="flex flex-col gap-2 pt-2 border-t border-[#eeded5] dark:border-[#332822]">
+                  <div className="flex flex-col gap-2 pt-2 border-t border-[#e5e7eb] dark:border-[#262626]">
                     <span className="text-[10px] font-bold font-mono text-stone-400 uppercase tracking-wider block mb-1">
                       {t.navLanguage}
                     </span>
@@ -1400,9 +1399,9 @@ export default function Home() {
                         onClick={() => { setLanguage("en"); setIsMobileMenuOpen(false); }}
                         className={`py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 border transition-all ${
                           language === "en"
-                            ? "bg-[#C86432]/10 border-[#C86432] text-[#C86432]"
+                            ? "bg-[#E50914]/10 border-[#E50914] text-[#E50914]"
                             : isDarkMode
-                            ? "bg-[#1d1714] border-stone-800 text-stone-400"
+                            ? "bg-[#111111] border-stone-800 text-stone-400"
                             : "bg-white border-stone-200 text-stone-600"
                         }`}
                       >
@@ -1412,9 +1411,9 @@ export default function Home() {
                         onClick={() => { setLanguage("ru"); setIsMobileMenuOpen(false); }}
                         className={`py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 border transition-all ${
                           language === "ru"
-                            ? "bg-[#C86432]/10 border-[#C86432] text-[#C86432]"
+                            ? "bg-[#E50914]/10 border-[#E50914] text-[#E50914]"
                             : isDarkMode
-                            ? "bg-[#1d1714] border-stone-800 text-stone-400"
+                            ? "bg-[#111111] border-stone-800 text-stone-400"
                             : "bg-white border-stone-200 text-stone-600"
                         }`}
                       >
@@ -1424,9 +1423,9 @@ export default function Home() {
                         onClick={() => { setLanguage("am"); setIsMobileMenuOpen(false); }}
                         className={`py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 border transition-all ${
                           language === "am"
-                            ? "bg-[#C86432]/10 border-[#C86432] text-[#C86432]"
+                            ? "bg-[#E50914]/10 border-[#E50914] text-[#E50914]"
                             : isDarkMode
-                            ? "bg-[#1d1714] border-stone-800 text-stone-400"
+                            ? "bg-[#111111] border-stone-800 text-stone-400"
                             : "bg-white border-stone-200 text-stone-600"
                         }`}
                       >
@@ -1442,7 +1441,7 @@ export default function Home() {
       </nav>
 
       {/* Main Responsive Canvas view controller */}
-      <div className="relative z-10 flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col justify-start">
+      <div className="relative z-10 flex-1 w-full mx-auto flex flex-col justify-start pt-[89px]">
         
         <AnimatePresence mode="wait">
           {activeView === "home" ? (
@@ -1454,18 +1453,26 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
-              className="flex flex-col gap-16 py-4"
+              className="flex flex-col gap-14 pb-8 [&>section:not(:first-child)]:mx-auto [&>section:not(:first-child)]:w-full [&>section:not(:first-child)]:max-w-7xl [&>section:not(:first-child)]:px-4 [&>section:not(:first-child)]:sm:px-6 [&>section:not(:first-child)]:lg:px-8"
             >
+              <button
+                type="button"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                aria-label="Scroll to top"
+                className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-white/70 text-[#111827] shadow-2xl shadow-black/15 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:bg-white dark:border-white/15 dark:bg-black/35 dark:text-white dark:hover:bg-black/55"
+              >
+                <ArrowUp className="h-5 w-5" />
+              </button>
+
               {/* Cozy Hero Container (switches by simScope) */}
               {simScope === "extraction" ? (
-                <section className="text-center max-w-4xl mx-auto flex flex-col items-center pt-6 pb-2 gap-5">
-                  <div className={`w-full max-w-xl grid grid-cols-2 gap-1.5 rounded-2xl border p-1.5 shadow-sm ${
-                    isDarkMode ? "bg-[#1d1714]/70 border-[#332822]" : "bg-white/70 border-[#eeded5]"
-                  }`}>
+                <section className="relative isolate min-h-[560px] w-full overflow-hidden px-4 py-16 text-center sm:px-8 sm:py-20 lg:min-h-[640px]">
+                  <div className="mx-auto flex max-w-4xl flex-col items-center gap-5 text-[#111827]">
+                  <div className="w-full max-w-xl grid grid-cols-2 gap-1.5 rounded-2xl border border-white/40 bg-white/35 p-1.5 shadow-2xl shadow-black/20 backdrop-blur-md">
                     <button
                       type="button"
                       onClick={() => handleSelectSimScope("extraction")}
-                      className="rounded-xl px-3 py-3 text-left transition-all cursor-pointer bg-[#C86432] text-white shadow-md shadow-[#C86432]/15"
+                      className="rounded-xl px-3 py-3 text-left transition-all cursor-pointer bg-[#E50914] text-white shadow-md shadow-[#E50914]/25"
                     >
                       <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
                         <Layers className="w-4 h-4" />
@@ -1476,107 +1483,96 @@ export default function Home() {
                     <button
                       type="button"
                       onClick={() => handleSelectSimScope("cv")}
-                      className={`rounded-xl px-3 py-3 text-left transition-all cursor-pointer ${
-                        isDarkMode ? "text-stone-300 hover:bg-[#301c13]" : "text-[#5a4a42] hover:bg-[#FAF6F0]"
-                      }`}
+                      className="rounded-xl px-3 py-3 text-left text-[#111827]/80 transition-all hover:bg-white/35 dark:text-white/80 dark:hover:bg-white/10 cursor-pointer"
                     >
                       <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
-                        <Briefcase className="w-4 h-4 text-[#C86432]" />
+                        <Briefcase className="w-4 h-4 text-[#111827] dark:text-white" />
                         {t.featureCvTitle}
                       </span>
                       <span className="mt-1 block text-[10px] font-semibold opacity-70 leading-tight">{t.featureCvDesc}</span>
                     </button>
                   </div>
-                  <span className={`text-[10px] uppercase font-mono px-3 py-1 rounded-full font-bold tracking-widest ${
-                    isDarkMode ? "bg-[#301c13] text-[#D97736]" : "bg-[#eeded5] text-[#C86432]"
-                  }`}>
-                    Multimodal Document Engine
-                  </span>
-                  <h1 className="text-3xl sm:text-5xl font-display font-extrabold tracking-tight leading-tight">
-                    {t.homeHeroTitle}
-                  </h1>
-                  <p className={`text-sm sm:text-base leading-relaxed max-w-2xl ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
-                    {t.homeHeroSub}
-                  </p>
-                  <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
+                  <div className="flex max-w-3xl flex-col items-center gap-4 rounded-3xl border border-white/45 bg-white/45 px-5 py-5 text-[#111827] dark:border-white/15 dark:bg-black/25 dark:text-white shadow-2xl shadow-black/20 backdrop-blur-md sm:px-8 sm:py-6">
+                    <span className="rounded-full border border-white/40 bg-white/35 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-[#111827] dark:border-white/15 dark:bg-white/10 dark:text-white shadow-sm backdrop-blur-md">
+                      Multimodal Document Engine
+                    </span>
+                    <h1 className="text-4xl font-display font-extrabold tracking-tight leading-tight drop-shadow-sm sm:text-6xl">
+                      {t.homeHeroTitle}
+                    </h1>
+                    <p className="max-w-2xl text-sm font-medium leading-relaxed text-[#1f2937] sm:text-base dark:text-white/85">
+                      {t.homeHeroSub}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap items-center justify-center gap-3 mt-3">
                     <button
                       onClick={() => setActiveView("workspace")}
-                      className="px-6 py-3.5 rounded-xl font-bold text-sm bg-[#C86432] hover:bg-[#aa5328] text-white transition-all shadow-lg shadow-[#C86432]/10 hover:shadow-[#C86432]/20 hover:scale-[1.01] flex items-center gap-2 cursor-pointer"
+                      className="px-6 py-3.5 rounded-full font-bold text-sm bg-[#E50914] hover:bg-[#b80710] text-white transition-all shadow-xl shadow-[#E50914]/25 hover:shadow-[#E50914]/35 hover:scale-[1.01] flex items-center gap-2 cursor-pointer"
                     >
                       <span>{t.homeBtnLaunch}</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
                     <a
                       href="#simulator"
-                      className={`px-6 py-3.5 rounded-xl font-bold text-sm border transition-all flex items-center gap-1.5 cursor-pointer ${
-                        isDarkMode
-                          ? "border-[#332822] bg-[#1d1714]/60 text-[#cbb9af] hover:text-white"
-                          : "border-[#eeded5] bg-white/60 text-[#7d6b60] hover:text-[#3c2f2f]"
-                      }`}
+                      className="px-6 py-3.5 rounded-full font-bold text-sm border border-white/40 bg-white/45 text-[#111827] backdrop-blur-md dark:bg-white/10 dark:text-white transition-all hover:bg-white/60 flex items-center gap-1.5 cursor-pointer"
                     >
-                      <Zap className="w-3.5 h-3.5 text-[#C86432]" />
+                      <Zap className="w-3.5 h-3.5 text-[#111827] dark:text-white" />
                       <span>{t.homeBtnDemo}</span>
                     </a>
                   </div>
+                  </div>
                 </section>
               ) : (
-                <section className="text-center max-w-4xl mx-auto flex flex-col items-center pt-6 pb-2 gap-5">
-                  <div className={`w-full max-w-xl grid grid-cols-2 gap-1.5 rounded-2xl border p-1.5 shadow-sm ${
-                    isDarkMode ? "bg-[#1d1714]/70 border-[#332822]" : "bg-white/70 border-[#eeded5]"
-                  }`}>
-                    <button
-                      type="button"
-                      onClick={() => handleSelectSimScope("extraction")}
-                      className={`rounded-xl px-3 py-3 text-left transition-all cursor-pointer ${
-                        isDarkMode ? "text-stone-300 hover:bg-[#301c13]" : "text-[#5a4a42] hover:bg-[#FAF6F0]"
-                      }`}
-                    >
-                      <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
-                        <Layers className="w-4 h-4 text-[#C86432]" />
-                        {t.featureExtractionTitle}
-                      </span>
-                      <span className="mt-1 block text-[10px] font-semibold opacity-70 leading-tight">{t.featureExtractionDesc}</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleSelectSimScope("cv")}
-                      className="rounded-xl px-3 py-3 text-left transition-all cursor-pointer bg-[#C86432] text-white shadow-md shadow-[#C86432]/15"
-                    >
-                      <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
-                        <Briefcase className="w-4 h-4" />
+                <section className="relative isolate min-h-[560px] w-full overflow-hidden px-4 py-16 text-center sm:px-8 sm:py-20 lg:min-h-[640px]">
+                  <div className="mx-auto flex max-w-4xl flex-col items-center gap-5 text-[#111827]">
+                    <div className="w-full max-w-xl grid grid-cols-2 gap-1.5 rounded-2xl border border-white/40 bg-white/35 p-1.5 shadow-2xl shadow-black/20 backdrop-blur-md">
+                      <button
+                        type="button"
+                        onClick={() => handleSelectSimScope("extraction")}
+                        className="rounded-xl px-3 py-3 text-left text-[#111827]/80 transition-all hover:bg-white/35 dark:text-white/80 dark:hover:bg-white/10 cursor-pointer"
+                      >
+                        <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
+                          <Layers className="w-4 h-4 text-[#111827] dark:text-white" />
+                          {t.featureExtractionTitle}
+                        </span>
+                        <span className="mt-1 block text-[10px] font-semibold opacity-70 leading-tight">{t.featureExtractionDesc}</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleSelectSimScope("cv")}
+                        className="rounded-xl px-3 py-3 text-left transition-all cursor-pointer bg-[#E50914] text-white shadow-md shadow-[#E50914]/25"
+                      >
+                        <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
+                          <Briefcase className="w-4 h-4" />
+                          {t.featureCvTitle}
+                        </span>
+                        <span className="mt-1 block text-[10px] font-semibold opacity-85 leading-tight">{t.featureCvDesc}</span>
+                      </button>
+                    </div>
+                    <div className="flex max-w-3xl flex-col items-center gap-4 rounded-3xl border border-white/45 bg-white/45 px-5 py-5 text-[#111827] dark:border-white/15 dark:bg-black/25 dark:text-white shadow-2xl shadow-black/20 backdrop-blur-md sm:px-8 sm:py-6">
+                      <span className="rounded-full border border-white/40 bg-white/35 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-[#111827] dark:border-white/15 dark:bg-white/10 dark:text-white shadow-sm backdrop-blur-md">
                         {t.featureCvTitle}
                       </span>
-                      <span className="mt-1 block text-[10px] font-semibold opacity-85 leading-tight">{t.featureCvDesc}</span>
-                    </button>
-                  </div>
-                  <span className={`text-[10px] uppercase font-mono px-3 py-1 rounded-full font-bold tracking-widest ${
-                    isDarkMode ? "bg-[#301c13] text-[#D97736]" : "bg-[#eeded5] text-[#C86432]"
-                  }`}>
-                    {t.featureCvTitle}
-                  </span>
-                  <h1 className="text-3xl sm:text-5xl font-display font-extrabold tracking-tight leading-tight">{t.cvHeroTitle}</h1>
-                  <p className={`text-sm sm:text-base leading-relaxed max-w-2xl ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
-                    {t.cvHeroSub}
-                  </p>
-                  <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
-                    <button
-                      onClick={() => setActiveView("cv")}
-                      className="px-6 py-3.5 rounded-xl font-bold text-sm bg-[#C86432] hover:bg-[#aa5328] text-white transition-all shadow-lg shadow-[#C86432]/10 hover:shadow-[#C86432]/20 hover:scale-[1.01] flex items-center gap-2 cursor-pointer"
-                    >
-                      <span>{t.cvOpenBuilder}</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                    <a
-                      href="#simulator"
-                      className={`px-6 py-3.5 rounded-xl font-bold text-sm border transition-all flex items-center gap-1.5 cursor-pointer ${
-                        isDarkMode
-                          ? "border-[#332822] bg-[#1d1714]/60 text-[#cbb9af] hover:text-white"
-                          : "border-[#eeded5] bg-white/60 text-[#7d6b60] hover:text-[#3c2f2f]"
-                      }`}
-                    >
-                      <BookOpen className="w-3.5 h-3.5 text-[#C86432]" />
-                      <span>{t.cvTryDemo}</span>
-                    </a>
+                      <h1 className="text-4xl font-display font-extrabold tracking-tight leading-tight drop-shadow-sm sm:text-6xl">{t.cvHeroTitle}</h1>
+                      <p className="max-w-2xl text-sm font-medium leading-relaxed text-[#1f2937] sm:text-base dark:text-white/85">
+                        {t.cvHeroSub}
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap items-center justify-center gap-3 mt-3">
+                      <button
+                        onClick={() => setActiveView("cv")}
+                        className="px-6 py-3.5 rounded-full font-bold text-sm bg-[#E50914] hover:bg-[#b80710] text-white transition-all shadow-xl shadow-[#E50914]/25 hover:shadow-[#E50914]/35 hover:scale-[1.01] flex items-center gap-2 cursor-pointer"
+                      >
+                        <span>{t.cvOpenBuilder}</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                      <a
+                        href="#simulator"
+                        className="px-6 py-3.5 rounded-full font-bold text-sm border border-white/40 bg-white/45 text-[#111827] backdrop-blur-md dark:bg-white/10 dark:text-white transition-all hover:bg-white/60 flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <BookOpen className="w-3.5 h-3.5 text-[#111827] dark:text-white" />
+                        <span>{t.cvTryDemo}</span>
+                      </a>
+                    </div>
                   </div>
                 </section>
               )}
@@ -1586,32 +1582,32 @@ export default function Home() {
                 <section className="flex flex-col gap-10">
                 <div className="text-center max-w-xl mx-auto gap-2 flex flex-col">
                   <h2 className="text-xl sm:text-2xl font-bold tracking-tight">{t.homeSection2Header}</h2>
-                  <p className={`text-xs ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
+                  <p className={`text-xs ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>
                     {t.homeSection2Sub}
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
-                  <div className={`p-6 rounded-3xl border transition-all flex flex-col gap-3 relative overflow-hidden ${
-                    isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                  <div className={`p-6 rounded-3xl border product-card transition-all flex flex-col gap-3 relative overflow-hidden ${
+                    isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
                   }`}>
-                    <div className="w-8 h-8 rounded-full bg-[#C86432]/10 text-[#C86432] font-bold text-xs flex items-center justify-center">1</div>
+                    <div className="w-8 h-8 rounded-full bg-[#E50914]/10 text-[#E50914] font-bold text-xs flex items-center justify-center">1</div>
                     <h3 className="font-bold text-sm">{t.step1Title}</h3>
-                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.step1Sub}</p>
+                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.step1Sub}</p>
                   </div>
-                  <div className={`p-6 rounded-3xl border transition-all flex flex-col gap-3 relative overflow-hidden ${
-                    isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                  <div className={`p-6 rounded-3xl border product-card transition-all flex flex-col gap-3 relative overflow-hidden ${
+                    isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
                   }`}>
-                    <div className="w-8 h-8 rounded-full bg-[#C86432]/10 text-[#C86432] font-bold text-xs flex items-center justify-center">2</div>
+                    <div className="w-8 h-8 rounded-full bg-[#E50914]/10 text-[#E50914] font-bold text-xs flex items-center justify-center">2</div>
                     <h3 className="font-bold text-sm">{t.step2Title}</h3>
-                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.step2Sub}</p>
+                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.step2Sub}</p>
                   </div>
-                  <div className={`p-6 rounded-3xl border transition-all flex flex-col gap-3 relative overflow-hidden ${
-                    isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                  <div className={`p-6 rounded-3xl border product-card transition-all flex flex-col gap-3 relative overflow-hidden ${
+                    isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
                   }`}>
-                    <div className="w-8 h-8 rounded-full bg-[#C86432]/10 text-[#C86432] font-bold text-xs flex items-center justify-center">3</div>
+                    <div className="w-8 h-8 rounded-full bg-[#E50914]/10 text-[#E50914] font-bold text-xs flex items-center justify-center">3</div>
                     <h3 className="font-bold text-sm">{t.step3Title}</h3>
-                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.step3Sub}</p>
+                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.step3Sub}</p>
                   </div>
                 </div>
                 </section>
@@ -1619,32 +1615,32 @@ export default function Home() {
                 <section className="flex flex-col gap-10">
                   <div className="text-center max-w-xl mx-auto gap-2 flex flex-col">
                     <h2 className="text-xl sm:text-2xl font-bold tracking-tight">{t.cvHowHeader}</h2>
-                    <p className={`text-xs ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
+                    <p className={`text-xs ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>
                       {t.cvHowSub}
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
-                    <div className={`p-6 rounded-3xl border transition-all flex flex-col gap-3 relative overflow-hidden ${
-                      isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                    <div className={`p-6 rounded-3xl border product-card transition-all flex flex-col gap-3 relative overflow-hidden ${
+                      isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
                     }`}>
-                      <div className="w-8 h-8 rounded-full bg-[#C86432]/10 text-[#C86432] font-bold text-xs flex items-center justify-center">1</div>
+                      <div className="w-8 h-8 rounded-full bg-[#E50914]/10 text-[#E50914] font-bold text-xs flex items-center justify-center">1</div>
                       <h3 className="font-bold text-sm">{t.cvStep1Title}</h3>
-                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.cvStep1Sub}</p>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.cvStep1Sub}</p>
                     </div>
-                    <div className={`p-6 rounded-3xl border transition-all flex flex-col gap-3 relative overflow-hidden ${
-                      isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                    <div className={`p-6 rounded-3xl border product-card transition-all flex flex-col gap-3 relative overflow-hidden ${
+                      isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
                     }`}>
-                      <div className="w-8 h-8 rounded-full bg-[#C86432]/10 text-[#C86432] font-bold text-xs flex items-center justify-center">2</div>
+                      <div className="w-8 h-8 rounded-full bg-[#E50914]/10 text-[#E50914] font-bold text-xs flex items-center justify-center">2</div>
                       <h3 className="font-bold text-sm">{t.cvStep2Title}</h3>
-                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.cvStep2Sub}</p>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.cvStep2Sub}</p>
                     </div>
-                    <div className={`p-6 rounded-3xl border transition-all flex flex-col gap-3 relative overflow-hidden ${
-                      isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                    <div className={`p-6 rounded-3xl border product-card transition-all flex flex-col gap-3 relative overflow-hidden ${
+                      isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
                     }`}>
-                      <div className="w-8 h-8 rounded-full bg-[#C86432]/10 text-[#C86432] font-bold text-xs flex items-center justify-center">3</div>
+                      <div className="w-8 h-8 rounded-full bg-[#E50914]/10 text-[#E50914] font-bold text-xs flex items-center justify-center">3</div>
                       <h3 className="font-bold text-sm">{t.cvStep3Title}</h3>
-                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.cvStep3Sub}</p>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.cvStep3Sub}</p>
                     </div>
                   </div>
                 </section>
@@ -1654,7 +1650,7 @@ export default function Home() {
               <section id="simulator" className="flex flex-col gap-8 pt-4 scrolling-mt-10">
                 <div className="text-center max-w-xl mx-auto gap-2 flex flex-col">
                   <h2 className="text-xl sm:text-2xl font-bold tracking-tight">{t.homeDemoHeader}</h2>
-                  <p className={`text-xs ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
+                  <p className={`text-xs ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>
                     {t.homeDemoSub}
                   </p>
                 </div>
@@ -1663,12 +1659,12 @@ export default function Home() {
                   
                   {/* Selector panel of files (Left) */}
                   <div className="lg:col-span-5 flex flex-col gap-4">
-                    <div className={`p-6 rounded-3xl border flex flex-col gap-4 ${
-                      isDarkMode ? "bg-[#1d1714]/60 border-[#332822]" : "bg-white/60 border-[#eeded5]"
+                    <div className={`p-6 rounded-3xl border product-card flex flex-col gap-4 ${
+                      isDarkMode ? "bg-[#111111]/60 border-[#262626]" : "bg-white/60 border-[#e5e7eb]"
                     }`}>
                       {simScope === "extraction" ? (
                         <>
-                          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#C86432]">1. Select Document Template</h3>
+                          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#E50914]">1. Select Document Template</h3>
                           <div className="flex flex-col gap-2.5">
                             {DEMO_PRESETS.map((preset, idx) => (
                               <button
@@ -1676,13 +1672,13 @@ export default function Home() {
                                 onClick={() => selectSimPreset(idx)}
                                 className={`p-3 rounded-2xl border text-left transition-all flex items-center gap-4 cursor-pointer ${
                                   simSelectedPreset === idx
-                                    ? "border-[#C86432] bg-[#C86432]/5 shadow-sm"
+                                    ? "border-[#E50914] bg-[#E50914]/5 shadow-sm"
                                     : isDarkMode
-                                    ? "border-transparent bg-[#1d1714]/40 hover:bg-[#1d1714]"
+                                    ? "border-transparent bg-[#111111]/40 hover:bg-[#111111]"
                                     : "border-transparent bg-white/40 hover:bg-white"
                                 }`}
                               >
-                                <div className="bg-[#eeded5]/40 dark:bg-stone-800 p-1.5 rounded-xl shrink-0" dangerouslySetInnerHTML={{ __html: preset.illustration }} />
+                                <div className="bg-[#e5e7eb]/40 dark:bg-stone-800 p-1.5 rounded-xl shrink-0" dangerouslySetInnerHTML={{ __html: preset.illustration }} />
                                 <div className="truncate">
                                   <span className="text-xs font-bold block">{preset.name}</span>
                                   <span className="text-[10px] text-stone-500 dark:text-stone-300">Preset Interactive Simulation File</span>
@@ -1692,8 +1688,8 @@ export default function Home() {
                           </div>
 
                           {/* Formula Selector */}
-                          <div className="border-t border-[#eeded5] dark:border-[#332822] pt-4 mt-2">
-                            <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2.5 text-[#C86432]">2. Choose Formula Mode</h3>
+                          <div className="border-t border-[#e5e7eb] dark:border-[#262626] pt-4 mt-2">
+                            <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2.5 text-[#E50914]">2. Choose Formula Mode</h3>
                             <div className="flex flex-wrap gap-2">
                               {["raw", "layout", "transcript", "summary", "key-value"].map((mode) => (
                                 <button
@@ -1701,10 +1697,10 @@ export default function Home() {
                                   onClick={() => selectSimMode(mode)}
                                   className={`py-1.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                                     simSelectedMode === mode
-                                      ? "bg-[#C86432] text-white"
+                                      ? "bg-[#E50914] text-white"
                                       : isDarkMode
-                                      ? "bg-[#1d1714]/30 hover:bg-[#1d1714]/85 text-[#cbb9af]"
-                                      : "bg-white/40 hover:bg-white text-[#7d6b60]"
+                                      ? "bg-[#111111]/30 hover:bg-[#111111]/85 text-[#cbd5e1]"
+                                      : "bg-white/40 hover:bg-white text-[#4b5563]"
                                   }`}
                                 >
                                   {t.modes[mode] || mode}
@@ -1715,7 +1711,7 @@ export default function Home() {
 
                           <button
                             onClick={handleLoadSimulatedToWorkspace}
-                            className="w-full mt-4 py-3 bg-[#C86432] hover:bg-[#aa5328] text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer"
+                            className="w-full mt-4 py-3 bg-[#E50914] hover:bg-[#b80710] text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer"
                           >
                             <Sparkles className="w-4 h-4 text-amber-200" />
                             <span>{t.homeDemoLoad}</span>
@@ -1723,7 +1719,7 @@ export default function Home() {
                         </>
                       ) : (
                         <>
-                          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#C86432]">{t.cvSelectSample}</h3>
+                          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#E50914]">{t.cvSelectSample}</h3>
                           <div className="flex flex-col gap-2.5">
                             {CV_DEMO_PRESETS.map((preset, idx) => (
                               <button
@@ -1731,13 +1727,13 @@ export default function Home() {
                                 onClick={() => { setSimSelectedPreset(idx); selectSimPreset(idx); }}
                                 className={`p-3 rounded-2xl border text-left transition-all flex items-center gap-4 cursor-pointer ${
                                   simSelectedPreset === idx
-                                    ? "border-[#C86432] bg-[#C86432]/5 shadow-sm"
+                                    ? "border-[#E50914] bg-[#E50914]/5 shadow-sm"
                                     : isDarkMode
-                                    ? "border-transparent bg-[#1d1714]/40 hover:bg-[#1d1714]"
+                                    ? "border-transparent bg-[#111111]/40 hover:bg-[#111111]"
                                     : "border-transparent bg-white/40 hover:bg-white"
                                 }`}
                               >
-                                <div className="bg-[#eeded5]/40 dark:bg-stone-800 p-1.5 rounded-xl shrink-0" dangerouslySetInnerHTML={{ __html: preset.illustration }} />
+                                <div className="bg-[#e5e7eb]/40 dark:bg-stone-800 p-1.5 rounded-xl shrink-0" dangerouslySetInnerHTML={{ __html: preset.illustration }} />
                                 <div className="truncate">
                                   <span className="text-xs font-bold block">{preset.name}</span>
                                   <span className="text-[10px] text-stone-500 dark:text-stone-300">{t.cvSampleSubtitle}</span>
@@ -1746,8 +1742,8 @@ export default function Home() {
                             ))}
                           </div>
 
-                          <div className="border-t border-[#eeded5] dark:border-[#332822] pt-4 mt-2">
-                            <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2.5 text-[#C86432]">{t.cvTemplatePreview}</h3>
+                          <div className="border-t border-[#e5e7eb] dark:border-[#262626] pt-4 mt-2">
+                            <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2.5 text-[#E50914]">{t.cvTemplatePreview}</h3>
                             <div className="flex flex-wrap gap-2">
                               {CV_TEMPLATES.map((tpl) => (
                                 <button
@@ -1755,10 +1751,10 @@ export default function Home() {
                                   onClick={() => handleCvTemplateChange(tpl.id)}
                                   className={`py-1.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                                     cvTemplate === tpl.id
-                                      ? "bg-[#C86432] text-white"
+                                      ? "bg-[#E50914] text-white"
                                       : isDarkMode
-                                      ? "bg-[#1d1714]/30 hover:bg-[#1d1714]/85 text-[#cbb9af]"
-                                      : "bg-white/40 hover:bg-white text-[#7d6b60]"
+                                      ? "bg-[#111111]/30 hover:bg-[#111111]/85 text-[#cbd5e1]"
+                                      : "bg-white/40 hover:bg-white text-[#4b5563]"
                                   }`}
                                 >
                                   {getTemplateName(tpl)}
@@ -1769,7 +1765,7 @@ export default function Home() {
 
                           <button
                             onClick={() => handleLoadCvSimulatedToBuilder(simSelectedPreset)}
-                            className="w-full mt-4 py-3 bg-[#C86432] hover:bg-[#aa5328] text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer"
+                            className="w-full mt-4 py-3 bg-[#E50914] hover:bg-[#b80710] text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer"
                           >
                             <BookOpen className="w-4 h-4 text-amber-200" />
                             <span>{t.cvLoadBuilder}</span>
@@ -1782,9 +1778,9 @@ export default function Home() {
                   {/* Simulated terminal result output (Right) */}
                   <div className="lg:col-span-7 flex flex-col">
                     <div className={`rounded-3xl p-6 flex flex-col h-full min-h-[350px] shadow-2xl relative overflow-hidden ${
-                      simScope === "extraction" ? "bg-[#110D0B] border border-[#2A1E19] text-amber-100" : isDarkMode ? "bg-[#1d1714]/60 border-[#332822] text-stone-100" : "bg-white border-[#eeded5] text-stone-800"
+                      simScope === "extraction" ? "bg-[#050505] border border-[#202020] text-amber-100" : isDarkMode ? "bg-[#111111]/60 border-[#262626] text-stone-100" : "bg-white border-[#e5e7eb] text-stone-800"
                     }`}>
-                      <div className="flex items-center justify-between border-b border-[#2A1E19] pb-3 mb-4">
+                      <div className="flex items-center justify-between border-b border-[#202020] pb-3 mb-4">
                         <div className="flex items-center gap-2">
                           <span className="w-3 h-3 rounded-full bg-rose-500"></span>
                           <span className="w-3 h-3 rounded-full bg-amber-500"></span>
@@ -1803,13 +1799,13 @@ export default function Home() {
                               exit={{ opacity: 0 }}
                               className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-stone-400"
                             >
-                              <RefreshCw className="w-5 h-5 animate-spin text-[#C86432]" />
+                              <RefreshCw className="w-5 h-5 animate-spin text-[#E50914]" />
                               <span>{t.homeDemoSimulating}</span>
                             </motion.div>
                           ) : (
-                            <motion.div key="simtext" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="whitespace-pre-wrap select-text selection:bg-[#C86432]">
+                            <motion.div key="simtext" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="whitespace-pre-wrap select-text selection:bg-[#E50914]">
                               {simScope === "extraction" ? (
-                                <div className="whitespace-pre-wrap select-text selection:bg-[#C86432]">{simText}</div>
+                                <div className="whitespace-pre-wrap select-text selection:bg-[#E50914]">{simText}</div>
                               ) : (
                                 <div className="w-full h-[340px] rounded-xl overflow-hidden border">
                                   {simPreviewHtml ? (
@@ -1827,7 +1823,7 @@ export default function Home() {
                         </AnimatePresence>
                       </div>
 
-                      <div className="absolute bottom-3 right-3 bg-[#C86432]/10 text-[#D97736] px-2 py-0.5 rounded text-[9px] font-bold border border-[#C86432]/20">
+                      <div className="absolute bottom-3 right-3 bg-[#E50914]/10 text-[#E50914] px-2 py-0.5 rounded text-[9px] font-bold border border-[#E50914]/20">
                         {simScope === "extraction" ? simSelectedMode.toUpperCase() + " VIEW" : "CV SAMPLE"}
                       </div>
                     </div>
@@ -1841,53 +1837,53 @@ export default function Home() {
                 <section className="flex flex-col gap-8 pb-8">
                 <div className="text-center max-w-xl mx-auto gap-2 flex flex-col">
                   <h2 className="text-xl sm:text-2xl font-bold tracking-tight">{t.bentoHeader}</h2>
-                  <p className={`text-xs ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
+                  <p className={`text-xs ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>
                     {t.bentoSub}
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className={`p-8 rounded-3xl border flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
-                    isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
+                  <div className={`p-8 rounded-3xl border product-card flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
+                    isDarkMode ? "bg-[#111111]/40 border-[#262626]" : "bg-white/40 border-[#e5e7eb]"
                   }`}>
-                    <BookOpen className="w-7 h-7 text-[#C86432]" />
+                    <BookOpen className="w-7 h-7 text-[#E50914]" />
                     <h3 className="font-bold text-sm mt-1">{t.bentoCard1Title}</h3>
-                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.bentoCard1Desc}</p>
+                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.bentoCard1Desc}</p>
                   </div>
-                  <div className={`p-8 rounded-3xl border flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
-                    isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
+                  <div className={`p-8 rounded-3xl border product-card flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
+                    isDarkMode ? "bg-[#111111]/40 border-[#262626]" : "bg-white/40 border-[#e5e7eb]"
                   }`}>
                     <ShieldCheck className="w-7 h-7 text-emerald-600" />
                     <h3 className="font-bold text-sm mt-1">{t.bentoCard2Title}</h3>
-                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.bentoCard2Desc}</p>
+                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.bentoCard2Desc}</p>
                   </div>
-                  <div className={`p-8 rounded-3xl border flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
-                    isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
+                  <div className={`p-8 rounded-3xl border product-card flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
+                    isDarkMode ? "bg-[#111111]/40 border-[#262626]" : "bg-white/40 border-[#e5e7eb]"
                   }`}>
-                    <FileCheck className="w-7 h-7 text-[#C86432]" />
+                    <FileCheck className="w-7 h-7 text-[#E50914]" />
                     <h3 className="font-bold text-sm mt-1">{t.bentoCard3Title}</h3>
-                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.bentoCard3Desc}</p>
+                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.bentoCard3Desc}</p>
                   </div>
-                  <div className={`p-8 rounded-3xl border flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
-                    isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
+                  <div className={`p-8 rounded-3xl border product-card flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
+                    isDarkMode ? "bg-[#111111]/40 border-[#262626]" : "bg-white/40 border-[#e5e7eb]"
                   }`}>
                     <FileSpreadsheet className="w-7 h-7 text-amber-600" />
                     <h3 className="font-bold text-sm mt-1">{t.bentoCard4Title}</h3>
-                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.bentoCard4Desc}</p>
+                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.bentoCard4Desc}</p>
                   </div>
-                  <div className={`p-8 rounded-3xl border flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
-                    isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
+                  <div className={`p-8 rounded-3xl border product-card flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
+                    isDarkMode ? "bg-[#111111]/40 border-[#262626]" : "bg-white/40 border-[#e5e7eb]"
                   }`}>
-                    <MessageSquare className="w-7 h-7 text-[#C86432]" />
+                    <MessageSquare className="w-7 h-7 text-[#E50914]" />
                     <h3 className="font-bold text-sm mt-1">{t.bentoCard5Title}</h3>
-                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.bentoCard5Desc}</p>
+                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.bentoCard5Desc}</p>
                   </div>
-                  <div className={`p-8 rounded-3xl border flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
-                    isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
+                  <div className={`p-8 rounded-3xl border product-card flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
+                    isDarkMode ? "bg-[#111111]/40 border-[#262626]" : "bg-white/40 border-[#e5e7eb]"
                   }`}>
                     <Layers className="w-7 h-7 text-teal-600" />
                     <h3 className="font-bold text-sm mt-1">{t.bentoCard6Title}</h3>
-                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.bentoCard6Desc}</p>
+                    <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.bentoCard6Desc}</p>
                   </div>
                 </div>
                 </section>
@@ -1895,32 +1891,32 @@ export default function Home() {
                 <section className="flex flex-col gap-8 pb-8">
                   <div className="text-center max-w-xl mx-auto gap-2 flex flex-col">
                     <h2 className="text-xl sm:text-2xl font-bold tracking-tight">{t.cvFeaturesHeader}</h2>
-                    <p className={`text-xs ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>
+                    <p className={`text-xs ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>
                       {t.cvFeaturesSub}
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className={`p-8 rounded-3xl border flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
-                      isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
+                    <div className={`p-8 rounded-3xl border product-card flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
+                      isDarkMode ? "bg-[#111111]/40 border-[#262626]" : "bg-white/40 border-[#e5e7eb]"
                     }`}>
-                      <Palette className="w-7 h-7 text-[#C86432]" />
+                      <Palette className="w-7 h-7 text-[#E50914]" />
                       <h3 className="font-bold text-sm mt-1">{t.cvFeatureCard1Title}</h3>
-                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.cvFeatureCard1Desc}</p>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.cvFeatureCard1Desc}</p>
                     </div>
-                    <div className={`p-8 rounded-3xl border flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
-                      isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
+                    <div className={`p-8 rounded-3xl border product-card flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
+                      isDarkMode ? "bg-[#111111]/40 border-[#262626]" : "bg-white/40 border-[#e5e7eb]"
                     }`}>
                       <Target className="w-7 h-7 text-amber-600" />
                       <h3 className="font-bold text-sm mt-1">{t.cvFeatureCard2Title}</h3>
-                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.cvFeatureCard2Desc}</p>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.cvFeatureCard2Desc}</p>
                     </div>
-                    <div className={`p-8 rounded-3xl border flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
-                      isDarkMode ? "bg-[#1d1714]/40 border-[#332822]" : "bg-white/40 border-[#eeded5]"
+                    <div className={`p-8 rounded-3xl border product-card flex flex-col gap-3 transition-transform hover:scale-[1.01] ${
+                      isDarkMode ? "bg-[#111111]/40 border-[#262626]" : "bg-white/40 border-[#e5e7eb]"
                     }`}>
                       <Award className="w-7 h-7 text-teal-600" />
                       <h3 className="font-bold text-sm mt-1">{t.cvFeatureCard3Title}</h3>
-                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbb9af]" : "text-[#7d6b60]"}`}>{t.cvFeatureCard3Desc}</p>
+                      <p className={`text-xs leading-relaxed ${isDarkMode ? "text-[#cbd5e1]" : "text-[#4b5563]"}`}>{t.cvFeatureCard3Desc}</p>
                     </div>
                   </div>
                 </section>
@@ -1936,7 +1932,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8"
             >
               {extractedText ? (
                 <BeforeVsAfterWorkspace
@@ -1971,12 +1967,12 @@ export default function Home() {
                   <section className="lg:col-span-5 flex flex-col gap-6" id="upload-panel">
                 
                 {/* Upload Card */}
-                <div className={`rounded-3xl border p-6 flex flex-col gap-4 ${
-                  isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                <div className={`rounded-3xl border product-card p-6 flex flex-col gap-4 ${
+                  isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
                 }`}>
                   <div className="flex items-center justify-between">
                     <h2 className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#C86432] animate-pulse"></span>
+                      <span className="w-2 h-2 rounded-full bg-[#E50914] animate-pulse"></span>
                       {t.step1Title}
                     </h2>
                     {filePreview && (
@@ -2000,9 +1996,9 @@ export default function Home() {
                         onClick={triggerFileSelect}
                         className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center min-h-[220px] ${
                           dragOver
-                            ? "border-[#C86432] bg-[#C86432]/5"
+                            ? "border-[#E50914] bg-[#E50914]/5"
                             : isDarkMode
-                            ? "border-stone-800 bg-[#1d1714]/30 hover:bg-[#1d1714]/65"
+                            ? "border-stone-800 bg-[#111111]/30 hover:bg-[#111111]/65"
                             : "border-stone-200 bg-white/30 hover:bg-white"
                         }`}
                       >
@@ -2014,12 +2010,12 @@ export default function Home() {
                           accept="image/*,application/pdf"
                         />
                         <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-3 border ${
-                          isDarkMode ? "bg-[#301c13] text-[#D97736] border-[#4a2e21]" : "bg-[#eeded5]/60 text-[#C86432] border-[#eeded5]"
+                          isDarkMode ? "bg-[#1f1f1f] text-[#E50914] border-[#333333]" : "bg-[#e5e7eb]/60 text-[#E50914] border-[#e5e7eb]"
                         }`}>
                           <Upload className="w-6 h-6" />
                         </div>
                         <p className="text-xs font-semibold">
-                          Drop your file here, or <span className="text-[#C86432] underline">browse</span>
+                          Drop your file here, or <span className="text-[#E50914] underline">browse</span>
                         </p>
                         <p className={`text-[10px] mt-1 ${isDarkMode ? "text-stone-300" : "text-stone-500"}`}>
                           {t.dropZoneSubText}
@@ -2038,16 +2034,16 @@ export default function Home() {
                             <img
                               src={filePreview}
                               alt="Uploaded visual document"
-                              className="object-contain max-h-[240px] rounded-lg border border-[#eeded5]/40"
+                              className="object-contain max-h-[240px] rounded-lg border border-[#e5e7eb]/40"
                             />
-                            <div className="absolute top-2 left-2 bg-[#1d1714]/90 text-white text-[9px] px-2.5 py-0.5 rounded-full font-mono">
+                            <div className="absolute top-2 left-2 bg-[#111111]/90 text-white text-[9px] px-2.5 py-0.5 rounded-full font-mono">
                               IMAGE
                             </div>
                           </div>
                         ) : (
                           <div className="p-8 flex flex-col items-center justify-center text-center">
                             <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-3 border ${
-                              isDarkMode ? "bg-stone-900 border-stone-800 text-[#C86432]" : "bg-white border-stone-200 text-[#C86432]"
+                              isDarkMode ? "bg-stone-900 border-stone-800 text-[#E50914]" : "bg-white border-stone-200 text-[#E50914]"
                             }`}>
                               <FileText className="w-8 h-8" />
                             </div>
@@ -2057,7 +2053,7 @@ export default function Home() {
 
                         {/* Metadata bar */}
                         <div className={`w-full border-t p-3 text-xs flex justify-between items-center ${
-                          isDarkMode ? "border-[#332822] bg-[#1d1714]/84 text-[#f7f3f0]" : "border-[#eeded5] bg-[#FAF6F0] text-[#3c2f2f]"
+                          isDarkMode ? "border-[#262626] bg-[#111111]/84 text-[#f7f3f0]" : "border-[#e5e7eb] bg-[#f8fafc] text-[#111827]"
                         }`}>
                           <div className="flex flex-col gap-0.5 max-w-[70%]">
                             <span className="font-bold truncate">{fileName}</span>
@@ -2073,8 +2069,8 @@ export default function Home() {
 
                   {/* Sample selection panels */}
                   {!filePreview && (
-                    <div className="pt-2 border-t border-[#eeded5] dark:border-[#332822]">
-                      <p className="text-[10px] font-bold uppercase tracking-wider mb-2.5 text-[#C86432]">{t.samplesTitle}</p>
+                    <div className="pt-2 border-t border-[#e5e7eb] dark:border-[#262626]">
+                      <p className="text-[10px] font-bold uppercase tracking-wider mb-2.5 text-[#E50914]">{t.samplesTitle}</p>
                       <div className="grid grid-cols-2 gap-2">
                         {SAMPLES.map((sample, idx) => (
                           <button
@@ -2082,11 +2078,11 @@ export default function Home() {
                             onClick={() => handleLoadSample(sample)}
                             className={`p-2 border rounded-xl text-[11px] font-bold text-left transition-all truncate flex items-center gap-1.5 cursor-pointer ${
                               isDarkMode
-                                ? "border-transparent bg-[#1d1714]/30 hover:bg-[#1d1714]/90 hover:border-[#C86432]"
-                                : "border-transparent bg-white shadow-2xs hover:border-[#C86432]"
+                                ? "border-transparent bg-[#111111]/30 hover:bg-[#111111]/90 hover:border-[#E50914]"
+                                : "border-transparent bg-white shadow-2xs hover:border-[#E50914]"
                             }`}
                           >
-                            <Eye className="w-3.5 h-3.5 text-[#C86432]" />
+                            <Eye className="w-3.5 h-3.5 text-[#E50914]" />
                             <span className="truncate">{sample.name}</span>
                           </button>
                         ))}
@@ -2096,10 +2092,10 @@ export default function Home() {
                 </div>
 
                 {/* Processing parameters card */}
-                <div className={`rounded-3xl border p-6 flex flex-col gap-4 ${
-                  isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                <div className={`rounded-3xl border product-card p-6 flex flex-col gap-4 ${
+                  isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
                 }`}>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-[#C86432]">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-[#E50914]">
                     {t.processingSettings}
                   </h3>
 
@@ -2110,7 +2106,7 @@ export default function Home() {
                       value={documentType}
                       onChange={(e) => setDocumentType(e.target.value)}
                       className={`w-full p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                        isDarkMode ? "border-[#332822] bg-[#1a1412] text-white" : "border-[#eeded5] bg-white text-[#3c2f2f]"
+                        isDarkMode ? "border-[#262626] bg-[#111111] text-white" : "border-[#e5e7eb] bg-white text-[#111827]"
                       }`}
                     >
                       <option value="general_ocr">{t.docTypeGeneral}</option>
@@ -2132,14 +2128,14 @@ export default function Home() {
                             onClick={() => setExtractionMode(mode)}
                             className={`p-2.5 rounded-xl border text-left text-xs font-bold flex items-center justify-between transition-all cursor-pointer ${
                               extractionMode === mode
-                                ? "border-[#C86432] bg-[#C86432]/10 text-[#C86432]"
+                                ? "border-[#E50914] bg-[#E50914]/10 text-[#E50914]"
                                 : isDarkMode
-                                ? "border-transparent bg-[#1d1714]/30 hover:bg-[#1d1714]/50"
+                                ? "border-transparent bg-[#111111]/30 hover:bg-[#111111]/50"
                                 : "border-transparent bg-white shadow-3xs hover:bg-stone-50"
                             }`}
                           >
                             <span>{t.modes[mode]}</span>
-                            <span className={`text-[9px] font-mono opacity-80 ${extractionMode === mode ? "text-[#C86432]" : "text-stone-500 dark:text-stone-300"}`}>
+                            <span className={`text-[9px] font-mono opacity-80 ${extractionMode === mode ? "text-[#E50914]" : "text-stone-500 dark:text-stone-300"}`}>
                               {mode.toUpperCase()}
                             </span>
                           </button>
@@ -2149,7 +2145,7 @@ export default function Home() {
                       <div className={`p-3.5 rounded-xl border text-[11px] leading-relaxed transition-all ${
                         isDarkMode ? "bg-stone-900/40 border-stone-800 text-stone-300" : "bg-stone-50/60 border-stone-100 text-stone-600"
                       }`}>
-                        ✨ <span className="font-bold text-[#C86432]">
+                        ✨ <span className="font-bold text-[#E50914]">
                           {documentType === "invoice" && t.docTypeInvoice}
                           {documentType === "contract" && t.docTypeContract}
                           {documentType === "resume" && t.docTypeResume}
@@ -2161,13 +2157,13 @@ export default function Home() {
                   </div>
 
                   {/* Publishing template selection */}
-                  <div className="border-t border-[#eeded5] dark:border-[#332822] pt-3 flex flex-col gap-1.5">
+                  <div className="border-t border-[#e5e7eb] dark:border-[#262626] pt-3 flex flex-col gap-1.5">
                     <label className="text-[10px] uppercase font-bold tracking-wider text-stone-500 dark:text-stone-300">{t.publishingMethod}</label>
                     <select
                       value={publishingMethod}
                       onChange={(e) => setPublishingMethod(e.target.value)}
                       className={`w-full p-2.5 rounded-xl border text-xs font-bold transition-all ${
-                        isDarkMode ? "border-[#332822] bg-[#1a1412] text-white" : "border-[#eeded5] bg-white text-[#3c2f2f]"
+                        isDarkMode ? "border-[#262626] bg-[#111111] text-white" : "border-[#e5e7eb] bg-white text-[#111827]"
                       }`}
                     >
                       <option value="raw">{t.publishingDesc.raw}</option>
@@ -2185,8 +2181,8 @@ export default function Home() {
                       value={customPrompt}
                       onChange={(e) => setCustomPrompt(e.target.value)}
                       placeholder={t.directivesPlaceholder}
-                      className={`w-full text-xs p-3 rounded-xl border h-16 resize-none focus:ring-1 focus:ring-[#C86432] focus:outline-hidden ${
-                        isDarkMode ? "border-stone-800 bg-[#1a1412] text-white" : "border-stone-205 bg-white text-[#3c2f2f]"
+                      className={`w-full text-xs p-3 rounded-xl border h-16 resize-none focus:ring-1 focus:ring-[#E50914] focus:outline-hidden ${
+                        isDarkMode ? "border-stone-800 bg-[#111111] text-white" : "border-stone-205 bg-white text-[#111827]"
                       }`}
                     />
                   </div>
@@ -2198,8 +2194,8 @@ export default function Home() {
                       !filePreview
                         ? "bg-stone-200 text-stone-400 cursor-not-allowed"
                         : isExtracting
-                        ? "bg-[#C86432] text-white animate-pulse"
-                        : "bg-[#C86432] hover:bg-[#aa5328] text-white"
+                        ? "bg-[#E50914] text-white animate-pulse"
+                        : "bg-[#E50914] hover:bg-[#b80710] text-white"
                     }`}
                   >
                     {isExtracting ? (
@@ -2230,15 +2226,15 @@ export default function Home() {
 
               {/* Right Column: Dynamic Output Segment & Chat tabs */}
               <section className="lg:col-span-7 flex flex-col gap-6" id="result-workspace">
-                <div className={`rounded-3xl border flex flex-col h-full min-h-[500px] ${
-                  isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                <div className={`rounded-3xl border product-card flex flex-col h-full min-h-[500px] ${
+                  isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
                 }`}>
                   
                   {/* Outer view checker: Empty state check */}
                   {!extractedText && !isExtracting ? (
                     <div className="flex-1 flex flex-col items-center justify-center p-8 text-center min-h-[380px]">
                       <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 border ${
-                        isDarkMode ? "bg-[#301c13] text-[#D97736] border-[#4a2e21]" : "bg-[#eeded5] text-[#C86432] border-[#eeded5]"
+                        isDarkMode ? "bg-[#1f1f1f] text-[#E50914] border-[#333333]" : "bg-[#e5e7eb] text-[#E50914] border-[#e5e7eb]"
                       }`}>
                         <Layers className="w-5 h-5" />
                       </div>
@@ -2248,18 +2244,18 @@ export default function Home() {
                       </p>
 
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-lg mt-8 w-full text-left">
-                        <div className={`p-4 rounded-2xl border ${isDarkMode ? "bg-[#1d1714]/30 border-stone-800" : "bg-stone-50 border-stone-200"}`}>
-                          <span className="text-[10px] font-bold text-[#C86432] uppercase">STEP 1</span>
+                        <div className={`p-4 rounded-2xl border ${isDarkMode ? "bg-[#111111]/30 border-stone-800" : "bg-stone-50 border-stone-200"}`}>
+                          <span className="text-[10px] font-bold text-[#E50914] uppercase">STEP 1</span>
                           <h4 className="text-xs font-bold mt-1">{t.step1Title}</h4>
                           <p className="text-[10px] text-stone-500 dark:text-stone-300 mt-1">{t.step1Sub}</p>
                         </div>
-                        <div className={`p-4 rounded-2xl border ${isDarkMode ? "bg-[#1d1714]/30 border-stone-800" : "bg-stone-50 border-stone-200"}`}>
-                          <span className="text-[10px] font-bold text-[#C86432] uppercase">STEP 2</span>
+                        <div className={`p-4 rounded-2xl border ${isDarkMode ? "bg-[#111111]/30 border-stone-800" : "bg-stone-50 border-stone-200"}`}>
+                          <span className="text-[10px] font-bold text-[#E50914] uppercase">STEP 2</span>
                           <h4 className="text-xs font-bold mt-1">{t.step2Title}</h4>
                           <p className="text-[10px] text-stone-500 dark:text-stone-300 mt-1">{t.step2Sub}</p>
                         </div>
-                        <div className={`p-4 rounded-2xl border ${isDarkMode ? "bg-[#1d1714]/30 border-stone-800" : "bg-stone-50 border-stone-200"}`}>
-                          <span className="text-[10px] font-bold text-[#C86432] uppercase">STEP 3</span>
+                        <div className={`p-4 rounded-2xl border ${isDarkMode ? "bg-[#111111]/30 border-stone-800" : "bg-stone-50 border-stone-200"}`}>
+                          <span className="text-[10px] font-bold text-[#E50914] uppercase">STEP 3</span>
                           <h4 className="text-xs font-bold mt-1">{t.step3Title}</h4>
                           <p className="text-[10px] text-stone-500 dark:text-stone-300 mt-1">{t.step3Sub}</p>
                         </div>
@@ -2270,8 +2266,8 @@ export default function Home() {
                     /* Loader component with beautiful Processing Tracker */
                     <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-10 max-w-xl mx-auto w-full text-center">
                       <div className="relative mb-8 flex flex-col items-center">
-                        <div className="w-14 h-14 rounded-full border-4 border-transparent border-t-[#C86432] animate-spin mb-4" />
-                        <span className="text-[10px] font-mono font-extrabold tracking-widest text-[#C86432] uppercase bg-[#C86432]/10 px-3 py-1 rounded-full">
+                        <div className="w-14 h-14 rounded-full border-4 border-transparent border-t-[#E50914] animate-spin mb-4" />
+                        <span className="text-[10px] font-mono font-extrabold tracking-widest text-[#E50914] uppercase bg-[#E50914]/10 px-3 py-1 rounded-full">
                           {t.awaitingResponse}
                         </span>
                       </div>
@@ -2281,14 +2277,14 @@ export default function Home() {
                           <span className={`text-[10px] font-mono font-bold uppercase ${isDarkMode ? "text-stone-300" : "text-stone-500"}`}>
                             {t.loadingEngine}
                           </span>
-                          <span className="text-sm font-extrabold text-[#C86432] font-mono">
+                          <span className="text-sm font-extrabold text-[#E50914] font-mono">
                             {Math.min(100, Math.round(((trackerStep + 1) / 5) * 100))}%
                           </span>
                         </div>
                         {/* Progress Bar background track */}
                         <div className={`w-full h-2 rounded-full overflow-hidden ${isDarkMode ? "bg-stone-800" : "bg-stone-200"}`}>
                           <motion.div
-                            className="h-full bg-[#C86432]"
+                            className="h-full bg-[#E50914]"
                             initial={{ width: "10%" }}
                             animate={{ width: `${Math.min(100, ((trackerStep + 1) / 5) * 100)}%` }}
                             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -2307,7 +2303,7 @@ export default function Home() {
                               {idx < 4 && (
                                 <div
                                   className={`absolute left-3 top-6 w-0.5 h-10 -ml-[1px] ${
-                                    isCompleted ? "bg-[#C86432]" : isDarkMode ? "bg-stone-800" : "bg-stone-200"
+                                    isCompleted ? "bg-[#E50914]" : isDarkMode ? "bg-stone-800" : "bg-stone-200"
                                   }`}
                                 />
                               )}
@@ -2316,9 +2312,9 @@ export default function Home() {
                               <div
                                 className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 border z-10 transition-all ${
                                   isCompleted
-                                    ? "bg-[#C86432] border-[#C86432] text-white"
+                                    ? "bg-[#E50914] border-[#E50914] text-white"
                                     : isActive
-                                    ? "bg-[#C86432]/10 border-[#C86432] text-[#C86432] animate-pulse scale-105"
+                                    ? "bg-[#E50914]/10 border-[#E50914] text-[#E50914] animate-pulse scale-105"
                                     : isDarkMode
                                     ? "bg-stone-900 border-stone-800 text-stone-600"
                                     : "bg-white border-stone-200 text-stone-400"
@@ -2336,7 +2332,7 @@ export default function Home() {
                                 <p
                                   className={`text-xs font-bold transition-all ${
                                     isActive
-                                      ? "text-[#C86432] scale-[1.01]"
+                                      ? "text-[#E50914] scale-[1.01]"
                                       : isCompleted
                                       ? isDarkMode
                                         ? "text-stone-300 font-medium"
@@ -2361,21 +2357,21 @@ export default function Home() {
                       
                       {/* Active Panel header toolbar with controls */}
                       <div className={`p-4 border-b flex flex-wrap items-center justify-between gap-3 ${
-                        isDarkMode ? "border-[#332822] bg-[#1c1411]" : "border-[#eeded5] bg-[#FAF6F0]"
+                        isDarkMode ? "border-[#262626] bg-[#111111]" : "border-[#e5e7eb] bg-[#f8fafc]"
                       }`}>
                         {/* Word counter attributes */}
                         <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10px] text-stone-500 dark:text-stone-300 font-bold uppercase">
-                          <span className="bg-[#C86432]/10 text-[#C86432] px-2 py-1 rounded-lg">{wordCount} {t.words}</span>
-                          <span className="bg-[#C86432]/10 text-[#C86432] px-2 py-1 rounded-lg">{charCount} {t.chars}</span>
-                          <span className="bg-[#C86432] text-white px-2 py-1 rounded-lg">{extractionMode.toUpperCase()}</span>
+                          <span className="bg-[#E50914]/10 text-[#E50914] px-2 py-1 rounded-lg">{wordCount} {t.words}</span>
+                          <span className="bg-[#E50914]/10 text-[#E50914] px-2 py-1 rounded-lg">{charCount} {t.chars}</span>
+                          <span className="bg-[#E50914] text-white px-2 py-1 rounded-lg">{extractionMode.toUpperCase()}</span>
                         </div>
 
                         {/* Workspace toggle tabs */}
-                        <div className="grid grid-cols-2 w-full sm:w-auto border border-[#eeded5] dark:border-[#332822] p-0.5 rounded-xl bg-stone-100/50 dark:bg-stone-900/40 gap-1">
+                        <div className="grid grid-cols-2 w-full sm:w-auto border border-[#e5e7eb] dark:border-[#262626] p-0.5 rounded-xl bg-stone-100/50 dark:bg-stone-900/40 gap-1">
                           <button
                             onClick={() => setActiveTab("result")}
                             className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 text-[11px] sm:text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 text-center leading-tight cursor-pointer ${
-                              activeTab === "result" ? "bg-[#C86432] text-white" : "text-stone-500 dark:text-stone-300"
+                              activeTab === "result" ? "bg-[#E50914] text-white" : "text-stone-500 dark:text-stone-300"
                             }`}
                           >
                             <FileCheck className="w-3.5 h-3.5" />
@@ -2384,7 +2380,7 @@ export default function Home() {
                           <button
                             onClick={() => setActiveTab("chat")}
                             className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 text-[11px] sm:text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 text-center leading-tight cursor-pointer ${
-                              activeTab === "chat" ? "bg-[#C86432] text-white" : "text-stone-500 dark:text-stone-300"
+                              activeTab === "chat" ? "bg-[#E50914] text-white" : "text-stone-500 dark:text-stone-300"
                             }`}
                           >
                             <MessageSquare className="w-3.5 h-3.5" />
@@ -2406,7 +2402,7 @@ export default function Home() {
                                     onClick={() => setIsJsonVisualMode(true)}
                                     className={`px-3 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                       isJsonVisualMode
-                                        ? "bg-[#C86432] text-white"
+                                        ? "bg-[#E50914] text-white"
                                         : "text-stone-500 dark:text-stone-300 hover:text-stone-700 dark:hover:text-stone-100"
                                     }`}
                                   >
@@ -2416,7 +2412,7 @@ export default function Home() {
                                     onClick={() => setIsJsonVisualMode(false)}
                                     className={`px-3 py-1 font-bold rounded-lg transition-all cursor-pointer ${
                                       !isJsonVisualMode
-                                        ? "bg-[#C86432] text-white"
+                                        ? "bg-[#E50914] text-white"
                                         : "text-stone-500 dark:text-stone-300 hover:text-stone-700 dark:hover:text-stone-100"
                                     }`}
                                   >
@@ -2429,7 +2425,7 @@ export default function Home() {
                             <div className={`flex-1 overflow-y-auto p-5 max-h-[380px] text-xs ${isDarkMode ? "text-stone-200" : "text-stone-800"}`}>
                               {isEditing ? (
                                 <div className="flex flex-col gap-1.5 h-full">
-                                  <span className="text-[10px] font-bold text-[#C86432]">EDIT MODE</span>
+                                  <span className="text-[10px] font-bold text-[#E50914]">EDIT MODE</span>
                                   <textarea
                                     value={editedText}
                                     onChange={(e) => setEditedText(e.target.value)}
@@ -2443,7 +2439,7 @@ export default function Home() {
                                   {renderVisualStructuredResult(extractedText, resultDocumentType)}
                                 </div>
                               ) : (
-                                <div className={`p-4 rounded-xl border whitespace-pre-wrap font-sans text-xs leading-relaxed selection:bg-[#C86432] ${
+                                <div className={`p-4 rounded-xl border whitespace-pre-wrap font-sans text-xs leading-relaxed selection:bg-[#E50914] ${
                                   isDarkMode ? "border-stone-800 bg-stone-950 text-stone-200" : "border-stone-200 bg-stone-50 text-stone-800"
                                 }`}>
                                   {extractedText}
@@ -2453,7 +2449,7 @@ export default function Home() {
 
                             {/* Toolbar actions footer */}
                             <div className={`p-4 border-t flex flex-wrap items-center justify-between gap-3 ${
-                              isDarkMode ? "border-[#332822] bg-[#1d1714]/60" : "border-[#eeded5] bg-[#FAF6F0]"
+                              isDarkMode ? "border-[#262626] bg-[#111111]/60" : "border-[#e5e7eb] bg-[#f8fafc]"
                             }`}>
                               <div>
                                 {isEditing ? (
@@ -2474,7 +2470,7 @@ export default function Home() {
                                 ) : (
                                   <button
                                     onClick={() => { setEditedText(getDisplayableOrDownloadableText(extractedText, resultDocumentType)); setIsEditing(true); }}
-                                    className="px-3 py-1.5 border border-[#eeded5] dark:border-[#332822] text-xs font-bold rounded-xl hover:bg-stone-50 dark:hover:bg-stone-900 cursor-pointer text-[#C86432]"
+                                    className="px-3 py-1.5 border border-[#e5e7eb] dark:border-[#262626] text-xs font-bold rounded-xl hover:bg-stone-50 dark:hover:bg-stone-900 cursor-pointer text-[#E50914]"
                                   >
                                     {t.editBtn}
                                   </button>
@@ -2484,15 +2480,15 @@ export default function Home() {
                               <div className="flex items-center gap-2">
                                 <button
                                   onClick={handleCopy}
-                                  className="px-3 py-1.5 border border-[#eeded5] dark:border-[#332822] text-xs font-bold rounded-xl transition-all cursor-pointer"
+                                  className="px-3 py-1.5 border border-[#e5e7eb] dark:border-[#262626] text-xs font-bold rounded-xl transition-all cursor-pointer"
                                 >
                                   {copyFeedback ? t.copied : t.copyText}
                                 </button>
 
-                                <div className="flex items-center border p-0.5 rounded-xl border-[#eeded5] dark:border-[#332822] bg-stone-200/40 text-[10px]">
+                                <div className="flex items-center border p-0.5 rounded-xl border-[#e5e7eb] dark:border-[#262626] bg-stone-200/40 text-[10px]">
                                   <button onClick={() => downloadTextFile("md")} className="p-1 px-2 font-bold font-mono">.MD</button>
-                                  <button onClick={() => downloadTextFile("txt")} className="p-1 px-2 font-bold font-mono border-l border-[#eeded5] dark:border-[#332822]">.TXT</button>
-                                  <button onClick={downloadDocFile} className="p-1 px-2 font-bold font-mono border-l border-[#eeded5] dark:border-[#332822]">.DOC</button>
+                                  <button onClick={() => downloadTextFile("txt")} className="p-1 px-2 font-bold font-mono border-l border-[#e5e7eb] dark:border-[#262626]">.TXT</button>
+                                  <button onClick={downloadDocFile} className="p-1 px-2 font-bold font-mono border-l border-[#e5e7eb] dark:border-[#262626]">.DOC</button>
                                 </div>
                               </div>
                             </div>
@@ -2503,8 +2499,8 @@ export default function Home() {
                           <div className="flex-1 flex flex-col min-h-0">
                             
                             {chatMessages.length === 0 && (
-                              <div className={`p-4 text-xs ${isDarkMode ? "bg-[#301c13]/30 text-stone-300" : "bg-[#eeded5]/20 text-stone-700"}`}>
-                                <h3 className="font-bold text-[#C86432] flex items-center gap-1.5">
+                              <div className={`p-4 text-xs ${isDarkMode ? "bg-[#1f1f1f]/30 text-stone-300" : "bg-[#e5e7eb]/20 text-stone-700"}`}>
+                                <h3 className="font-bold text-[#E50914] flex items-center gap-1.5">
                                   <MessageSquare className="w-4 h-4" />
                                   <span>{t.chatHintTitle}</span>
                                 </h3>
@@ -2516,7 +2512,7 @@ export default function Home() {
                             <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3 max-h-[300px]">
                               {chatMessages.length === 0 ? (
                                 <div className="flex flex-col items-center justify-center py-8 text-stone-400">
-                                  <MessageSquare className="w-8 h-8 mb-2 text-[#C86432]/60 animate-bounce" />
+                                  <MessageSquare className="w-8 h-8 mb-2 text-[#E50914]/60 animate-bounce" />
                                   <span className="text-xs font-bold uppercase tracking-wider">{t.chatPromptIntro}</span>
                                   <div className="flex flex-col gap-1.5 mt-3.5 max-w-sm w-full">
                                     <button
@@ -2540,9 +2536,9 @@ export default function Home() {
                               ) : (
                                 chatMessages.map((msg) => (
                                   <div key={msg.id} className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}>
-                                    <span className="text-[9px] font-mono tracking-widest text-[#C86432]/80 uppercase mb-0.5">{msg.role === "user" ? t.you : t.assistant}</span>
+                                    <span className="text-[9px] font-mono tracking-widest text-[#E50914]/80 uppercase mb-0.5">{msg.role === "user" ? t.you : t.assistant}</span>
                                     <div className={`p-3 rounded-2xl max-w-[85%] text-xs leading-relaxed ${
-                                      msg.role === "user" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-950 text-stone-200 border border-stone-800" : "bg-stone-50 text-stone-800 border"
+                                      msg.role === "user" ? "bg-[#E50914] text-white" : isDarkMode ? "bg-stone-950 text-stone-200 border border-stone-800" : "bg-stone-50 text-stone-800 border"
                                     }`}>
                                       {msg.content}
                                     </div>
@@ -2552,8 +2548,8 @@ export default function Home() {
 
                               {isChatting && (
                                 <div className="items-start flex flex-col gap-0.5">
-                                  <span className="text-[9px] tracking-widest text-[#C86432]/80 uppercase">{t.assistant}</span>
-                                  <div className="p-3 bg-[#eeded5]/40 dark:bg-stone-900/50 rounded-2xl animate-pulse text-xs italic flex items-center gap-1 text-[#C86432]">
+                                  <span className="text-[9px] tracking-widest text-[#E50914]/80 uppercase">{t.assistant}</span>
+                                  <div className="p-3 bg-[#e5e7eb]/40 dark:bg-stone-900/50 rounded-2xl animate-pulse text-xs italic flex items-center gap-1 text-[#E50914]">
                                     <RefreshCw className="w-3.5 h-3.5 animate-spin" />
                                     <span>{t.chatLoading}</span>
                                   </div>
@@ -2571,7 +2567,7 @@ export default function Home() {
 
                             {/* Dialogue footer bar input */}
                             <form onSubmit={handleSendMessage} className={`p-3 border-t flex gap-2 ${
-                              isDarkMode ? "border-[#332822] bg-[#1d1714]/60" : "border-[#eeded5] bg-[#FAF6F0]"
+                              isDarkMode ? "border-[#262626] bg-[#111111]/60" : "border-[#e5e7eb] bg-[#f8fafc]"
                             }`}>
                               <input
                                 type="text"
@@ -2579,14 +2575,14 @@ export default function Home() {
                                 onChange={(e) => setChatInput(e.target.value)}
                                 placeholder={t.chatPlaceholder}
                                 disabled={isChatting}
-                                className={`flex-1 text-xs p-2.5 rounded-xl border focus:outline-hidden focus:ring-1 focus:ring-[#C86432] ${
-                                  isDarkMode ? "border-stone-800 bg-[#14100e] text-white" : "border-stone-200 bg-white text-stone-800"
+                                className={`flex-1 text-xs p-2.5 rounded-xl border focus:outline-hidden focus:ring-1 focus:ring-[#E50914] ${
+                                  isDarkMode ? "border-stone-800 bg-[#080808] text-white" : "border-stone-200 bg-white text-stone-800"
                                 }`}
                               />
                               <button
                                 type="submit"
                                 disabled={!chatInput.trim() || isChatting}
-                                className="px-4 py-2 bg-[#C86432] hover:bg-[#aa5328] disabled:bg-stone-300 disabled:text-stone-500 text-white font-bold rounded-xl text-xs flex items-center justify-center transition-all shrink-0 cursor-pointer"
+                                className="px-4 py-2 bg-[#E50914] hover:bg-[#b80710] disabled:bg-stone-300 disabled:text-stone-500 text-white font-bold rounded-xl text-xs flex items-center justify-center transition-all shrink-0 cursor-pointer"
                               >
                                 <Send className="w-3.5 h-3.5" />
                               </button>
@@ -2613,18 +2609,18 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8"
             >
               {/* Left Column: CV Upload & Configuration */}
               <section className="lg:col-span-5 flex flex-col gap-6" id="cv-upload-panel">
                 
                 {/* CV Upload Card */}
-                <div className={`rounded-3xl border p-6 flex flex-col gap-4 ${
-                  isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                <div className={`rounded-3xl border product-card p-6 flex flex-col gap-4 ${
+                  isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
                 }`}>
                   <div className="flex items-center justify-between">
                     <h2 className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#C86432] animate-pulse"></span>
+                      <span className="w-2 h-2 rounded-full bg-[#E50914] animate-pulse"></span>
                       {t.cvSource}
                     </h2>
                     {cvInputMode === "file" && cvFilePreview && (
@@ -2646,17 +2642,17 @@ export default function Home() {
                   </div>
 
                   <div className={`grid grid-cols-2 gap-1 rounded-xl border p-1 text-[11px] font-bold ${
-                    isDarkMode ? "border-[#332822] bg-[#14100e]" : "border-[#eeded5] bg-[#FAF6F0]"
+                    isDarkMode ? "border-[#262626] bg-[#080808]" : "border-[#e5e7eb] bg-[#f8fafc]"
                   }`}>
                     <button
                       type="button"
                       onClick={() => setCvInputMode("file")}
                       className={`rounded-lg px-3 py-2 transition-all cursor-pointer ${
                         cvInputMode === "file"
-                          ? "bg-[#C86432] text-white shadow-sm"
+                          ? "bg-[#E50914] text-white shadow-sm"
                           : isDarkMode
                           ? "text-stone-400 hover:text-white"
-                          : "text-stone-600 hover:text-[#3c2f2f]"
+                          : "text-stone-600 hover:text-[#111827]"
                       }`}
                     >
                       {t.cvFileUpload}
@@ -2666,10 +2662,10 @@ export default function Home() {
                       onClick={() => setCvInputMode("notes")}
                       className={`rounded-lg px-3 py-2 transition-all cursor-pointer ${
                         cvInputMode === "notes"
-                          ? "bg-[#C86432] text-white shadow-sm"
+                          ? "bg-[#E50914] text-white shadow-sm"
                           : isDarkMode
                           ? "text-stone-400 hover:text-white"
-                          : "text-stone-600 hover:text-[#3c2f2f]"
+                          : "text-stone-600 hover:text-[#111827]"
                       }`}
                     >
                       {t.cvRawNotes}
@@ -2690,9 +2686,9 @@ export default function Home() {
                           onChange={(e) => setCvRawNotes(e.target.value.slice(0, cvRawNotesMaxLength))}
                           placeholder={t.cvRawNotesPlaceholder}
                           maxLength={cvRawNotesMaxLength}
-                          className={`w-full min-h-[240px] rounded-2xl border p-4 text-xs leading-relaxed resize-y focus:outline-hidden focus:ring-1 focus:ring-[#C86432] ${
+                          className={`w-full min-h-[240px] rounded-2xl border p-4 text-xs leading-relaxed resize-y focus:outline-hidden focus:ring-1 focus:ring-[#E50914] ${
                             isDarkMode
-                              ? "border-stone-800 bg-[#14100e] text-white placeholder-stone-600"
+                              ? "border-stone-800 bg-[#080808] text-white placeholder-stone-600"
                               : "border-stone-200 bg-white text-stone-800 placeholder-stone-400"
                           }`}
                         />
@@ -2715,9 +2711,9 @@ export default function Home() {
                         onClick={() => cvFileInputRef.current?.click()}
                         className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center min-h-[220px] ${
                           cvDragOver
-                            ? "border-[#C86432] bg-[#C86432]/5"
+                            ? "border-[#E50914] bg-[#E50914]/5"
                             : isDarkMode
-                            ? "border-stone-800 bg-[#1d1714]/30 hover:bg-[#1d1714]/65"
+                            ? "border-stone-800 bg-[#111111]/30 hover:bg-[#111111]/65"
                             : "border-stone-200 bg-white/30 hover:bg-white"
                         }`}
                       >
@@ -2729,7 +2725,7 @@ export default function Home() {
                           accept="image/*,.pdf,.doc,.docx"
                         />
                         <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-3 border ${
-                          isDarkMode ? "bg-[#301c13] text-[#D97736] border-[#4a2e21]" : "bg-[#eeded5]/60 text-[#C86432] border-[#eeded5]"
+                          isDarkMode ? "bg-[#1f1f1f] text-[#E50914] border-[#333333]" : "bg-[#e5e7eb]/60 text-[#E50914] border-[#e5e7eb]"
                         }`}>
                           <FileText className="w-6 h-6" />
                         </div>
@@ -2748,7 +2744,7 @@ export default function Home() {
                         className="flex flex-col gap-3"
                       >
                         <div className={`p-3 rounded-2xl flex items-start justify-between gap-3 ${
-                          isDarkMode ? "bg-[#301c13]/50 border border-[#4a2e21]" : "bg-[#eeded5]/30 border border-[#eeded5]"
+                          isDarkMode ? "bg-[#1f1f1f]/50 border border-[#333333]" : "bg-[#e5e7eb]/30 border border-[#e5e7eb]"
                         }`}>
                           <div className="flex-1 min-w-0">
                             <p className="text-xs font-bold truncate">{cvFileName}</p>
@@ -2767,10 +2763,10 @@ export default function Home() {
                 </div>
 
                 {/* Template Selector Card */}
-                <div className={`rounded-3xl border p-6 flex flex-col gap-4 ${
-                  isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                <div className={`rounded-3xl border product-card p-6 flex flex-col gap-4 ${
+                  isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
                 }`}>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-[#C86432] flex items-center gap-2">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-[#E50914] flex items-center gap-2">
                     <Palette className="w-4 h-4" />
                     {t.cvTemplateStyle}
                   </h3>
@@ -2781,13 +2777,13 @@ export default function Home() {
                         onClick={() => handleCvTemplateChange(template.id)}
                         className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                           cvTemplate === template.id
-                            ? "border-[#C86432] bg-[#C86432]/10"
+                            ? "border-[#E50914] bg-[#E50914]/10"
                             : isDarkMode
-                            ? "border-transparent bg-[#1d1714]/30 hover:bg-[#1d1714]/50"
+                            ? "border-transparent bg-[#111111]/30 hover:bg-[#111111]/50"
                             : "border-transparent bg-white shadow-3xs hover:bg-stone-50"
                         }`}
                       >
-                        <span className={`text-xs font-bold block ${cvTemplate === template.id ? "text-[#C86432]" : ""}`}>
+                        <span className={`text-xs font-bold block ${cvTemplate === template.id ? "text-[#E50914]" : ""}`}>
                           {getTemplateName(template)}
                         </span>
                         <span className="text-[10px] text-stone-500 dark:text-stone-300 block mt-1 leading-tight">{getTemplateDesc(template)}</span>
@@ -2797,10 +2793,10 @@ export default function Home() {
                 </div>
 
                 {/* CV Customization Card */}
-                <div className={`rounded-3xl border p-6 flex flex-col gap-4 ${
-                  isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                <div className={`rounded-3xl border product-card p-6 flex flex-col gap-4 ${
+                  isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
                 }`}>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-[#C86432] flex items-center gap-2">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-[#E50914] flex items-center gap-2">
                     <Sparkles className="w-4 h-4" />
                     {t.cvOptimizationSettings}
                   </h3>
@@ -2812,7 +2808,7 @@ export default function Home() {
                       value={cvTone}
                       onChange={(e) => setCvTone(e.target.value)}
                       className={`w-full p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                        isDarkMode ? "border-[#332822] bg-[#1a1412] text-white" : "border-[#eeded5] bg-white text-[#3c2f2f]"
+                        isDarkMode ? "border-[#262626] bg-[#111111] text-white" : "border-[#e5e7eb] bg-white text-[#111827]"
                       }`}
                     >
                       {CV_TONES.map((tone) => (
@@ -2828,7 +2824,7 @@ export default function Home() {
                       value={cvSeniority}
                       onChange={(e) => setCvSeniority(e.target.value)}
                       className={`w-full p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                        isDarkMode ? "border-[#332822] bg-[#1a1412] text-white" : "border-[#eeded5] bg-white text-[#3c2f2f]"
+                        isDarkMode ? "border-[#262626] bg-[#111111] text-white" : "border-[#e5e7eb] bg-white text-[#111827]"
                       }`}
                     >
                       {CV_SENIORITY_LEVELS.map((level) => (
@@ -2844,7 +2840,7 @@ export default function Home() {
                       value={cvOutputLanguage}
                       onChange={(e) => setCvOutputLanguage(e.target.value)}
                       className={`w-full p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                        isDarkMode ? "border-[#332822] bg-[#1a1412] text-white" : "border-[#eeded5] bg-white text-[#3c2f2f]"
+                        isDarkMode ? "border-[#262626] bg-[#111111] text-white" : "border-[#e5e7eb] bg-white text-[#111827]"
                       }`}
                     >
                       {CV_OUTPUT_LANGUAGES.map((item) => (
@@ -2854,7 +2850,7 @@ export default function Home() {
                   </div>
 
                   {/* Focus Areas - Multi-select */}
-                  <div className="flex flex-col gap-2 border-t border-[#eeded5] dark:border-[#332822] pt-3">
+                  <div className="flex flex-col gap-2 border-t border-[#e5e7eb] dark:border-[#262626] pt-3">
                     <label className="text-[10px] uppercase font-bold tracking-wider text-stone-500 dark:text-stone-300 flex items-center gap-2">
                       <Target className="w-3.5 h-3.5" />
                       {t.cvFocusAreas}
@@ -2866,14 +2862,14 @@ export default function Home() {
                           onClick={() => toggleCvFocusArea(area)}
                           className={`p-2.5 rounded-lg border text-[11px] font-bold text-left transition-all cursor-pointer ${
                             cvFocusAreas.includes(area)
-                              ? "border-[#C86432] bg-[#C86432]/10 text-[#C86432]"
+                              ? "border-[#E50914] bg-[#E50914]/10 text-[#E50914]"
                               : isDarkMode
-                              ? "border-transparent bg-[#1d1714]/30 text-stone-300 hover:bg-[#1d1714]/50"
+                              ? "border-transparent bg-[#111111]/30 text-stone-300 hover:bg-[#111111]/50"
                               : "border-transparent bg-white text-stone-600 shadow-xs hover:bg-stone-50"
                           }`}
                         >
                           <div className="flex items-center gap-1.5">
-                            <div className={`w-3 h-3 rounded border ${cvFocusAreas.includes(area) ? "bg-[#C86432] border-[#C86432]" : isDarkMode ? "border-stone-700" : "border-stone-300"}`} />
+                            <div className={`w-3 h-3 rounded border ${cvFocusAreas.includes(area) ? "bg-[#E50914] border-[#E50914]" : isDarkMode ? "border-stone-700" : "border-stone-300"}`} />
                             <span>{getFocusLabel(area)}</span>
                           </div>
                         </button>
@@ -2882,15 +2878,15 @@ export default function Home() {
                   </div>
 
                   {/* Custom Request */}
-                  <div className="flex flex-col gap-1.5 border-t border-[#eeded5] dark:border-[#332822] pt-3">
+                  <div className="flex flex-col gap-1.5 border-t border-[#e5e7eb] dark:border-[#262626] pt-3">
                     <label className="text-[10px] uppercase font-bold tracking-wider text-stone-500 dark:text-stone-300">{t.cvAdditionalNotes}</label>
                     <textarea
                       value={cvCustomRequest}
                       onChange={(e) => setCvCustomRequest(e.target.value)}
                       placeholder={t.cvAdditionalPlaceholder}
                       maxLength={500}
-                      className={`w-full p-2.5 rounded-xl border text-xs resize-none h-20 focus:outline-hidden focus:ring-1 focus:ring-[#C86432] ${
-                        isDarkMode ? "border-stone-800 bg-[#14100e] text-white placeholder-stone-600" : "border-stone-200 bg-white text-stone-800 placeholder-stone-400"
+                      className={`w-full p-2.5 rounded-xl border text-xs resize-none h-20 focus:outline-hidden focus:ring-1 focus:ring-[#E50914] ${
+                        isDarkMode ? "border-stone-800 bg-[#080808] text-white placeholder-stone-600" : "border-stone-200 bg-white text-stone-800 placeholder-stone-400"
                       }`}
                     />
                     <span className="text-[9px] text-stone-500 dark:text-stone-300">{cvCustomRequest.length}/500</span>
@@ -2902,11 +2898,11 @@ export default function Home() {
               <section className="lg:col-span-7 flex flex-col gap-6" id="cv-result-panel">
                 
                 {/* Target Positions Card */}
-                <div className={`rounded-3xl border p-6 flex flex-col gap-4 ${
-                  isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                <div className={`rounded-3xl border product-card p-6 flex flex-col gap-4 ${
+                  isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
                 }`}>
                   <div className="flex items-center justify-between">
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-[#C86432] flex items-center gap-2">
+                    <h3 className="text-xs font-bold uppercase tracking-widest text-[#E50914] flex items-center gap-2">
                       <Briefcase className="w-4 h-4" />
                       {t.cvTargetPositions}
                     </h3>
@@ -2926,7 +2922,7 @@ export default function Home() {
                   </div>
 
                   <div className={`flex flex-col sm:flex-row gap-2 rounded-2xl border p-2 ${
-                    isDarkMode ? "border-[#332822] bg-[#14100e]" : "border-[#eeded5] bg-[#FAF6F0]"
+                    isDarkMode ? "border-[#262626] bg-[#080808]" : "border-[#e5e7eb] bg-[#f8fafc]"
                   }`}>
                     <input
                       type="text"
@@ -2940,9 +2936,9 @@ export default function Home() {
                       }}
                       placeholder={t.cvCustomPositionPlaceholder || "Write a custom target position"}
                       maxLength={80}
-                      className={`flex-1 rounded-xl border px-3 py-2 text-xs font-bold focus:outline-hidden focus:ring-1 focus:ring-[#C86432] ${
+                      className={`flex-1 rounded-xl border px-3 py-2 text-xs font-bold focus:outline-hidden focus:ring-1 focus:ring-[#E50914] ${
                         isDarkMode
-                          ? "border-stone-800 bg-[#1d1714] text-white placeholder-stone-500"
+                          ? "border-stone-800 bg-[#111111] text-white placeholder-stone-500"
                           : "border-stone-200 bg-white text-stone-800 placeholder-stone-400"
                       }`}
                     />
@@ -2950,7 +2946,7 @@ export default function Home() {
                       type="button"
                       onClick={addCustomCvPosition}
                       disabled={!cvCustomPosition.trim()}
-                      className="px-4 py-2 rounded-xl text-xs font-bold bg-[#C86432] hover:bg-[#aa5328] disabled:bg-stone-300 disabled:text-stone-500 text-white transition-all cursor-pointer"
+                      className="px-4 py-2 rounded-xl text-xs font-bold bg-[#E50914] hover:bg-[#b80710] disabled:bg-stone-300 disabled:text-stone-500 text-white transition-all cursor-pointer"
                     >
                       {t.cvAddPosition || "Add"}
                     </button>
@@ -2965,7 +2961,7 @@ export default function Home() {
                             key={position}
                             type="button"
                             onClick={() => toggleCvPosition(position)}
-                            className="px-3 py-1.5 rounded-full text-[11px] font-bold bg-[#C86432]/10 text-[#C86432] border border-[#C86432]/20 hover:bg-[#C86432] hover:text-white transition-all"
+                            className="px-3 py-1.5 rounded-full text-[11px] font-bold bg-[#E50914]/10 text-[#E50914] border border-[#E50914]/20 hover:bg-[#E50914] hover:text-white transition-all"
                           >
                             {position} ×
                           </button>
@@ -2980,15 +2976,15 @@ export default function Home() {
                         onClick={() => toggleCvPosition(position)}
                         className={`p-2.5 rounded-xl border text-left text-xs font-bold transition-all cursor-pointer flex items-start gap-2 ${
                           cvSelectedPositions.includes(position)
-                            ? "border-[#C86432] bg-[#C86432]/10 text-[#C86432]"
+                            ? "border-[#E50914] bg-[#E50914]/10 text-[#E50914]"
                             : isDarkMode
-                            ? "border-transparent bg-[#1d1714]/30 text-stone-300 hover:bg-[#1d1714]/50"
+                            ? "border-transparent bg-[#111111]/30 text-stone-300 hover:bg-[#111111]/50"
                             : "border-transparent bg-white text-stone-600 shadow-xs hover:bg-stone-50"
                         }`}
                       >
                         <div className={`w-4 h-4 rounded border mt-0.5 flex-shrink-0 flex items-center justify-center ${
                           cvSelectedPositions.includes(position)
-                            ? "bg-[#C86432] border-[#C86432]"
+                            ? "bg-[#E50914] border-[#E50914]"
                             : isDarkMode
                             ? "border-stone-700"
                             : "border-stone-300"
@@ -3002,14 +2998,14 @@ export default function Home() {
                 </div>
 
                 {/* Output Area */}
-                <div className={`rounded-3xl border flex flex-col h-full min-h-[400px] ${
-                  isDarkMode ? "bg-[#1d1714]/80 border-[#332822]" : "bg-white/80 border-[#eeded5]"
+                <div className={`rounded-3xl border product-card flex flex-col h-full min-h-[400px] ${
+                  isDarkMode ? "bg-[#111111]/80 border-[#262626]" : "bg-white/80 border-[#e5e7eb]"
                 }`}>
                   
                   {!cvGeneratedText ? (
                     <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
                       <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 border ${
-                        isDarkMode ? "bg-[#301c13] text-[#D97736] border-[#4a2e21]" : "bg-[#eeded5] text-[#C86432] border-[#eeded5]"
+                        isDarkMode ? "bg-[#1f1f1f] text-[#E50914] border-[#333333]" : "bg-[#e5e7eb] text-[#E50914] border-[#e5e7eb]"
                       }`}>
                         <Award className="w-5 h-5" />
                       </div>
@@ -3020,7 +3016,7 @@ export default function Home() {
                       <button
                         onClick={handleGenerateCv}
                         disabled={!hasValidCvInput || cvSelectedPositions.length === 0 || cvIsGenerating}
-                        className="mt-6 px-6 py-3 rounded-xl font-bold text-sm bg-[#C86432] hover:bg-[#aa5328] disabled:bg-stone-300 disabled:text-stone-500 text-white transition-all shadow-lg shadow-[#C86432]/10 hover:shadow-[#C86432]/20 hover:scale-[1.01] flex items-center gap-2 cursor-pointer"
+                        className="mt-6 px-6 py-3 rounded-xl font-bold text-sm bg-[#E50914] hover:bg-[#b80710] disabled:bg-stone-300 disabled:text-stone-500 text-white transition-all shadow-lg shadow-[#E50914]/10 hover:shadow-[#E50914]/20 hover:scale-[1.01] flex items-center gap-2 cursor-pointer"
                       >
                         <Sparkles className="w-4 h-4" />
                         {cvIsGenerating ? t.cvOptimizing : t.cvGenerate}
@@ -3031,7 +3027,7 @@ export default function Home() {
                       <div className="w-full max-w-xl">
                         <div className="relative mb-4 flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full border-4 border-transparent border-t-[#C86432] animate-spin" />
+                            <div className="w-10 h-10 rounded-full border-4 border-transparent border-t-[#E50914] animate-spin" />
                             <div>
                               <div className="text-sm font-bold">{t.cvOptimizingTitle}</div>
                               <div className="text-[11px] text-stone-500 dark:text-stone-300">{t.cvOptimizingSub}</div>
@@ -3041,7 +3037,7 @@ export default function Home() {
                         </div>
 
                         <div className="w-full bg-stone-200 dark:bg-stone-800 h-3 rounded-full overflow-hidden mb-2">
-                          <div className="h-full bg-[#C86432]" style={{ width: `${Math.min(100, Math.round(((cvTrackerStep + 1) / 5) * 100))}%` }} />
+                          <div className="h-full bg-[#E50914]" style={{ width: `${Math.min(100, Math.round(((cvTrackerStep + 1) / 5) * 100))}%` }} />
                         </div>
                         <div className="flex justify-between text-[11px] text-stone-500 dark:text-stone-300">
                           <div>{Math.min(100, Math.round(((cvTrackerStep + 1) / 5) * 100))}%</div>
@@ -3053,15 +3049,15 @@ export default function Home() {
                     <div className="flex-1 flex flex-col min-h-0">
                       {/* Header with stats */}
                       <div className={`p-4 border-b flex items-center justify-between gap-3 ${
-                        isDarkMode ? "border-[#332822] bg-[#1c1411]" : "border-[#eeded5] bg-[#FAF6F0]"
+                        isDarkMode ? "border-[#262626] bg-[#111111]" : "border-[#e5e7eb] bg-[#f8fafc]"
                       }`}>
                         <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10px] text-stone-500 dark:text-stone-300 font-bold uppercase">
                           <span className="bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 px-2 py-1 rounded-lg">{t.cvGenerated}</span>
-                          <span className="bg-[#C86432]/10 text-[#C86432] px-2 py-1 rounded-lg">{cvSelectedPositions.length} {t.cvPositions}</span>
+                          <span className="bg-[#E50914]/10 text-[#E50914] px-2 py-1 rounded-lg">{cvSelectedPositions.length} {t.cvPositions}</span>
                         </div>
                         <button
                           onClick={() => setCvGeneratedText("")}
-                          className="text-[11px] font-bold text-[#C86432] hover:text-white border border-[#C86432]/20 bg-[#C86432]/10 hover:bg-[#C86432] px-2.5 py-1 rounded-lg transition-all cursor-pointer"
+                          className="text-[11px] font-bold text-[#E50914] hover:text-white border border-[#E50914]/20 bg-[#E50914]/10 hover:bg-[#E50914] px-2.5 py-1 rounded-lg transition-all cursor-pointer"
                         >
                           {t.cvStartOver}
                         </button>
@@ -3073,13 +3069,13 @@ export default function Home() {
                           <div className="grid grid-cols-2 w-full sm:w-auto gap-1.5">
                             <button
                               onClick={() => setCvPreviewMode("preview")}
-                              className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all text-center leading-tight flex items-center justify-center ${cvPreviewMode === "preview" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-900/80 text-stone-200 border border-stone-800" : "bg-white text-stone-700"}`}
+                              className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all text-center leading-tight flex items-center justify-center ${cvPreviewMode === "preview" ? "bg-[#E50914] text-white" : isDarkMode ? "bg-stone-900/80 text-stone-200 border border-stone-800" : "bg-white text-stone-700"}`}
                             >
                               {t.cvPreview}
                             </button>
                             <button
                               onClick={() => setCvPreviewMode("text")}
-                              className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all text-center leading-tight flex items-center justify-center ${cvPreviewMode === "text" ? "bg-[#C86432] text-white" : isDarkMode ? "bg-stone-900/80 text-stone-200 border border-stone-800" : "bg-white text-stone-700"}`}
+                              className={`min-h-10 px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all text-center leading-tight flex items-center justify-center ${cvPreviewMode === "text" ? "bg-[#E50914] text-white" : isDarkMode ? "bg-stone-900/80 text-stone-200 border border-stone-800" : "bg-white text-stone-700"}`}
                             >
                               {t.cvText}
                             </button>
@@ -3101,7 +3097,7 @@ export default function Home() {
                             value={cvEditedText || cvGeneratedText}
                             onChange={(e) => setCvEditedText(e.target.value)}
                             aria-label={t.cvManualEditLabel || "Edit generated CV"}
-                            className={`w-full h-[360px] p-4 rounded-xl border font-sans text-xs leading-relaxed resize-none focus:outline-hidden focus:ring-1 focus:ring-[#C86432] selection:bg-[#C86432] ${
+                            className={`w-full h-[360px] p-4 rounded-xl border font-sans text-xs leading-relaxed resize-none focus:outline-hidden focus:ring-1 focus:ring-[#E50914] selection:bg-[#E50914] ${
                               isDarkMode ? "border-stone-800 bg-stone-950 text-stone-200" : "border-stone-200 bg-stone-50 text-stone-800"
                             }`}
                           />
@@ -3110,11 +3106,11 @@ export default function Home() {
 
                       {/* Export Toolbar */}
                       <div className={`p-4 border-t flex flex-wrap items-center justify-between gap-3 ${
-                        isDarkMode ? "border-[#332822] bg-[#1d1714]/60" : "border-[#eeded5] bg-[#FAF6F0]"
+                        isDarkMode ? "border-[#262626] bg-[#111111]/60" : "border-[#e5e7eb] bg-[#f8fafc]"
                       }`}>
                         <button
                           onClick={copyCvText}
-                          className="px-3 py-1.5 border border-[#eeded5] dark:border-[#4a3329] text-xs font-bold rounded-xl hover:bg-stone-50 dark:hover:bg-stone-900 cursor-pointer text-[#C86432] dark:text-[#f09a62] transition-all"
+                          className="px-3 py-1.5 border border-[#e5e7eb] dark:border-[#4a3329] text-xs font-bold rounded-xl hover:bg-stone-50 dark:hover:bg-stone-900 cursor-pointer text-[#E50914] dark:text-[#ff6b6b] transition-all"
                         >
                           {cvCopyFeedback ? `✓ ${t.copied}` : t.cvCopyText}
                         </button>
@@ -3155,33 +3151,33 @@ export default function Home() {
 
       {/* Footer Segment */}
       <footer className={`relative z-10 border-t px-6 sm:px-12 py-10 text-xs transition-all duration-300 ${
-        isDarkMode ? "border-[#332822]/60 bg-[#0f0b0a] text-stone-300" : "border-[#eeded5]/70 bg-white/45 text-stone-600"
+        isDarkMode ? "border-[#262626]/60 bg-[#0f0b0a] text-stone-300" : "border-[#e5e7eb]/70 bg-white/45 text-stone-600"
       }`}>
         <div className="max-w-7xl mx-auto font-sans">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-left">
             <div className="flex flex-col gap-3">
-              <h3 className="text-[11px] font-black uppercase tracking-[0.22em] text-[#C86432]">{t.footerProduct}</h3>
-              <button type="button" onClick={() => openHomeSection()} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.navOverview}</button>
-              <button type="button" onClick={() => setActiveView("workspace")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.navWorkspace}</button>
-              <button type="button" onClick={() => setActiveView("cv")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.featureCvTitle}</button>
-              <button type="button" onClick={() => openHomeSection("simulator")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.footerDemo}</button>
+              <h3 className="text-[11px] font-black uppercase tracking-[0.22em] text-[#E50914]">{t.footerProduct}</h3>
+              <button type="button" onClick={() => openHomeSection()} className="w-fit font-bold hover:text-[#E50914] transition-colors cursor-pointer">{t.navOverview}</button>
+              <button type="button" onClick={() => setActiveView("workspace")} className="w-fit font-bold hover:text-[#E50914] transition-colors cursor-pointer">{t.navWorkspace}</button>
+              <button type="button" onClick={() => setActiveView("cv")} className="w-fit font-bold hover:text-[#E50914] transition-colors cursor-pointer">{t.featureCvTitle}</button>
+              <button type="button" onClick={() => openHomeSection("simulator")} className="w-fit font-bold hover:text-[#E50914] transition-colors cursor-pointer">{t.footerDemo}</button>
             </div>
 
             <div className="flex flex-col gap-3">
-              <h3 className="text-[11px] font-black uppercase tracking-[0.22em] text-[#C86432]">{t.footerResources}</h3>
-              <button type="button" onClick={() => setActiveView("workspace")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.footerUpload}</button>
-              <button type="button" onClick={() => setActiveView("workspace")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.extractedText}</button>
-              <button type="button" onClick={() => setActiveView("workspace")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.chatWithDoc}</button>
-              <button type="button" onClick={() => setActiveView("cv")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer">{t.cvTemplateStyle}</button>
+              <h3 className="text-[11px] font-black uppercase tracking-[0.22em] text-[#E50914]">{t.footerResources}</h3>
+              <button type="button" onClick={() => setActiveView("workspace")} className="w-fit font-bold hover:text-[#E50914] transition-colors cursor-pointer">{t.footerUpload}</button>
+              <button type="button" onClick={() => setActiveView("workspace")} className="w-fit font-bold hover:text-[#E50914] transition-colors cursor-pointer">{t.extractedText}</button>
+              <button type="button" onClick={() => setActiveView("workspace")} className="w-fit font-bold hover:text-[#E50914] transition-colors cursor-pointer">{t.chatWithDoc}</button>
+              <button type="button" onClick={() => setActiveView("cv")} className="w-fit font-bold hover:text-[#E50914] transition-colors cursor-pointer">{t.cvTemplateStyle}</button>
             </div>
 
             <div className="flex flex-col gap-3">
-              <h3 className="text-[11px] font-black uppercase tracking-[0.22em] text-[#C86432]">{t.footerSocial}</h3>
-              <button type="button" onClick={() => openHomeSection("simulator")} className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer flex items-center gap-2">
+              <h3 className="text-[11px] font-black uppercase tracking-[0.22em] text-[#E50914]">{t.footerSocial}</h3>
+              <button type="button" onClick={() => openHomeSection("simulator")} className="w-fit font-bold hover:text-[#E50914] transition-colors cursor-pointer flex items-center gap-2">
                 <Instagram className="w-3.5 h-3.5" />
                 Instagram
               </button>
-              <a href="https://t.me/digitalhelperam" target="_blank" rel="noopener noreferrer" className="w-fit font-bold hover:text-[#C86432] transition-colors cursor-pointer flex items-center gap-2">
+              <a href="https://t.me/digitalhelperam" target="_blank" rel="noopener noreferrer" className="w-fit font-bold hover:text-[#E50914] transition-colors cursor-pointer flex items-center gap-2">
                 <Send className="w-3.5 h-3.5" />
                 Telegram
               </a>
@@ -3189,10 +3185,10 @@ export default function Home() {
           </div>
 
           <div className={`mt-8 pt-5 border-t flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-center sm:text-left ${
-            isDarkMode ? "border-[#332822]/70" : "border-[#eeded5]/80"
+            isDarkMode ? "border-[#262626]/70" : "border-[#e5e7eb]/80"
           }`}>
           <p>{t.copyright}</p>
-          <div className="flex justify-center gap-4 text-[10px] font-bold uppercase tracking-wider text-[#C86432]">
+          <div className="flex justify-center gap-4 text-[10px] font-bold uppercase tracking-wider text-[#E50914]">
             <span>{t.statelessSandbox}</span>
             <span className="opacity-40">·</span>
             <span>{t.securitySafe}</span>
